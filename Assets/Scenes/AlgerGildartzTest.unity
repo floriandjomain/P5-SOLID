@@ -152,11 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88aa38b7046a64141b39f722502c609e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nbPlayer: 2
+  nbPlayer: {fileID: 11400000, guid: 9fbf957daa3b5fb47aa77d903aaefea0, type: 2}
   playerPrefab: {fileID: 7871534533566792436, guid: cd8eb9fbf438fa44383148a7ecafef13, type: 3}
   playersKeyBindings:
   - {fileID: 11400000, guid: ab2c591ae46268e439a934b4110c3420, type: 2}
-  - {fileID: 11400000, guid: 13c8b80e66723b349b69a64776f61987, type: 2}
+  - {fileID: 11400000, guid: d27b9636d4daed24cbf71037d2e0137e, type: 2}
 --- !u!4 &163262947
 Transform:
   m_ObjectHideFlags: 0

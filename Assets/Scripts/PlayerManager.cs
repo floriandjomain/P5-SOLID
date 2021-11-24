@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public int nbPlayer = 0;
+    public IntVariable nbPlayer;
     public Player playerPrefab;
 
     public List<KeyBindings> playersKeyBindings;
@@ -14,7 +14,7 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         players = new List<Player>();
-        CreatePlayers(nbPlayer);    
+        CreatePlayers(nbPlayer.Value);    
     }
 
     public void CreatePlayers(int nb)
