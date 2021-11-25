@@ -6,12 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/FluppiTest.unity
+    path: Assets/Scenes/BootstrapScene.unity
+    guid: 425d730aa48414c46854d9bded7e8a88
+  - enabled: 1
+    path: Assets/Scenes/PlayerScene.unity
     guid: bcf467bb21e63aa4c8dca13d91406698
   - enabled: 1
-    path: Assets/Scenes/AlgerGildartzTest.unity
+    path: Assets/Scenes/LevelScene.unity
     guid: a7909c88612085c42aed99b9de818fd3
   - enabled: 1
-    path: Assets/Scenes/JCTest.unity
+    path: Assets/Scenes/UIScene.unity
     guid: cc6cc076968f91c49b50aeb677d2824a
+  - enabled: 1
+    path: Assets/Scenes/AudioScene.unity
+    guid: 1c8d0c2c3be638e49a97aca338afc36f
   m_configObjects: {}
