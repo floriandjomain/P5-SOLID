@@ -155,7 +155,7 @@ MonoBehaviour:
   nbPlayer: {fileID: 11400000, guid: 9fbf957daa3b5fb47aa77d903aaefea0, type: 2}
   playerPrefab: {fileID: 7871534533566792436, guid: cd8eb9fbf438fa44383148a7ecafef13, type: 3}
   playersKeyBindings:
-  - {fileID: 11400000, guid: ab2c591ae46268e439a934b4110c3420, type: 2}
+  - {fileID: 11400000, guid: ddd4554e05f907040826785876241bf6, type: 2}
   - {fileID: 11400000, guid: d27b9636d4daed24cbf71037d2e0137e, type: 2}
 --- !u!4 &163262947
 Transform:
