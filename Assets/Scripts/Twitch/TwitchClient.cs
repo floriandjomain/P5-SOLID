@@ -13,26 +13,43 @@ public class TwitchClient : MonoBehaviour
     public string password = "oauth:aa0q3susodtaunnxwcdy1fo9l5xk7m";
     public string botUsername = "bot_projet5";
     public string channelName = "algergildartz";
+    [Space(10)]
+    public Chatline queue;
+    public GameState gameState;
+
+    private TwitchBot twitchBot;
 
     private async void Start()
     {
-        var twitchBot = new TwitchBot(botUsername, password);
+        twitchBot = new TwitchBot(botUsername, password);
         twitchBot.Start();
         await twitchBot.JoinChannel(channelName);
-        await twitchBot.SendMessage(channelName, "Hey my bot has started up");
+        await twitchBot.SendMessage(channelName, "Hey my bot has started up ! ");
 
-        twitchBot.OnMessage += async (sender, twitchChatMessage) =>
+        twitchBot.OnMessage += (sender, twitchChatMessage) =>
         {
-            Debug.Log($"{twitchChatMessage.Sender} said '{twitchChatMessage.Message}'");
-            // Listen for !hey command
-            if (twitchChatMessage.Message.StartsWith("!hey"))
+            // Passes the message to that queue if listening
+            if (gameState.GetState() == GameState.State.GameListening || gameState.GetState() == GameState.State.LobbyListening)
             {
-                await twitchBot.SendMessage(twitchChatMessage.Channel, $"Hey there {twitchChatMessage.Sender}");
+                Debug.Log($"{twitchChatMessage.Sender} said '{twitchChatMessage.Message}'");
+                queue.Enqueue(twitchChatMessage);
             }
         };
 
         await Task.Delay(-1);
     }
+
+    private async void OnDisable()
+    {
+        await twitchBot.SendMessage(channelName, "Hey my bot has stopped !");
+    }
+}
+
+public class TwitchChatMessage : EventArgs
+{
+    public string Sender { get; set; }
+    public string Message { get; set; }
+    public string Channel { get; set; }
 }
 
 public class TwitchBot
@@ -48,13 +65,6 @@ public class TwitchBot
 
     public event TwitchChatEventHandler OnMessage = delegate { };
     public delegate void TwitchChatEventHandler(object sender, TwitchChatMessage e);
-
-    public class TwitchChatMessage : EventArgs
-    {
-        public string Sender { get; set; }
-        public string Message { get; set; }
-        public string Channel { get; set; }
-    }
 
     public TwitchBot(string nick, string password)
     {
@@ -76,8 +86,7 @@ public class TwitchBot
         while (true)
         {
             string line = await streamReader.ReadLineAsync();
-            Debug.Log(line);
-
+            
             string[] split = line.Split(' ');
             //PING :tmi.twitch.tv
             //Respond with PONG :tmi.twitch.tv
