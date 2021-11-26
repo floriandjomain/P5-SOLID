@@ -15,6 +15,8 @@ public class TwitchCommand : ScriptableObject
     // ---------------------
     // -------- BAD --------
     // ---------------------
+	// Maybe i could try with an abstraction between this class and the CommandFactory
+	// And this abstraction could be an UnityEvent<CommandQueue>.
     private void OnEnable()
     {
         switch (_commandName)
