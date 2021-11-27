@@ -123,6 +123,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &508590365
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 508590367}
+  - component: {fileID: 508590366}
+  m_Layer: 0
+  m_Name: TwitchCommandAPI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &508590366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508590365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e44d4675476984c8df17814a34281c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _commandQueue: {fileID: 11400000, guid: f18b62586fd3b6e418206f6e64e6b155, type: 2}
+--- !u!4 &508590367
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508590365}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.2367368, y: 2.0121584, z: -0.5539491}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &971348648
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,16 +210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5cfe3008370f445a5a245a04830ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  twitchQueue: {fileID: 11400000, guid: 51ef11260bb0a3e43825a8e51c882196, type: 2}
-  lobbyTwitchCommands:
-  - {fileID: 11400000, guid: 45b572287cc9f584e9273221a26bb144, type: 2}
-  - {fileID: 11400000, guid: 5bae11c4be8cc5f4eb486da6a5e255ff, type: 2}
-  gameTwitchCommands:
-  - {fileID: 11400000, guid: 8dd2420c2e887fd4d810053ef522b8e8, type: 2}
-  - {fileID: 11400000, guid: c54f8794fe4a1c943a7e58dc3e15ad26, type: 2}
-  - {fileID: 11400000, guid: d8d2d882c5b0bd040bb3174492eedb60, type: 2}
-  - {fileID: 11400000, guid: f54a57a43ff1e814d86a3367eb7d2a9b, type: 2}
-  gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
+  _twitchQueue: {fileID: 11400000, guid: 51ef11260bb0a3e43825a8e51c882196, type: 2}
+  _gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
+  _commands: {fileID: 2102962617}
 --- !u!1 &1373857862
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,3 +261,213 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2102962617
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2102962619}
+  - component: {fileID: 2102962618}
+  - component: {fileID: 2102962624}
+  - component: {fileID: 2102962623}
+  - component: {fileID: 2102962622}
+  - component: {fileID: 2102962621}
+  - component: {fileID: 2102962620}
+  m_Layer: 0
+  m_Name: TwitchCommands
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2102962618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102962617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  command: join
+  commandType: 0
+  onCommandFound:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 508590366}
+        m_TargetAssemblyTypeName: TwitchCommandAPI, Assembly-CSharp
+        m_MethodName: CreateJoinCommand
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!4 &2102962619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102962617}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.2367368, y: 2.0121584, z: -0.5539491}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2102962620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102962617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  command: left
+  commandType: 1
+  onCommandFound:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 508590366}
+        m_TargetAssemblyTypeName: TwitchCommandAPI, Assembly-CSharp
+        m_MethodName: CreateMoveLeftCommand
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2102962621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102962617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  command: down
+  commandType: 1
+  onCommandFound:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 508590366}
+        m_TargetAssemblyTypeName: TwitchCommandAPI, Assembly-CSharp
+        m_MethodName: CreateMoveDownCommand
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2102962622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102962617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  command: right
+  commandType: 1
+  onCommandFound:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 508590366}
+        m_TargetAssemblyTypeName: TwitchCommandAPI, Assembly-CSharp
+        m_MethodName: CreateMoveRightCommand
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2102962623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102962617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  command: up
+  commandType: 1
+  onCommandFound:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 508590366}
+        m_TargetAssemblyTypeName: TwitchCommandAPI, Assembly-CSharp
+        m_MethodName: CreateMoveUpCommand
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2102962624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102962617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  command: leave
+  commandType: 0
+  onCommandFound:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 508590366}
+        m_TargetAssemblyTypeName: TwitchCommandAPI, Assembly-CSharp
+        m_MethodName: CreateLeaveCommand
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
