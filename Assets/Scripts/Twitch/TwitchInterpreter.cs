@@ -4,32 +4,62 @@ using UnityEngine;
 
 public class TwitchInterpreter : MonoBehaviour
 {
-    public Chatline twitchQueue;
-    public List<TwitchCommand> lobbyTwitchCommands;
-    public List<TwitchCommand> gameTwitchCommands;
-    public GameState gameState;
+    [SerializeField] private Chatline _twitchQueue;
+    [SerializeField] private GameState _gameState;
+
+    [SerializeField] private GameObject _commands;
+
+    private List<TwitchCommand> _lobbyTwitchCommands;
+    private List<TwitchCommand> _gameTwitchCommands;
+
+    private void Start()
+    {
+        _lobbyTwitchCommands = new List<TwitchCommand>();
+        _gameTwitchCommands = new List<TwitchCommand>();
+
+        if (_commands != null)
+        {
+            TwitchCommand[] commands = _commands.GetComponents<TwitchCommand>();
+            foreach (TwitchCommand tc in commands)
+            {
+                if(tc.commandType == TwitchCommand.CommandType.Game)
+                {
+                    _gameTwitchCommands.Add(tc);
+                }
+                else if (tc.commandType == TwitchCommand.CommandType.Lobby)
+                {
+                    _lobbyTwitchCommands.Add(tc);
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("[TwtichInterpreter] There is no commands");
+        }
+    }
 
     private void Update()
     {
-        if (gameState.GetState() == GameState.State.GameListening || gameState.GetState() == GameState.State.LobbyListening)
+        if (_gameState.GetState() == GameState.State.GameListening || _gameState.GetState() == GameState.State.LobbyListening)
         {
-            if (twitchQueue.QueueCount() > 0)
+            if (_twitchQueue.QueueCount() > 0)
             {
                 Debug.Log("Dequeue message");
-                Interpret(twitchQueue.Dequeue());
+                Interpret(_twitchQueue.Dequeue());
             }
         }
     }
 
+    
     private void Interpret(TwitchChatMessage twitchChatMessage)
     {
-        if (gameState.GetState() == GameState.State.GameListening)
+        if (_gameState.GetState() == GameState.State.GameListening)
         {
-            SearchList(twitchChatMessage, gameTwitchCommands);
+            SearchList(twitchChatMessage, _gameTwitchCommands);
         }
-        else if(gameState.GetState() == GameState.State.LobbyListening)
+        else if(_gameState.GetState() == GameState.State.LobbyListening)
         {
-            SearchList(twitchChatMessage, lobbyTwitchCommands);
+            SearchList(twitchChatMessage, _lobbyTwitchCommands);
         }
     }
 
@@ -37,9 +67,9 @@ public class TwitchInterpreter : MonoBehaviour
     {
         foreach (TwitchCommand twitchCommand in twitchCommands)
         {
-            if (twitchChatMessage.Message.StartsWith("!" + twitchCommand.GetCommandName()))
+            if (twitchChatMessage.Message.StartsWith("!" + twitchCommand.command))
             {
-                twitchCommand.OnCommandFound(twitchChatMessage.Sender);
+                twitchCommand.onCommandFound.Invoke(twitchChatMessage.Sender);
                 break;
             }
         }
