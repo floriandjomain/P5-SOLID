@@ -12,9 +12,9 @@ public class SceneLoader : MonoBehaviour
     {
         foreach(var scene in SceneList)
         {
-            if (scene.name == SceneManager.GetActiveScene().name)
+            if (scene.name != SceneManager.GetActiveScene().name)
             {
-                SceneManager.LoadScene(scene.name, LoadSceneMode.Additive);
+                //SceneManager.LoadScene(scene.name, LoadSceneMode.Additive);
             }
         }
     }
