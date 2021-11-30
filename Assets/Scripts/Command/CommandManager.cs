@@ -6,7 +6,7 @@ public class CommandManager : MonoBehaviour
 {
     public CommandQueue commandQueue;
     public GameState gameState;
-    public DictionaryPlayer players;
+    [SerializeField] private PlayerManager playerManager;
 
     private Dictionary<string, GameCommand> gameCommands = new Dictionary<string, GameCommand>();
 
@@ -20,7 +20,7 @@ public class CommandManager : MonoBehaviour
                 // Should wait to go to "OnPlay" but store the commands into the Dictionnary
                 GameCommand gameCommand = commandQueue.Dequeue();
                 string player = gameCommand.GetPlayer();
-                if (players.Contains(player)) { 
+                if (playerManager.Contains(player)) { 
 
                     if (gameCommands.ContainsKey(player))
                     {

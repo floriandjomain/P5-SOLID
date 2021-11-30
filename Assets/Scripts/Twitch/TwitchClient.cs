@@ -10,6 +10,9 @@ using UnityEngine;
 
 public class TwitchClient : MonoBehaviour
 {
+    private static TwitchClient _instance;
+    public static TwitchClient Instance { get => _instance; }
+
     public string password = "oauth:aa0q3susodtaunnxwcdy1fo9l5xk7m";
     public string botUsername = "bot_projet5";
     public string channelName = "algergildartz";
@@ -18,6 +21,12 @@ public class TwitchClient : MonoBehaviour
     public GameState gameState;
 
     private TwitchBot twitchBot;
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this) Destroy(gameObject);
+        _instance = this;
+    }
 
     private async void Start()
     {
@@ -42,6 +51,11 @@ public class TwitchClient : MonoBehaviour
     private async void OnDisable()
     {
         await twitchBot.SendMessage(channelName, "Hey my bot has stopped !");
+    }
+
+    public async void SendNoMorePlaceInLobby(string player)
+    {
+        await twitchBot.SendMessage(channelName, $"@{player} There is no more place in the lobby");
     }
 }
 
