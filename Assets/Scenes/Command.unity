@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -168,4 +168,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   commandQueue: {fileID: 11400000, guid: f18b62586fd3b6e418206f6e64e6b155, type: 2}
   gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
-  players: {fileID: 11400000, guid: def2d5cc611ea0d45b8502bce34c0dca, type: 2}
+  playerManager: {fileID: 11400000, guid: f54382553db50784da85ae86e5c9327e, type: 2}

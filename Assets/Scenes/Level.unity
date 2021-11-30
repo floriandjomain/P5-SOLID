@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad577b2ba43f8df4889659f69b597509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Players: []
-  Movements: 
+  _tileManager: {fileID: 11400000, guid: 2c8f73910c3236047b551dc4c60fdbfa, type: 2}
+  _playerManager: {fileID: 11400000, guid: f54382553db50784da85ae86e5c9327e, type: 2}
   _gameSettings: {fileID: 11400000, guid: 21aea94cb883fbf41b72961edfaebfc3, type: 2}
 --- !u!4 &1595543180
 Transform:

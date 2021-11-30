@@ -20,7 +20,7 @@ public class CommandManager : MonoBehaviour
                 // Should wait to go to "OnPlay" but store the commands into the Dictionnary
                 GameCommand gameCommand = commandQueue.Dequeue();
                 string player = gameCommand.GetPlayer();
-                if (playerManager.Contains(player)) { 
+                if (playerManager.ContainsPlayer(player)) { 
 
                     if (gameCommands.ContainsKey(player))
                     {

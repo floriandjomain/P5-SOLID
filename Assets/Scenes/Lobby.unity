@@ -166,4 +166,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 269e95e0c91b1af4cbaa7ed58a1798f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dictionaryPlayer: {fileID: 11400000, guid: def2d5cc611ea0d45b8502bce34c0dca, type: 2}
+  playerManager: {fileID: 11400000, guid: f54382553db50784da85ae86e5c9327e, type: 2}
