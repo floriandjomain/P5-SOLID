@@ -11,6 +11,6 @@ public class LeaveCommand : GameCommand
 
     public override void Execute()
     {
-        Debug.Log("Leave");
+        LobbyManager.Instance.RemovePlayer(player);
     }
 }

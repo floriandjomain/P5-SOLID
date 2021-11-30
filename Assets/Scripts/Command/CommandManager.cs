@@ -6,6 +6,7 @@ public class CommandManager : MonoBehaviour
 {
     public CommandQueue commandQueue;
     public GameState gameState;
+    public DictionaryPlayer players;
 
     private Dictionary<string, GameCommand> gameCommands = new Dictionary<string, GameCommand>();
 
@@ -19,24 +20,22 @@ public class CommandManager : MonoBehaviour
                 // Should wait to go to "OnPlay" but store the commands into the Dictionnary
                 GameCommand gameCommand = commandQueue.Dequeue();
                 string player = gameCommand.GetPlayer();
+                if (players.Contains(player)) { 
 
-                if (gameCommands.ContainsKey(player))
-                {
-                    gameCommands.Remove(player);
+                    if (gameCommands.ContainsKey(player))
+                    {
+                        gameCommands.Remove(player);
+                    }
+                    Debug.Log("Store command");
+                    // - MoveUp, MoveDown, MoveLeft, MoveRight
+                    gameCommands.Add(player, gameCommand);
                 }
-                Debug.Log("Store command");
-                // - MoveUp
-                // - MoveDown
-                // - MoveLeft
-                // - MoveRight
-                gameCommands.Add(player, gameCommand);
             }
             else if (gameState.GetState() == GameState.State.LobbyListening)
             {
                 Debug.Log("Execute command");
                 // Should be executed directly
-                // - join
-                // - leave
+                // - join, leave
                 commandQueue.Dequeue().Execute();
             }
         }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &2124509724
+--- !u!1 &1860449387
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,41 +131,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2124509725}
-  - component: {fileID: 2124509726}
+  - component: {fileID: 1860449388}
+  - component: {fileID: 1860449389}
   m_Layer: 0
-  m_Name: CommandManager
+  m_Name: LobbyManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2124509725
+--- !u!4 &1860449388
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2124509724}
+  m_GameObject: {fileID: 1860449387}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.2367368, y: 2.0121584, z: -0.5539491}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2124509726
+--- !u!114 &1860449389
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2124509724}
+  m_GameObject: {fileID: 1860449387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27cf31d445112eb40b9cd34bfc5f56ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 269e95e0c91b1af4cbaa7ed58a1798f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commandQueue: {fileID: 11400000, guid: f18b62586fd3b6e418206f6e64e6b155, type: 2}
-  gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
-  players: {fileID: 11400000, guid: def2d5cc611ea0d45b8502bce34c0dca, type: 2}
+  dictionaryPlayer: {fileID: 11400000, guid: def2d5cc611ea0d45b8502bce34c0dca, type: 2}

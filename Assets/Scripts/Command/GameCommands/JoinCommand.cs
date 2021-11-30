@@ -11,6 +11,6 @@ public class JoinCommand : GameCommand
 
     public override void Execute()
     {
-        Debug.Log("Join");
+        LobbyManager.Instance.AddPlayer(player);
     }
 }
