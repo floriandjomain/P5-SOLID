@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ca40726f4539840b65b920a49b69eb, type: 3}
   m_Name: TileManager
   m_EditorClassIdentifier: 
+  tilePrefab: {fileID: -4159299257452075967, guid: af05633d2cd6a1f4eaf32e0728e2f048, type: 3}

@@ -7,10 +7,12 @@ public class PlayerManager : ScriptableObject
     [SerializeField] private Dictionary<string, Player> Players = new Dictionary<string, Player>();
     [SerializeField] private Dictionary<string, Movement> Movements = new Dictionary<string, Movement>();
 
+    [SerializeField] private Player playerPrefab;
+
     public Dictionary<string, Player> GetPlayers() => Players;
     public int GetCurrentPlayerNumber() => Players.Count;
 
-    public void Turn(Tile[][] tiles)
+    public void Turn(Tile[,] tiles)
     {
         CompileMovements(tiles);
         ApplyMovements();
@@ -18,7 +20,7 @@ public class PlayerManager : ScriptableObject
         ResetMovements();
     }
 
-    private void CompileMovements(Tile[][] tiles)
+    private void CompileMovements(Tile[,] tiles)
     {
         foreach (string p in Players.Keys)
         {
@@ -26,54 +28,80 @@ public class PlayerManager : ScriptableObject
         }
     }
 
-    private void CompileMovement(Player player, Movement movement, Tile[][] tiles)
+    private static void CompileMovement(Player player, Movement movement, Tile[,] tiles)
     {
         Vector2Int pos = player.GetPos() + MovementManager.GetVector(movement);
 
-        if (pos.x < 0 || pos.y < 0 || pos.x >= tiles.Length || pos.y >= tiles[0].Length) return;
+        if (pos.x < 0 || pos.y < 0 || pos.x >= tiles.Length || pos.y >= tiles.Length) return;
 
-        if (!tiles[pos.x][pos.y].isActiveAndEnabled) return;
+        if (!tiles[pos.x, pos.y].isActiveAndEnabled) return;
 
         player.SetNextPos(pos);
     }
 
     private void ApplyMovements()
     {
-        List<string> conflictedPlayers = new List<string>();
-
-        foreach (string p1 in Players.Keys)
-        {
-            foreach (string p2 in Players.Keys)
-            {
-                if (p1 == p2 || Players[p1].GetNextPos() != Players[p2].GetNextPos()) continue;
-
-                if (!conflictedPlayers.Contains(p1))
-                    conflictedPlayers.Add(p1);
-                if (!conflictedPlayers.Contains(p2))
-                    conflictedPlayers.Add(p2);
-            }
-        }
-
+        List<string> conflictedPlayers = CheckForConflicts();
+        
         foreach (string p in Players.Keys)
         {
-            if (!conflictedPlayers.Contains(p))
+            if (Players[p].IsAlive() && !conflictedPlayers.Contains(p))
                 Players[p].ApplyMovement();
         }
     }
 
-    private void Falls(Tile[][] tiles)
+    private List<string> CheckForConflicts()
+    {
+        List<string> conflictedPlayers = new List<string>();
+        int conflictedPlayersNumber = 0;
+        Vector2Int p1Pos, p2Pos;
+
+        do
+        {
+            foreach (string p1 in Players.Keys)
+            {
+                if(!Players[p1].IsAlive() || conflictedPlayers.Contains(p1)) continue;
+                
+                p1Pos = Players[p1].GetNextPos();
+                
+                foreach (var p2 in Players.Keys)
+                {
+                    if (!Players[p2].IsAlive() || p1 == p2) continue;
+                    
+                    p2Pos = conflictedPlayers.Contains(p2) ? Players[p2].GetPos() : Players[p2].GetNextPos();
+                    
+                    if (p1Pos != p2Pos) continue;
+
+                    if (!conflictedPlayers.Contains(p1))
+                    {
+                        conflictedPlayers.Add(p1);
+                        conflictedPlayersNumber++;
+                    }
+
+                    if (!conflictedPlayers.Contains(p2))
+                    {
+                        conflictedPlayers.Add(p2);
+                        conflictedPlayersNumber++;
+                    }
+                }
+            }
+        } while (conflictedPlayersNumber != conflictedPlayers.Count);
+        
+        return conflictedPlayers;
+    }
+
+    private void Falls(Tile[,] tiles)
     {
         Vector2Int pos;
 
         foreach (string p in Players.Keys)
         {
-            if (Players[p].IsAlive())
-            {
-                pos = Players[p].GetPos();
+            if (!Players[p].IsAlive()) continue;
+            
+            pos = Players[p].GetPos();
 
-                if (tiles[pos.x][pos.y])
-                    Players[p].Fall();
-            }
+            if (tiles[pos.x, pos.y])
+                Players[p].Fall();
         }
     }
 
@@ -104,5 +132,17 @@ public class PlayerManager : ScriptableObject
     public bool ContainsPlayer(string playerPseudo)
     {
         return Players.ContainsKey(playerPseudo);
+    }
+
+    public void SetUp()
+    {
+        Debug.Log("start players setup...");
+        List<string> keys = new List<string>(Players.Keys);
+        foreach (string playerName in keys)
+        {
+            Debug.Log("create player  : " + playerName); 
+            Players[playerName] = Instantiate(playerPrefab);
+        }
+        Debug.Log("...players setup done");
     }
 }

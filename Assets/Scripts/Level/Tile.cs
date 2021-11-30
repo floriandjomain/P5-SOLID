@@ -3,29 +3,29 @@ using UnityEngine;
 [RequireComponent(typeof(Material))]
 public class Tile : MonoBehaviour
 {
-    [SerializeField] private Material HealthyTile;
-    [SerializeField] private Material MidLifeTile;
-    [SerializeField] private Material LastLifeTile;
-    [SerializeField] private int StartLifePoints;
-    [SerializeField] private int CurrentLifePoints;
+    [SerializeField] private Material healthyTile;
+    [SerializeField] private Material midLifeTile;
+    [SerializeField] private Material lastLifeTile;
+    [SerializeField] private int startLifePoints;
+    [SerializeField] private int currentLifePoints;
 
-    private void Start()
+    private void Awake()
     {
-        CurrentLifePoints = StartLifePoints;
-        GetComponent<Material>().color = HealthyTile.color;
+        currentLifePoints = startLifePoints;
+        GetComponent<Material>().color = healthyTile.color;
     }
 
     public void Damage()
     {
-        CurrentLifePoints--;
+        currentLifePoints--;
 
-        if (CurrentLifePoints > StartLifePoints / 2) return;
+        if (currentLifePoints > startLifePoints / 2) return;
         
-        if (CurrentLifePoints == 1)
-            GetComponent<Material>().color = LastLifeTile.color;
-        else if (CurrentLifePoints == StartLifePoints / 2)
-            GetComponent<Material>().color = MidLifeTile.color;
-        else if (CurrentLifePoints == 0)
+        if (currentLifePoints == 1)
+            GetComponent<Material>().color = lastLifeTile.color;
+        else if (currentLifePoints == startLifePoints / 2)
+            GetComponent<Material>().color = midLifeTile.color;
+        else if (currentLifePoints == 0)
             gameObject.SetActive(false);
     }
 }
