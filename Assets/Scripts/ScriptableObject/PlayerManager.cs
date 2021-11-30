@@ -93,12 +93,16 @@ public class PlayerManager : ScriptableObject
     public void AddPlayer(string playerPseudo)
     {
         Players.Add(playerPseudo, null);
+        Movements.Add(playerPseudo, Movement.None);
     }
 
     public void RemovePlayer(string playerPseudo)
     {
         if (Players.ContainsKey(playerPseudo))
+        {
             Players.Remove(playerPseudo);
+            Movements.Remove(playerPseudo);
+        }
     }
 
     public bool ContainsPlayer(string playerPseudo)

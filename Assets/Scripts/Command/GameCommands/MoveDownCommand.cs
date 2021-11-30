@@ -11,6 +11,7 @@ public class MoveDownCommand : GameCommand
 
     public override void Execute()
     {
+        GameManager.Instance.SetMovement(player, Movement.Down);
         Debug.Log("Move Down");
     }
 }

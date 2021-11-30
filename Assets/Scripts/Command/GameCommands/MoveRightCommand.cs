@@ -11,6 +11,7 @@ public class MoveRightCommand : GameCommand
 
     public override void Execute()
     {
+        GameManager.Instance.SetMovement(player, Movement.Right);
         Debug.Log("Move Right");
     }
 }

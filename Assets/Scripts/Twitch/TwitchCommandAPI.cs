@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TwitchCommandAPI : MonoBehaviour
+[CreateAssetMenu(menuName = "TwitchCommandAPI")]
+public class TwitchCommandAPI : ScriptableObject
 {
     [SerializeField] private CommandQueue _commandQueue;
 
