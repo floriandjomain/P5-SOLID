@@ -23,6 +23,10 @@ namespace Level
         
         public bool IsAlive() => isAlive;
 
-        public void ApplyMovement() => position = nextPosition;
+        public void ApplyMovement()
+        {
+            position = nextPosition;
+            transform.position = new Vector3(position.x, position.y);
+        }
     }
 }
