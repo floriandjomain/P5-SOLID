@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Packages.Rider.Editor.UnitTesting;
 using UnityEngine;
 
@@ -9,8 +10,8 @@ namespace Level
     {
         [SerializeField] private Tile[][] Tiles;
 
-        [SerializeField] private List<Player> Players;
-        [SerializeField] private Movement[] Movements;
+        [SerializeField] private Dictionary<string, Player> Players;
+        [SerializeField] private Dictionary<string, Movement> Movements;
 
         [SerializeField] private GameSettings _gameSettings;
         
@@ -25,34 +26,25 @@ namespace Level
 
         private void ApplyMovements()
         {
-            bool[] conflicts = new bool[Players.Count];
-            
-            for(int b=0; b < conflicts.Length; b++)
-                conflicts[b] = false;
-            
-            for (int p1 = 0; p1 < Players.Count-1; p1++)
+            List<string> conflictedPlayers = new List<string>();
+
+            foreach (string p1 in Players.Keys)
             {
-                for (int p2 = p1+1; p2 < Players.Count; p2++)
+                foreach (string p2 in Players.Keys)
                 {
-                    if (Players[p1].GetNextPos() == Players[p2].GetNextPos())
-                    {
-                        conflicts[p1] = true;
-                        conflicts[p2] = true;
-                    }
+                    if (p1 == p2 || Players[p1].GetNextPos() != Players[p2].GetNextPos()) continue;
+                    
+                    if(!conflictedPlayers.Contains(p1))
+                        conflictedPlayers.Add(p1);
+                    if(!conflictedPlayers.Contains(p2))
+                        conflictedPlayers.Add(p2);
                 }
             }
-            
-            for(int player=0; player < conflicts.Length; player++)
+
+            foreach (string p in Players.Keys)
             {
-                if (!conflicts[player])
-                {
-                    Players[player].ApplyMovement();
-                    //triggerevent deplacement pour l'animation
-                }
-                else
-                {
-                    //triggerevent allerretour pour l'animation
-                }
+                if(!conflictedPlayers.Contains(p))
+                    Players[p].ApplyMovement();
             }
         }
 
@@ -60,11 +52,11 @@ namespace Level
         {
             Vector2Int pos;
 
-            foreach (var p in Players)
+            foreach (string p in Players.Keys)
             {
-                if (p.IsAlive())
+                if (Players[p].IsAlive())
                 {
-                    pos = p.GetPos();
+                    pos = Players[p].GetPos();
                     Tiles[pos.x][pos.y].Damage();
                 }
             }
@@ -74,21 +66,21 @@ namespace Level
         {
             Vector2Int pos;
 
-            foreach (var p in Players)
+            foreach (string p in Players.Keys)
             {
-                if (p.IsAlive())
+                if (Players[p].IsAlive())
                 {
-                    pos = p.GetPos();
+                    pos = Players[p].GetPos();
                     
                     if (Tiles[pos.x][pos.y])
-                        p.Fall();
+                        Players[p].Fall();
                 }
             }
         }
 
         private void CompileMovements()
         {
-            for (int p = 0; p < Players.Count; p++)
+            foreach (string p in Players.Keys)
             {
                 CompileMovement(Players[p], Movements[p]);
             }
@@ -105,16 +97,16 @@ namespace Level
             player.SetNextPos(pos);
         }
 
-        public void SetMovement(int player, Movement move)
+        public void SetMovement(string player, Movement move)
         {
             Movements[player] = move;
         }
 
         private void ResetMovements()
         {
-            for (int i=0; i<Movements.Length; i++)
+            foreach (string p in Movements.Keys)
             {
-                Movements[i] = Movement.NONE;
+                Movements[p] = Movement.None;
             }
         }
     }
