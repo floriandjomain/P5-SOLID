@@ -8,13 +8,13 @@ namespace Level
         {
             switch (m)
             {
-                case Movement.UP:
+                case Movement.Up:
                     return Vector2Int.up;
-                case Movement.RIGHT:
+                case Movement.Right:
                     return Vector2Int.right;
-                case Movement.DOWN:
+                case Movement.Down:
                     return Vector2Int.down;
-                case Movement.LEFT:
+                case Movement.Left:
                     return Vector2Int.left;
                 default:
                     return Vector2Int.zero;
@@ -23,10 +23,10 @@ namespace Level
     }
     public enum Movement 
     {
-        NONE,
-        UP,
-        RIGHT,
-        DOWN,
-        LEFT
+        None,
+        Up,
+        Right,
+        Down,
+        Left
     }
 }
