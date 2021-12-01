@@ -140,8 +140,10 @@ public class PlayerManager : ScriptableObject
         List<string> keys = new List<string>(Players.Keys);
         foreach (string playerName in keys)
         {
-            Debug.Log("create player  : " + playerName); 
-            Players[playerName] = Instantiate(playerPrefab);
+            Debug.Log("create player  : " + playerName);
+            Player p = Instantiate(playerPrefab);
+            p.name = playerName;
+            Players[playerName] = p;
         }
         Debug.Log("...players setup done");
     }

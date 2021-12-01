@@ -26,6 +26,9 @@ public class TileManager : ScriptableObject
             for (int j = 0; j < 2 * playerNumber; j++)
             {
                 Tile tile = Instantiate(tilePrefab);
+                var transform = tile.transform;
+                var localScale = transform.localScale;
+                transform.position = new Vector3(i * localScale.x * 2.5f, 0, j * localScale.z * 2.5f);
                 _tiles[i, j] = tile;
             }
         }
