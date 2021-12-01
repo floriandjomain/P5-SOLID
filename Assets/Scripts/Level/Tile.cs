@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Material))]
 public class Tile : MonoBehaviour
 {
     [SerializeField] private Material healthyTile;
@@ -8,11 +7,13 @@ public class Tile : MonoBehaviour
     [SerializeField] private Material lastLifeTile;
     [SerializeField] private int startLifePoints;
     [SerializeField] private int currentLifePoints;
-
+    [SerializeField] private GameObject cube;
     private void Awake()
     {
         currentLifePoints = startLifePoints;
-        GetComponent<Material>().color = healthyTile.color;
+        cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.GetComponent<Renderer>().material.color = healthyTile.color;
+        cube.transform.localScale = new Vector3(2.5f, 0.5f, 2.5f);
     }
 
     public void Damage()
@@ -22,9 +23,9 @@ public class Tile : MonoBehaviour
         if (currentLifePoints > startLifePoints / 2) return;
         
         if (currentLifePoints == 1)
-            GetComponent<Material>().color = lastLifeTile.color;
+            cube.GetComponent<Renderer>().material.color = lastLifeTile.color;
         else if (currentLifePoints == startLifePoints / 2)
-            GetComponent<Material>().color = midLifeTile.color;
+            cube.GetComponent<Renderer>().material.color = midLifeTile.color;
         else if (currentLifePoints == 0)
             gameObject.SetActive(false);
     }
