@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager _playerManager;
     [SerializeField] private GameSettings _gameSettings;
 
-    [SerializeField] private string[] cheatCode;
+    [SerializeField] private string[] playerCheatCode;
 
     private void Awake()
     {
@@ -18,7 +18,16 @@ public class GameManager : MonoBehaviour
     private void Cheat()
     {
         Debug.Log("!!!cheat code activated!!!");
-        foreach (string playerName in cheatCode) _playerManager.AddPlayer(playerName);
+        
+        Movement move = Movement.None;
+        
+        foreach (string playerName in playerCheatCode)
+        {
+            _playerManager.AddPlayer(playerName);
+            SetMovement(playerName, ++move);
+            Debug.Log(playerName + " will move" + MovementManager.ToString(move));
+        }
+        
         Debug.Log("!!!cheat code used!!!");
     }
 

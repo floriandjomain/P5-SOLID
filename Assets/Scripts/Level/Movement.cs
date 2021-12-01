@@ -18,6 +18,23 @@ public static class MovementManager
                 return Vector2Int.zero;
         }
     }
+    
+    public static string ToString(Movement m)
+    {
+        switch (m)
+        {
+            case Movement.Up:
+                return " upwards";
+            case Movement.Right:
+                return " right";
+            case Movement.Down:
+                return " downwards";
+            case Movement.Left:
+                return " left";
+            default:
+                return ".... no, they won't move";
+        }
+    }
 }
 public enum Movement 
 {

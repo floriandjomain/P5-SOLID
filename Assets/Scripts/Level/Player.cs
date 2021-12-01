@@ -12,7 +12,11 @@ public class Player : MonoBehaviour
         isAlive = true;
     }
 
-    public void SetPos(Vector2Int pos) => position = pos;
+    public void SetPos(Vector2Int pos)
+    {
+        SetNextPos(pos);
+        ApplyMovement();
+    }
 
     public Vector2Int GetPos() => position;
 
@@ -27,6 +31,6 @@ public class Player : MonoBehaviour
     public void ApplyMovement()
     {
         position = nextPosition;
-        transform.position = new Vector3(position.x, position.y, 2);
+        transform.position = new Vector3(position.x * 2.5f, 1.5f , position.y * 2.5f);
     }
 }
