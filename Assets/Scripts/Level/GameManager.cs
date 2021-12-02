@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using static System.Random;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,12 +8,12 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get => _instance; }
 
-    [SerializeField] private TileManager _tileManager;
-    [SerializeField] private PlayerManager _playerManager;
-    [SerializeField] private CameraManager _cameraManager;
-    [SerializeField] private GameSettings _gameSettings;
+    [SerializeField] private ArenaManager arenaManager;
+    [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private CameraManager cameraManager;
+    [SerializeField] private GameSettings gameSettings;
 
-    [SerializeField] private string[] playerCheatCode;
+    [SerializeField] private string[] PlayerCheatCode;
     [SerializeField] private bool UseCheat;
 
     private void Awake()
@@ -27,62 +29,62 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && UseCheat)
         {
-            PlayersGetMoveCheat();
+            float time = Time.deltaTime*100000;
+            PlayersGetMoveCheat((int)time);
             PlayTurn();
         }
+
+        if (Input.GetKeyDown(KeyCode.E)) arenaManager.ErodeArena();
     }
 
     private void PlayersSetCheat()
     {
         //Debug.Log("!!!PlayersSetCheat code activated!!!");
-        Movement move = Movement.None;
-
-        foreach (string playerName in playerCheatCode)
+        foreach (string playerName in PlayerCheatCode)
         {
-            _playerManager.AddPlayer(playerName);
-            SetMovement(playerName, move);
+            playerManager.AddPlayer(playerName);
+            SetMovement(playerName, Movement.None);
             //Debug.Log(playerName + " will move" + MovementManager.ToString(move));
         }
         //Debug.Log("!!!PlayersSetCheat code used!!!");
     }
 
-    private void PlayersGetMoveCheat()
+    private void PlayersGetMoveCheat(int random)
     {
+        Movement move = Movement.None+random%5;
+
+        System.Random rnd = new System.Random();
+
         //Debug.Log("<color=red>!!!PlayersMoveCheat code activated!!!</color>");
-        foreach (string playerName in playerCheatCode)
-            SetMovement(playerName, Movement.Right);
+        foreach (string playerName in PlayerCheatCode)
+            SetMovement(playerName, move+(rnd.Next(5)));
         //Debug.Log("<color=red>!!!PlayersMoveCheat code used!!!</color>");
     }
 
     public IEnumerator SetUp()
     {
         //Debug.Log("start game setup...");
-        _playerManager.SetUp();
-        _tileManager.SetUp(_playerManager.GetPlayers(), _gameSettings.TileMaxLifePoints);
+        playerManager.SetUp();
+        arenaManager.SetUp(playerManager.GetPlayers(), gameSettings.TileMaxLifePoints, CheckForFalls);
         yield return null;
-        _cameraManager.SetUp(_playerManager);
+        cameraManager.SetUp(playerManager);
         //_cameraManager.UpdatePosition();
         //Debug.Log("...game setup done");
     }
-    
+
+    private void CheckForFalls()
+    {
+        playerManager.Falls(arenaManager.GetTiles());
+    }
+
     public void PlayTurn()
     {
-        _tileManager.DamageTiles(_playerManager.GetPlayers());
-        _playerManager.Turn(_tileManager.GetTiles());
+        arenaManager.DamageTiles(playerManager.GetPlayers());
+        playerManager.Turn(arenaManager.GetTiles());
     }
 
     public void SetMovement(string player, Movement move)
     {
-        _playerManager.SetMovement(player, move);
+        playerManager.SetMovement(player, move);
     }
-
-    public bool AddPlayer(string playerPseudo)
-    {
-        if (_playerManager.GetCurrentPlayerNumber() >= _gameSettings.MaxPlayerNumber) return false;
-            
-        _playerManager.AddPlayer(playerPseudo);
-        return true;
-    }
-
-    public void RemovePlayer(string playerPseudo) => _playerManager.RemovePlayer(playerPseudo);
 }
