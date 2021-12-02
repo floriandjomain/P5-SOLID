@@ -9,45 +9,47 @@ public class TileManager : ScriptableObject
 
     public void SetUp(Dictionary<string, Player> players, int maxTileHealth)
     {
-        Debug.Log("start map setup...");
-        InitializeMap(players.Count, maxTileHealth);
+        //Debug.Log("start map setup...");
+        MapInstantiation(players.Count, maxTileHealth);
         PlacePlayers(players);
-        Debug.Log("...map setup done");
+        //Debug.Log("...map setup done");
     }
 
-    private void InitializeMap(int playerNumber, int maxTileHealth)
+    private void MapInstantiation(int playerNumber, int maxTileHealth)
     {
-        Debug.Log("start map initialization...");
+        //Debug.Log("start map initialization...");
         //PartieClassique 4 places/joueur
-        _tiles = new Tile[2 * playerNumber, 2 * playerNumber];
+        _tiles = new Tile[playerNumber, playerNumber];
         
-        for (int i = 0; i < 2 * playerNumber; i++)
+        for (int i = 0; i < playerNumber; i++)
         {
-            for (int j = 0; j < 2 * playerNumber; j++)
+            for (int j = 0; j < playerNumber; j++)
             {
                 Tile tile = Instantiate(tilePrefab);
+                tile.SetStartLife(maxTileHealth);
                 var transform = tile.transform;
                 var localScale = transform.localScale;
                 transform.position = new Vector3(i * localScale.x * 2.5f, 0, j * localScale.z * 2.5f);
                 _tiles[i, j] = tile;
+                //Debug.Log("Tile set");
             }
         }
-        Debug.Log("...map initialization done");
+        //Debug.Log("...map initialization done");
     }
 
     private void PlacePlayers(Dictionary<string, Player> players)
     {
-        Debug.Log("start placing players...");
+        //Debug.Log("start placing players...");
         //PartieClassique 4 places/joueur
-        int i = 1;
+        int i = 0;
         
         foreach (string player in players.Keys)
         {
-            players[player].SetPos(new Vector2Int(i, i-1));
-            Debug.Log("placing player " + player + " at position " + players[player].GetPos());
-            i += 2;
+            players[player].SetPos(new Vector2Int(i, i));
+            //Debug.Log("placing player " + player + " at position " + players[player].GetPos());
+            i ++;
         }
-        Debug.Log("...all players placed");
+        //Debug.Log("...all players placed");
     }
 
     public Tile[,] GetTiles() => _tiles;
@@ -58,11 +60,15 @@ public class TileManager : ScriptableObject
 
         foreach (string p in players.Keys)
         {
-            if (players[p].IsAlive())
-            {
-                pos = players[p].GetPos();
-                _tiles[pos.x,pos.y].Damage();
-            }
+            if (!players[p].IsAlive()) continue;
+            
+            pos = players[p].GetPos();
+            _tiles[pos.x,pos.y].Damage();
         }
+    }
+
+    public void BreakTile(Vector2Int tileToBreak)
+    {
+        _tiles[tileToBreak.x, tileToBreak.y].Break();
     }
 }
