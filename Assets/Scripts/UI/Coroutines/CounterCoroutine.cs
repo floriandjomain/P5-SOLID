@@ -6,7 +6,7 @@ using TMPro;
 [CreateAssetMenu(menuName = "Coroutine/Counter")]
 public class CounterCoroutine : GameCoroutine
 {
-    [SerializeField] private float _counterDelay;
+    [SerializeField] private float _counterDelay; 
     public override IEnumerator ExecuteCoroutine(params object[] parameters)
     {
         TMP_Text counterText = parameters[1] as TMP_Text;
@@ -14,12 +14,13 @@ public class CounterCoroutine : GameCoroutine
 
         counterText.gameObject.SetActive(true);
 
-        Debug.Log("startCounter : " + parameters[1]);
+        float floatToDisplay;
 
-        while (counter > 0)
+        while (counter > -0.5f) /// -0.5f pour afficher le 0 plus longtemps
         {
             counter -= Time.deltaTime;
-            counterText.text = counter.ToString("N0"); /// "N0"permet d'arrondir les float à l'unité près (int)
+            floatToDisplay = counter + 0.5f; /// Amelioration d'affichage
+            counterText.text = floatToDisplay.ToString("N0"); /// "N0"permet d'arrondir les float à l'unité près (int)
             yield return null;
         }
 

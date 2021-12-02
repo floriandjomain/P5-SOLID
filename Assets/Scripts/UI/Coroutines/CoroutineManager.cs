@@ -13,6 +13,7 @@ public class CoroutineManager : MonoBehaviour
     {
         if(instance != null)
         {
+            Destroy(this);
             return;
         }
         instance = this;
@@ -21,12 +22,18 @@ public class CoroutineManager : MonoBehaviour
 
     [SerializeField] private TMP_Text _textCounter;
     [SerializeField] private Image _fadingImage;
+    [SerializeField] private Image _otherImage; // test
 
     [Tooltip("Liste de coroutines a activer au gameStart event")]
     [SerializeField] private List<GameCoroutine> _startCoroutines;
 
     [Tooltip("Liste de coroutines a activer au gameEnd event")]
     [SerializeField] private List<GameCoroutine> _endCoroutines;
+
+    [HideInInspector] 
+    public Coroutine _gameStartCoroutineRef;
+    [HideInInspector] 
+    public Coroutine _gameEndCoroutineRef;
 
     private void Start()
     {
@@ -36,7 +43,11 @@ public class CoroutineManager : MonoBehaviour
 
     public void GameStart()
     {
-        StartCoroutine(GameStartCoroutine());
+        /// Condition d'activation de la coroutine
+        if (_gameEndCoroutineRef == null && _gameStartCoroutineRef == null)
+        {
+            _gameStartCoroutineRef = StartCoroutine(GameStartCoroutine());
+        }
     }
 
     private IEnumerator GameStartCoroutine()
@@ -45,11 +56,17 @@ public class CoroutineManager : MonoBehaviour
         {
             yield return StartCoroutine(coroutine.ExecuteCoroutine(_fadingImage, _textCounter));
         }
+
+        _gameStartCoroutineRef = null;
     }
 
     public void GameEnd()
     {
-        StartCoroutine(GameEndCoroutine());
+        /// Condition d'activation de la coroutine
+        if (_gameStartCoroutineRef == null && _gameEndCoroutineRef == null)
+        {
+            _gameEndCoroutineRef = StartCoroutine(GameEndCoroutine());
+        }
     }
 
     private IEnumerator GameEndCoroutine()
@@ -58,48 +75,7 @@ public class CoroutineManager : MonoBehaviour
         {
             yield return StartCoroutine(coroutine.ExecuteCoroutine(_fadingImage, _textCounter));
         }
-    }
 
-    ////////////////////////////
-    /// SECTION OBSELETE /!\ ///
-    ////////////////////////////
-
-    IEnumerator _fadingOn;
-    IEnumerator _fadingInt;
-
-    private float _fadingSpeed = 1.5f;
-
-    /// Active fondu noir
-    public void StartFadingOn()
-    {
-        StopAllCoroutines();
-        _fadingOn = FadingOn();
-        StartCoroutine(_fadingOn);
-    }
-
-    private IEnumerator FadingOn()
-    {
-        while(_fadingImage.color.a < 1)
-        {
-            _fadingImage.color += new Color(0, 0, 0, _fadingSpeed * Time.deltaTime);
-            yield return null;
-        }
-    }
-
-    /// Desactive fondu noir
-    public void StartFadingInt()
-    {
-        StopAllCoroutines();
-        _fadingInt = FadingInt();
-        StartCoroutine(_fadingInt);
-    }
-
-    private IEnumerator FadingInt()
-    {
-        while (_fadingImage.color.a > 0)
-        {
-            _fadingImage.color -= new Color(0, 0, 0, _fadingSpeed * Time.deltaTime);
-            yield return null;
-        }
+        _gameEndCoroutineRef = null;
     }
 }

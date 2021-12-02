@@ -5,14 +5,22 @@ using UnityEngine.UI;
 
 public class PauseButton : MonoBehaviour
 {
-    public GameObject _pauseButton;
-    public GameObject _startButton;
+    private Coroutine _waitEndOfCoroutineRef;
 
     public void OnButtonPress()
     {
         CoroutineManager.instance.GameEnd();
 
-        _pauseButton.SetActive(false);
-        _startButton.SetActive(true);
+        _waitEndOfCoroutineRef = StartCoroutine(WaitEndOfCoroutine());
+
+        UIManager.instance._pauseButton.SetActive(false);
+    }
+
+    private IEnumerator WaitEndOfCoroutine()
+    {
+        yield return CoroutineManager.instance._gameEndCoroutineRef;
+
+        /// Activation de la nouvelle HUD après les coroutines
+        UIManager.instance._startButton.SetActive(true);
     }
 }
