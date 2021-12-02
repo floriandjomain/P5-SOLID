@@ -4,8 +4,9 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private Vector2Int position;
     [SerializeField] private Vector2Int nextPosition;
+    [SerializeField] private GameObject capsule;
     [SerializeField] private bool isAlive;
-        
+    
     // Start is called before the first frame update
     private void Start()
     {
@@ -24,7 +25,12 @@ public class Player : MonoBehaviour
     
     public Vector2Int GetNextPos() => nextPosition;
 
-    public void Fall() => isAlive = false;
+    public void Fall()
+    {
+        isAlive = false;
+        capsule.SetActive(false);
+        Debug.Log("A player died");
+    }
         
     public bool IsAlive() => isAlive;
 
@@ -33,4 +39,6 @@ public class Player : MonoBehaviour
         position = nextPosition;
         transform.position = new Vector3(position.x * 2.5f, 1.5f , position.y * 2.5f);
     }
+
+    public Vector3 GetCapsulePos() => capsule.transform.position;
 }

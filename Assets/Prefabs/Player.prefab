@@ -142,4 +142,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
   nextPosition: {x: 0, y: 0}
+  capsule: {fileID: 6799532713193786872}
   isAlive: 0
