@@ -21,9 +21,6 @@ public class LobbyPlayerManagerList : MonoBehaviour
     [SerializeField] private Vector2 cellSize = new Vector2(500, 100);
     [SerializeField] private Vector2 gridZone = new Vector2(1920, 850);
 
-    // TO REMOVE
-    public int PlayerMaxCount = 20; // use gameSettings.MaxPlayerNumber instead
-
     private int currentPlayerCount = 0;
     private int oldPlayerCount = 0;
 
@@ -34,7 +31,7 @@ public class LobbyPlayerManagerList : MonoBehaviour
 
     private void Start()
     {
-        UpdateText(currentPlayerCount, PlayerMaxCount);
+        UpdateText(currentPlayerCount, gameSettings.MaxPlayerNumber);
         playersText = new List<GameObject>();
 
         gridLayoutGroup = gridLayout.GetComponent<GridLayoutGroup>();
@@ -42,7 +39,7 @@ public class LobbyPlayerManagerList : MonoBehaviour
         
         gridSizeY = gridLayout.GetComponent<RectTransform>().sizeDelta.y;
 
-        DisplayList(PlayerMaxCount);
+        DisplayList(gameSettings.MaxPlayerNumber);
 
         ClearNames();
     }

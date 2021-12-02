@@ -15,28 +15,13 @@ public class GameState : ScriptableObject
 
     [SerializeField] private State _state;
 
-    public void SetLobbyListeningState()
-    {
-        _state = State.LobbyListening;
-    }
-
-    public void SetGameListeningState()
-    {
-        _state = State.GameListening;
-    }
-
-    public void SetNotListeningState()
-    {
-        _state = State.NotListening;
-    }
-
-    public void SetOnPlayState()
-    {
-        _state = State.OnPlay;
-    }
-
     public State GetState()
     {
         return _state;
+    }
+
+    public void SetState(State state)
+    {
+        _state = state;
     }
 }
