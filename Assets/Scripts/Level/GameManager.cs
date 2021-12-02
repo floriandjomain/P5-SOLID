@@ -1,44 +1,59 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TileManager _tileManager;
     [SerializeField] private PlayerManager _playerManager;
+    [SerializeField] private CameraManager _cameraManager;
     [SerializeField] private GameSettings _gameSettings;
 
     [SerializeField] private string[] playerCheatCode;
 
     private void Awake()
     {
+        PlayersSetCheat();
         SetUp();
     }
 
-    private void Cheat()
+    private void Update()
     {
-        Debug.Log("!!!cheat code activated!!!");
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayersGetMoveCheat();
+            PlayTurn();
+        }
+    }
+
+    private void PlayersSetCheat()
+    {
+        //Debug.Log("!!!PlayersSetCheat code activated!!!");
         Movement move = Movement.None;
-        
+
         foreach (string playerName in playerCheatCode)
         {
             _playerManager.AddPlayer(playerName);
-            SetMovement(playerName, ++move);
-            Debug.Log(playerName + " will move" + MovementManager.ToString(move));
+            SetMovement(playerName, move);
+            //Debug.Log(playerName + " will move" + MovementManager.ToString(move));
         }
-        
-        Debug.Log("!!!cheat code used!!!");
+        //Debug.Log("!!!PlayersSetCheat code used!!!");
+    }
+
+    private void PlayersGetMoveCheat()
+    {
+        //Debug.Log("<color=red>!!!PlayersMoveCheat code activated!!!</color>");
+        foreach (string playerName in playerCheatCode)
+            SetMovement(playerName, Movement.Right);
+        //Debug.Log("<color=red>!!!PlayersMoveCheat code used!!!</color>");
     }
 
     public void SetUp()
     {
-        Cheat();
-        
-        Debug.Log("start game setup...");
+        //Debug.Log("start game setup...");
         _playerManager.SetUp();
         _tileManager.SetUp(_playerManager.GetPlayers(), _gameSettings.TileMaxLifePoints);
-        Debug.Log("...game setup done");
+        _cameraManager.SetUp(_playerManager);
+        _cameraManager.UpdatePosition();
+        //Debug.Log("...game setup done");
     }
     
     public void PlayTurn()
