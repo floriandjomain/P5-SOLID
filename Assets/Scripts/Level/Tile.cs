@@ -1,31 +1,49 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Material))]
 public class Tile : MonoBehaviour
 {
-    [SerializeField] private Material HealthyTile;
-    [SerializeField] private Material MidLifeTile;
-    [SerializeField] private Material LastLifeTile;
-    [SerializeField] private int StartLifePoints;
-    [SerializeField] private int CurrentLifePoints;
-
-    private void Start()
+    [SerializeField] private Material healthyTile;
+    [SerializeField] private Material midLifeTile;
+    [SerializeField] private Material lastLifeTile;
+    [SerializeField] private int startLifePoints;
+    [SerializeField] private int currentLifePoints;
+    [SerializeField] private GameObject cube;
+    private void Awake()
     {
-        CurrentLifePoints = StartLifePoints;
-        GetComponent<Material>().color = HealthyTile.color;
+        cube.GetComponent<Renderer>().material.color = healthyTile.color;
+        cube.transform.localScale = new Vector3(2f, 0.5f, 2f);
     }
 
     public void Damage()
     {
-        CurrentLifePoints--;
+        currentLifePoints--;
 
-        if (CurrentLifePoints > StartLifePoints / 2) return;
+        OnDamage();
+    }
+
+    private void OnDamage()
+    {
+        if (currentLifePoints > startLifePoints / 2) return;
         
-        if (CurrentLifePoints == 1)
-            GetComponent<Material>().color = LastLifeTile.color;
-        else if (CurrentLifePoints == StartLifePoints / 2)
-            GetComponent<Material>().color = MidLifeTile.color;
-        else if (CurrentLifePoints == 0)
+        if (currentLifePoints == 1)
+            cube.GetComponent<Renderer>().material.color = lastLifeTile.color;
+        if (currentLifePoints == startLifePoints / 2)
+            cube.GetComponent<Renderer>().material.color = midLifeTile.color;
+        else if (currentLifePoints == 0)
             gameObject.SetActive(false);
+    }
+
+    public void SetStartLife(int startLife)
+    {
+        startLifePoints   = startLife;
+        currentLifePoints = startLife;
+    }
+
+    public bool IsBroken() => currentLifePoints == 0;
+
+    public void Break()
+    {
+        currentLifePoints = 0;
+        OnDamage();
     }
 }
