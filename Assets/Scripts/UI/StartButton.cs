@@ -5,15 +5,12 @@ using UnityEngine.UI;
 
 public class StartButton : MonoBehaviour
 {
-    public Fading _fading;
-
     public GameObject _startButton;
-
     public GameObject _pauseButton;
 
     public void OnButtonPress()
     {
-        _fading.StartFadingInt();
+        CoroutineManager.instance.GameStart();
 
         _startButton.SetActive(false);
         _pauseButton.SetActive(true);
