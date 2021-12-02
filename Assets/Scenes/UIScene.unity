@@ -336,6 +336,7 @@ GameObject:
   - component: {fileID: 772917778}
   - component: {fileID: 772917780}
   - component: {fileID: 772917779}
+  - component: {fileID: 772917781}
   m_Layer: 5
   m_Name: FadingImage
   m_TagString: Untagged
@@ -401,6 +402,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772917777}
   m_CullTransparentMesh: 1
+--- !u!114 &772917781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772917777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b65322012b1a45c45a97b9899c1b2904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _variable: {fileID: 11400000, guid: 6ba0d15fdaa58bf46965a78bae2800d3, type: 2}
 --- !u!1 &853700441
 GameObject:
   m_ObjectHideFlags: 0

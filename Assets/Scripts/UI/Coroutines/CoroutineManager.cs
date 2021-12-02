@@ -35,6 +35,8 @@ public class CoroutineManager : MonoBehaviour
     [HideInInspector] 
     public Coroutine _gameEndCoroutineRef;
 
+    //[SerializeField] Blackboard _blackboard;
+
     private void Start()
     {
         /// Test area
