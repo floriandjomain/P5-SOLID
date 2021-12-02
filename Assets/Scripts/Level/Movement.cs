@@ -36,9 +36,9 @@ public static class MovementManager
         }
     }
 }
-public enum Movement 
+public enum Movement : int
 {
-    None,
+    None = 0,
     Up,
     Right,
     Down,
