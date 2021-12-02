@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameSettings _gameSettings;
 
     [SerializeField] private string[] playerCheatCode;
+    [SerializeField] private bool UseCheat;
 
     private void Awake()
     {
