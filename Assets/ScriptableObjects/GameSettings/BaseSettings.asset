@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: BaseSettings
   m_EditorClassIdentifier: 
   MaxPlayerNumber: 10
-  FieldSizeX: 8
-  FieldSizeY: 8
-  TileMaxLifePoints: 3
+  TileMaxLifePoints: 5
   CommandInputTime: 10000
   JumpSound: {fileID: 0}
   BumpSound: {fileID: 0}
