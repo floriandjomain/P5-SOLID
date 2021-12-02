@@ -6,12 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Tests/Flupi/FlupiTest.unity
-    guid: bcf467bb21e63aa4c8dca13d91406698
-  - enabled: 1
-    path: Assets/Scenes/Tests/AlgerGildartz/AlgerGildartzInputTest.unity
-    guid: a7909c88612085c42aed99b9de818fd3
-  - enabled: 1
-    path: Assets/Scenes/Tests/Luxifer/JCTest.unity
-    guid: cc6cc076968f91c49b50aeb677d2824a
+    path: Assets/Scenes/Tests/Flupi/Level.unity
+    guid: ee4c3199637dee4429346e09a33d216f
   m_configObjects: {}

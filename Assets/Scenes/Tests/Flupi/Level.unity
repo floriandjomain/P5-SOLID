@@ -259,6 +259,7 @@ MonoBehaviour:
   - Magalie
   - Catra
   - Du pain !!!
+  UseCheat: 0
 --- !u!1 &1969033719
 GameObject:
   m_ObjectHideFlags: 0
