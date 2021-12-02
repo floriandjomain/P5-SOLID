@@ -22,12 +22,17 @@ public class CameraManager : ScriptableObject
         List<Vector3> alivePlayersCapsulePosition = _playerManager.GetAllAlivePlayersCapsulePosition();
         int alivePlayersCount = alivePlayersCapsulePosition.Count;
 
-        if (alivePlayersCount <= 0) return;
+        if (alivePlayersCount <= 0)
+        {
+            Debug.Log("POURQUOI");
+            return;
+        }
         
         foreach (Vector3 position in alivePlayersCapsulePosition)
             newPos+=position;
             
         newPos = newPos / alivePlayersCount + (Vector3.up * 2.5f) * alivePlayersCount;
+        Debug.Log("camPos=" + _camera.transform.position + ", newPos=" + newPos);
         _camera.transform.position = newPos;
     }
 }

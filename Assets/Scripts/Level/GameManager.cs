@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -12,7 +13,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         PlayersSetCheat();
-        SetUp();
+        StartCoroutine(SetUp());
     }
 
     private void Update()
@@ -46,13 +47,14 @@ public class GameManager : MonoBehaviour
         //Debug.Log("<color=red>!!!PlayersMoveCheat code used!!!</color>");
     }
 
-    public void SetUp()
+    public IEnumerator SetUp()
     {
         //Debug.Log("start game setup...");
         _playerManager.SetUp();
         _tileManager.SetUp(_playerManager.GetPlayers(), _gameSettings.TileMaxLifePoints);
+        yield return null;
         _cameraManager.SetUp(_playerManager);
-        _cameraManager.UpdatePosition();
+        //_cameraManager.UpdatePosition();
         //Debug.Log("...game setup done");
     }
     
