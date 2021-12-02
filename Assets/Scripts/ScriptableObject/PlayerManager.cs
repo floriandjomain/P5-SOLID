@@ -21,7 +21,7 @@ public class PlayerManager : ScriptableObject
         ApplyMovements();
         Falls(tiles);
         ResetMovements();
-        taarniendo.Invoke();
+        taarniendo?.Invoke();
     }
 
     private void CompileMovements(Tile[,] tiles)
@@ -102,7 +102,7 @@ public class PlayerManager : ScriptableObject
         return conflictedPlayers;
     }
 
-    private void Falls(Tile[,] tiles)
+    public void Falls(Tile[,] tiles)
     {
         Vector2Int pos;
 
@@ -153,7 +153,7 @@ public class PlayerManager : ScriptableObject
     {
         //Debug.Log("start players setup...");
         PlayersInstantiation();
-        taarniendo += (() => { Debug.Log("event called"); });
+        //taarniendo += (() => { Debug.Log("event called"); });
         //Debug.Log("...players setup done");
     }
 
