@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class PlayerManager : ScriptableObject
 {
     [SerializeField] private Dictionary<string, Player> Players = new Dictionary<string, Player>();
     [SerializeField] private Dictionary<string, Movement> Movements = new Dictionary<string, Movement>();
+
+    public event Action taarniendo;
 
     [SerializeField] private Player playerPrefab;
 
@@ -18,23 +21,30 @@ public class PlayerManager : ScriptableObject
         ApplyMovements();
         Falls(tiles);
         ResetMovements();
+        taarniendo.Invoke();
     }
 
     private void CompileMovements(Tile[,] tiles)
     {
-        foreach (string p in Players.Keys)
+        List<string> players = new List<string>(Players.Keys);
+        foreach (string p in players)
         {
             CompileMovement(Players[p], Movements[p], tiles);
         }
     }
 
-    private static void CompileMovement(Player player, Movement movement, Tile[,] tiles)
+    private void CompileMovement(Player player, Movement movement, Tile[,] tiles)
     {
+        if(!player.IsAlive()) return;
+        
         Vector2Int pos = player.GetPos() + MovementManager.GetVector(movement);
 
-        if (pos.x < 0 || pos.y < 0 || pos.x >= tiles.Length || pos.y >= tiles.Length) return;
-
-        if (!tiles[pos.x, pos.y].isActiveAndEnabled) return;
+        if (pos.x < 0 || pos.y < 0 || pos.x >= tiles.GetLength(0) || pos.y >= tiles.GetLength(0) || tiles[pos.x, pos.y].IsBroken())
+        {
+            player.SetPos(pos);
+            player.Fall();
+            return;
+        }
 
         player.SetNextPos(pos);
     }
@@ -43,7 +53,8 @@ public class PlayerManager : ScriptableObject
     {
         List<string> conflictedPlayers = CheckForConflicts();
         
-        foreach (string p in Players.Keys)
+        List<string> players = new List<string>(Players.Keys);
+        foreach (string p in players)
         {
             if (Players[p].IsAlive() && !conflictedPlayers.Contains(p))
                 Players[p].ApplyMovement();
@@ -58,15 +69,16 @@ public class PlayerManager : ScriptableObject
 
         do
         {
-            foreach (string p1 in Players.Keys)
+            List<string> players = new List<string>(Players.Keys);
+            foreach (string p1 in players)
             {
                 if(!Players[p1].IsAlive() || conflictedPlayers.Contains(p1)) continue;
                 
                 p1Pos = Players[p1].GetNextPos();
                 
-                foreach (var p2 in Players.Keys)
+                foreach (string p2 in players)
                 {
-                    if (!Players[p2].IsAlive() || p1 == p2) continue;
+                    if (p1 == p2 || !Players[p2].IsAlive()) continue;
                     
                     p2Pos = conflictedPlayers.Contains(p2) ? Players[p2].GetPos() : Players[p2].GetNextPos();
                     
@@ -94,23 +106,22 @@ public class PlayerManager : ScriptableObject
     {
         Vector2Int pos;
 
-        foreach (string p in Players.Keys)
+        List<string> players = new List<string>(Players.Keys);
+        foreach (string p in players)
         {
             if (!Players[p].IsAlive()) continue;
             
             pos = Players[p].GetPos();
 
-            if (tiles[pos.x, pos.y])
-                Players[p].Fall();
+            if (tiles[pos.x, pos.y].IsBroken()) Players[p].Fall();
         }
     }
 
     private void ResetMovements()
     {
-        foreach (string p in Movements.Keys)
-        {
+        List<string> moves = new List<string>(Movements.Keys);
+        foreach (string p in moves)
             Movements[p] = Movement.None;
-        }
     }
 
     public void SetMovement(string player, Movement move)
@@ -136,15 +147,34 @@ public class PlayerManager : ScriptableObject
 
     public void SetUp()
     {
-        Debug.Log("start players setup...");
-        List<string> keys = new List<string>(Players.Keys);
-        foreach (string playerName in keys)
+        //Debug.Log("start players setup...");
+        PlayersInstantiation();
+        taarniendo += (() => { Debug.Log("event called"); });
+        //Debug.Log("...players setup done");
+    }
+
+    private void PlayersInstantiation()
+    {
+        List<string> players = new List<string>(Players.Keys);
+        foreach (string playerName in players)
         {
-            Debug.Log("create player  : " + playerName);
+            //Debug.Log("create player  : " + playerName);
             Player p = Instantiate(playerPrefab);
             p.name = playerName;
             Players[playerName] = p;
         }
-        Debug.Log("...players setup done");
+    }
+
+    public List<Vector3> GetAllAlivePlayersCapsulePosition()
+    {
+        List<Vector3> alivePlayersCapsulePosition = new List<Vector3>();
+
+        List<string> players = new List<string>(Players.Keys);
+        foreach (string playerName in players)
+        {
+            if(Players[playerName].IsAlive()) alivePlayersCapsulePosition.Add(Players[playerName].GetCapsulePos());
+        }
+
+        return alivePlayersCapsulePosition;
     }
 }
