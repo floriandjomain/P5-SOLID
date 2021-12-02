@@ -43,7 +43,8 @@ public class TileManager : ScriptableObject
         //PartieClassique 4 places/joueur
         int i = 0;
         
-        foreach (string player in players.Keys)
+        List<string> playerNames = new List<string>(players.Keys);
+        foreach (string player in playerNames)
         {
             players[player].SetPos(new Vector2Int(i, i));
             //Debug.Log("placing player " + player + " at position " + players[player].GetPos());
@@ -58,7 +59,8 @@ public class TileManager : ScriptableObject
     {
         Vector2Int pos;
 
-        foreach (string p in players.Keys)
+        List<string> playerNames = new List<string>(players.Keys);
+        foreach (string p in playerNames)
         {
             if (!players[p].IsAlive()) continue;
             
