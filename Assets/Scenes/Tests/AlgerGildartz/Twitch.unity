@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 971348649}
   - component: {fileID: 971348650}
   m_Layer: 0
-  m_Name: TwitchInterpreter
+  m_Name: Twitch Interpreter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 1373857864}
   - component: {fileID: 1373857863}
   m_Layer: 0
-  m_Name: TwitchClient
+  m_Name: Twitch Starter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -195,14 +195,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1373857862}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2fdfd1a9b2144540a719b0406de1303, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ba4ac6a1b04a58468fd36b351226f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  password: oauth:aa0q3susodtaunnxwcdy1fo9l5xk7m
-  botUsername: bot_projet5
-  channelName: algergildartz
-  queue: {fileID: 11400000, guid: 51ef11260bb0a3e43825a8e51c882196, type: 2}
+  ip: irc.chat.twitch.tv
+  port: 6667
+  twitchBotData: {fileID: 11400000, guid: badda9e28e75f9b42abd688c986a596d, type: 2}
   gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
+  twitchChatMessageQueue: {fileID: 11400000, guid: 51ef11260bb0a3e43825a8e51c882196, type: 2}
+  channelName: AlgerGildartz
 --- !u!4 &1373857864
 Transform:
   m_ObjectHideFlags: 0
@@ -233,7 +234,7 @@ GameObject:
   - component: {fileID: 2102962621}
   - component: {fileID: 2102962620}
   m_Layer: 0
-  m_Name: TwitchCommands
+  m_Name: Twitch Commands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
