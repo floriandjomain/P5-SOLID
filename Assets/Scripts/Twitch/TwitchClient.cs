@@ -17,7 +17,7 @@ public class TwitchClient : MonoBehaviour
     public string botUsername = "bot_projet5";
     public string channelName = "algergildartz";
     [Space(10)]
-    public Chatline queue;
+    public TwitchChatMessageQueue queue;
     public GameState gameState;
 
     private TwitchBot twitchBot;

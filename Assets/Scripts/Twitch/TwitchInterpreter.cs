@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TwitchInterpreter : MonoBehaviour
 {
-    [SerializeField] private Chatline _twitchQueue;
+    [SerializeField] private TwitchChatMessageQueue _twitchQueue;
     [SerializeField] private GameState _gameState;
 
     [SerializeField] private GameObject _commands;
