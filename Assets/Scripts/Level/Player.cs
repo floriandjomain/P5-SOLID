@@ -41,4 +41,10 @@ public class Player : MonoBehaviour
     }
 
     public Vector3 GetCapsulePos() => capsule.transform.position;
+
+    public void JumpInVoid(Vector2Int pos)
+    {
+        SetPos(pos);
+        Fall();
+    }
 }

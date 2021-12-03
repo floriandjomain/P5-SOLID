@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using static System.Random;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private ArenaManager arenaManager;
     [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private MovementManager movementManager;
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private GameSettings gameSettings;
 
@@ -42,11 +44,23 @@ public class GameManager : MonoBehaviour
         //Debug.Log("!!!PlayersSetCheat code activated!!!");
         foreach (string playerName in PlayerCheatCode)
         {
-            playerManager.AddPlayer(playerName);
+            AddPlayer(playerName);
             SetMovement(playerName, Movement.None);
             //Debug.Log(playerName + " will move" + MovementManager.ToString(move));
         }
         //Debug.Log("!!!PlayersSetCheat code used!!!");
+    }
+
+    public void AddPlayer(string playerName)
+    {
+        playerManager.AddPlayer(playerName);
+        movementManager.AddPlayer(playerName);
+    }
+
+    public void RemovePlayer(string playerName)
+    {
+        playerManager.RemovePlayer(playerName);
+        movementManager.RemovePlayer(playerName);
     }
 
     private void PlayersGetMoveCheat(int random)
@@ -66,6 +80,7 @@ public class GameManager : MonoBehaviour
         //Debug.Log("start game setup...");
         playerManager.SetUp();
         arenaManager.SetUp(playerManager.GetPlayers(), gameSettings.TileMaxLifePoints, CheckForFalls);
+        movementManager.SetUp(playerManager);
         yield return null;
         cameraManager.SetUp(playerManager);
         //_cameraManager.UpdatePosition();
@@ -80,11 +95,42 @@ public class GameManager : MonoBehaviour
     public void PlayTurn()
     {
         arenaManager.DamageTiles(playerManager.GetPlayers());
-        playerManager.Turn(arenaManager.GetTiles());
+        CompileMovements();
+        playerManager.Turn(arenaManager.GetTiles(), movementManager.GetMovements());
+    }
+
+    private void CompileMovements()
+    {
+        
+        Dictionary<string, Player> players = playerManager.GetPlayers();
+        Dictionary<string, Movement> movements = movementManager.GetMovements();
+        Arena arena = arenaManager.GetArena();
+        
+        List<string> playerNames = new List<string>(players.Keys);
+        
+        foreach (string p in playerNames)
+        {
+            CompileMovement(players[p], movements[p], arena);
+        }
+    }
+    
+    private void CompileMovement(Player player, Movement movement, Arena arena)
+    {
+        if(!player.IsAlive()) return;
+        
+        Vector2Int pos = player.GetPos() + MovementData.GetVector(movement);
+
+        if (!arena.IsInArena(pos))
+        {
+            player.JumpInVoid(pos);
+            return;
+        }
+
+        player.SetNextPos(pos);
     }
 
     public void SetMovement(string player, Movement move)
     {
-        playerManager.SetMovement(player, move);
+        movementManager.SetMovement(player, move);
     }
 }

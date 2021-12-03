@@ -30,4 +30,6 @@ public class ArenaManager : ScriptableObject
     {
         
     }
+
+    public Arena GetArena() => Arena;
 }
