@@ -8,7 +8,7 @@ public class CounterCoroutine : GameCoroutine
 {
     [SerializeField] private TextVariable _counterText;
     [SerializeField] private float _counterDelay; 
-    public override IEnumerator ExecuteCoroutine(params object[] parameters)
+    public override IEnumerator ExecuteCoroutine()
     {
         //TMP_Text counterText = parameters[1] as TMP_Text;
         float counter = _counterDelay;

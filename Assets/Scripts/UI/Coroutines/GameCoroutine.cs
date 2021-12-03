@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class GameCoroutine : ScriptableObject
 {
-    public abstract IEnumerator ExecuteCoroutine(params object[] parameters);
+    public abstract IEnumerator ExecuteCoroutine();
 }

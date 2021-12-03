@@ -8,7 +8,7 @@ public class WaitCoroutine : GameCoroutine
 {
     [SerializeField] private float _delay;
 
-    public override IEnumerator ExecuteCoroutine(params object[] parameters)
+    public override IEnumerator ExecuteCoroutine()
     {
         yield return new WaitForSeconds(_delay);
     }

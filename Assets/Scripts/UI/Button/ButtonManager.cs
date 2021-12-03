@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class ButtonManager : MonoBehaviour
 {
     #region === Singleton ===
-    public static UIManager instance;
+    public static ButtonManager instance;
 
     void Awake()
     {

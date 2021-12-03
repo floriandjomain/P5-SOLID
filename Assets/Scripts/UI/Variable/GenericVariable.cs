@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Blackboard
+public abstract class GenericVariable<T> : ScriptableObject
 {
-    // public image fade
-    // public text countertext
+    public T Value;
 }

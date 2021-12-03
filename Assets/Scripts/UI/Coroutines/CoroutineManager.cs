@@ -56,7 +56,7 @@ public class CoroutineManager : MonoBehaviour
     {
         foreach (var coroutine in _startCoroutines)
         {
-            yield return StartCoroutine(coroutine.ExecuteCoroutine(_fadingImage, _textCounter));
+            yield return StartCoroutine(coroutine.ExecuteCoroutine());
         }
 
         _gameStartCoroutineRef = null;
@@ -75,7 +75,7 @@ public class CoroutineManager : MonoBehaviour
     {
         foreach (var coroutine in _endCoroutines)
         {
-            yield return StartCoroutine(coroutine.ExecuteCoroutine(_fadingImage, _textCounter));
+            yield return StartCoroutine(coroutine.ExecuteCoroutine());
         }
 
         _gameEndCoroutineRef = null;

@@ -11,7 +11,7 @@ public class FadeCoroutine : GameCoroutine
 
     [SerializeField] private ImageVariable _fadeImage;
 
-    public override IEnumerator ExecuteCoroutine(params object[] parameters)
+    public override IEnumerator ExecuteCoroutine()
     {
         //Image image = parameters[0] as Image;
 
