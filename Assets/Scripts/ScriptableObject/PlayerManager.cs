@@ -6,7 +6,8 @@ using UnityEngine;
 public class PlayerManager : ScriptableObject
 {
     [SerializeField] private Dictionary<string, Player> Players = new Dictionary<string, Player>();
-
+    private GameObject playersGO;
+    
     public event Action taarniendo;
     public event Action<string> onAddedPlayer;
     public event Action<string> onRemovedPlayer;
@@ -113,8 +114,8 @@ public class PlayerManager : ScriptableObject
     public void SetUp()
     {
         //Debug.Log("start players setup...");
+        playersGO = new GameObject("Players");
         PlayersInstantiation();
-        //taarniendo += (() => { Debug.Log("event called"); });
         //Debug.Log("...players setup done");
     }
 
@@ -124,7 +125,7 @@ public class PlayerManager : ScriptableObject
         foreach (string playerName in players)
         {
             //Debug.Log("create player  : " + playerName);
-            Player p = Instantiate(playerPrefab);
+            Player p = Instantiate(playerPrefab, playersGO.transform, true);
             p.name = playerName;
             Players[playerName] = p;
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro.EditorUtilities;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class CubicArena : Arena
 {
     public override void MapInstantiation(int playerNumber, int maxTileHealth, Action action)
     {
+        base.MapInstantiation();
+        
         //PartieClassique 4 places/joueur
         _tiles = new Tile[playerNumber, playerNumber];
         
@@ -16,7 +19,7 @@ public class CubicArena : Arena
         {
             for (int j = 0; j < playerNumber; j++)
             {
-                Tile tile = Instantiate(tilePrefab);
+                Tile tile = Instantiate(tilePrefab, arenaGO.transform, true);
                 tile.SetStartLife(maxTileHealth);
                 var transform = tile.transform;
                 var localScale = transform.localScale;
@@ -29,6 +32,7 @@ public class CubicArena : Arena
                 
                 tile.SetStartTimer(playerNumber-distanceCenter);
                 tile.AddActionToDeath(action);
+                tile.name = "tile("+i+","+j+")";
                 _tiles[i, j] = tile;
                 //Debug.Log("Tile set");
             }

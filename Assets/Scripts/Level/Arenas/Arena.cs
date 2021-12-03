@@ -8,11 +8,17 @@ public abstract class Arena : ScriptableObject
 {
     [SerializeField] protected Tile[,] _tiles;
     [SerializeField] protected Tile tilePrefab;
+    protected GameObject arenaGO;
     private Random rnd = new Random();
     public event Action onDestroyedTile;
-    
-    public abstract void MapInstantiation(int playerNumber, int maxTileHealth, Action action);
 
+    protected void MapInstantiation()
+    {
+        arenaGO = new GameObject("Arena");
+    }
+
+    public abstract void MapInstantiation(int playerNumber, int maxTileHealth, Action action);
+    
     public bool IsInArena(Vector2Int pos)
     {
         if (pos.x < 0 || pos.x >= _tiles.GetLength(0) || pos.y < 0 || pos.y >= _tiles.GetLength(1))
