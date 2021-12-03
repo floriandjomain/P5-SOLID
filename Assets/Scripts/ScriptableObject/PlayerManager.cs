@@ -17,7 +17,7 @@ public class PlayerManager : ScriptableObject
     public Dictionary<string, Player> GetPlayers() => Players;
     public int GetCurrentPlayerNumber() => Players.Count;
 
-    public void Turn(Tile[,] tiles, Dictionary<string, Movement> movements)
+    public void Turn(Tile[,] tiles)
     {
         ApplyMovements();
         Falls(tiles);

@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
     {
         arenaManager.DamageTiles(playerManager.GetPlayers());
         CompileMovements();
-        playerManager.Turn(arenaManager.GetTiles(), movementManager.GetMovements());
+        playerManager.Turn(arenaManager.GetTiles());
     }
 
     private void CompileMovements()
