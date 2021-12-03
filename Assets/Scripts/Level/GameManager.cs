@@ -44,23 +44,11 @@ public class GameManager : MonoBehaviour
         //Debug.Log("!!!PlayersSetCheat code activated!!!");
         foreach (string playerName in PlayerCheatCode)
         {
-            AddPlayer(playerName);
+            playerManager.AddPlayer(playerName);
             SetMovement(playerName, Movement.None);
             //Debug.Log(playerName + " will move" + MovementManager.ToString(move));
         }
         //Debug.Log("!!!PlayersSetCheat code used!!!");
-    }
-
-    public void AddPlayer(string playerName)
-    {
-        playerManager.AddPlayer(playerName);
-        movementManager.AddPlayer(playerName);
-    }
-
-    public void RemovePlayer(string playerName)
-    {
-        playerManager.RemovePlayer(playerName);
-        movementManager.RemovePlayer(playerName);
     }
 
     private void PlayersGetMoveCheat(int random)

@@ -8,6 +8,8 @@ public class PlayerManager : ScriptableObject
     [SerializeField] private Dictionary<string, Player> Players = new Dictionary<string, Player>();
 
     public event Action taarniendo;
+    public event Action<string> onAddedPlayer;
+    public event Action<string> onRemovedPlayer;
 
     [SerializeField] private Player playerPrefab;
 
@@ -92,14 +94,15 @@ public class PlayerManager : ScriptableObject
     public void AddPlayer(string playerPseudo)
     {
         Players.Add(playerPseudo, null);
+        onAddedPlayer?.Invoke(playerPseudo);
     }
 
     public void RemovePlayer(string playerPseudo)
     {
-        if (Players.ContainsKey(playerPseudo))
-        {
-            Players.Remove(playerPseudo);
-        }
+        if (!Players.ContainsKey(playerPseudo)) return;
+        
+        Players.Remove(playerPseudo);
+        onRemovedPlayer?.Invoke(playerPseudo);
     }
 
     public bool ContainsPlayer(string playerPseudo)

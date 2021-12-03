@@ -10,6 +10,8 @@ public class MovementManager : ScriptableObject
     public void SetUp(PlayerManager playerManager)
     {
         playerManager.taarniendo += ResetMovements;
+        playerManager.onAddedPlayer += AddPlayer;
+        playerManager.onRemovedPlayer += RemovePlayer;
     }
     
     private void ResetMovements()
