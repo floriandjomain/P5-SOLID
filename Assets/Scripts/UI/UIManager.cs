@@ -27,11 +27,22 @@ public class UIManager : MonoBehaviour
 
         _gameGUI.SetActive(false);
 
-        GoToLobbyMenu();
+        //GoToLobbyMenu();
+
+        /// Observer qui va s'execute à la fin des coroutines de transition
+        CoroutineManager.instance.OnEndUICoroutine += SwitchMenu;
+    }
+
+    public void SwitchMenu(string wichMenu)
+    {
+        if(wichMenu == "GoToSettingsMenu") { GoToSettingsMenu(); }
+        else if (wichMenu == "GoToLobbyMenu") { GoToLobbyMenu(); }
+        else if (wichMenu == "GoToGameView") { GoToGameView(); }
     }
 
     public void GoToSettingsMenu()
     {
+        EnableMenu();
         _mainMenu.SetActive(false);
         _settingsMenu.SetActive(true);
         _lobbyMenu.SetActive(false);
@@ -39,6 +50,7 @@ public class UIManager : MonoBehaviour
 
     public void GoToLobbyMenu()
     {
+        EnableMenu();
         _mainMenu.SetActive(false);
         _settingsMenu.SetActive(false);
         _lobbyMenu.SetActive(true);
@@ -51,6 +63,7 @@ public class UIManager : MonoBehaviour
 
     public void GoToGameView()
     {
+        EnableMenu();
         _allMenu.SetActive(false);
 
         _mainMenu.SetActive(false);
@@ -60,6 +73,16 @@ public class UIManager : MonoBehaviour
         _gameGUI.SetActive(true);
 
         ScenesManager.Instance.StartGame();
+    }
+
+    public void EnableMenu()
+    {
+        _allMenu.SetActive(true);
+    }
+
+    public void DisableMenu()
+    {
+        _allMenu.SetActive(false);
     }
 
 

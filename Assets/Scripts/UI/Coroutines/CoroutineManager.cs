@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class CoroutineManager : MonoBehaviour
 {
@@ -20,52 +21,98 @@ public class CoroutineManager : MonoBehaviour
     }
     #endregion
 
-    [Tooltip("Liste de coroutines a activer au gameStart event")]
-    [SerializeField] private List<GameCoroutine> _startCoroutines;
+    /// Coroutines to execute
+    [SerializeField] private List<GameCoroutine> _switchToSettingsMenuCoroutines;
+    [SerializeField] private List<GameCoroutine> _switchToLobbyMenuCoroutines;
+    [SerializeField] private List<GameCoroutine> _switchToGameViewCoroutines;
 
-    [Tooltip("Liste de coroutines a activer au gameEnd event")]
-    [SerializeField] private List<GameCoroutine> _endCoroutines;
+    /// Coroutine references
+    [HideInInspector] public Coroutine _switchToSettingsMenuCoroutineRef;
+    [HideInInspector] public Coroutine _switchToLobbyMenuCoroutineRef;
+    [HideInInspector] public Coroutine _switchToGameViewCoroutineRef;
 
-    [HideInInspector] 
-    public Coroutine _gameStartCoroutineRef;
-    [HideInInspector] 
-    public Coroutine _gameEndCoroutineRef;
+    /// Observer for UIManager
+    public event Action<string> OnEndUICoroutine;
 
-    public void GameStart()
+    //////////////////////////////
+    /// Transition to Setting Menu
+    //////////////////////////////
+    
+    public void SwitchToSettingsMenu()
     {
         /// Condition d'activation de la coroutine
-        if (_gameEndCoroutineRef == null && _gameStartCoroutineRef == null)
+        if (GetCoroutineActive())
         {
-            _gameStartCoroutineRef = StartCoroutine(GameStartCoroutine());
+            _switchToSettingsMenuCoroutineRef = StartCoroutine(SwitchToSettingsMenuCoroutine());
         }
     }
 
-    private IEnumerator GameStartCoroutine()
+    private IEnumerator SwitchToSettingsMenuCoroutine()
     {
-        foreach (var coroutine in _startCoroutines)
+        foreach (var coroutine in _switchToSettingsMenuCoroutines)
         {
             yield return StartCoroutine(coroutine.ExecuteCoroutine());
         }
 
-        _gameStartCoroutineRef = null;
+        _switchToSettingsMenuCoroutineRef = null;
+        OnEndUICoroutine.Invoke("GoToSettingsMenu");
     }
 
-    public void GameEnd()
+    //////////////////////////////
+    /// Transition to Lobby Menu
+    //////////////////////////////
+
+    public void SwitchToLobbyMenu()
     {
         /// Condition d'activation de la coroutine
-        if (_gameStartCoroutineRef == null && _gameEndCoroutineRef == null)
+        if (GetCoroutineActive())
         {
-            _gameEndCoroutineRef = StartCoroutine(GameEndCoroutine());
+            _switchToLobbyMenuCoroutineRef = StartCoroutine(SwitchToLobbyMenuCoroutine());
         }
     }
 
-    private IEnumerator GameEndCoroutine()
+    private IEnumerator SwitchToLobbyMenuCoroutine()
     {
-        foreach (var coroutine in _endCoroutines)
+        foreach (var coroutine in _switchToLobbyMenuCoroutines)
         {
             yield return StartCoroutine(coroutine.ExecuteCoroutine());
         }
 
-        _gameEndCoroutineRef = null;
+        _switchToLobbyMenuCoroutineRef = null;
+        OnEndUICoroutine.Invoke("GoToLobbyMenu");
+    }
+
+    //////////////////////////////
+    /// Transition to Game View
+    //////////////////////////////
+
+    public void SwitchToGameView()
+    {
+        /// Condition d'activation de la coroutine
+        if (GetCoroutineActive())
+        {
+            _switchToGameViewCoroutineRef = StartCoroutine(SwitchToGameViewCoroutine());
+        }
+    }
+
+    private IEnumerator SwitchToGameViewCoroutine()
+    {
+        foreach (var coroutine in _switchToGameViewCoroutines)
+        {
+            yield return StartCoroutine(coroutine.ExecuteCoroutine());
+        }
+
+        _switchToGameViewCoroutineRef = null;
+        OnEndUICoroutine.Invoke("GoToGameView");
+    }
+
+    ///////////////////
+    /// Getter & Setter
+    ///////////////////
+
+    /// Return false if one of the coroutine is active
+    private bool GetCoroutineActive()
+    {
+        return _switchToSettingsMenuCoroutineRef == null || _switchToLobbyMenuCoroutineRef == null || _switchToGameViewCoroutineRef == null;
     }
 }
