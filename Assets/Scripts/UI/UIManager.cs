@@ -63,7 +63,6 @@ public class UIManager : MonoBehaviour
 
     public void GoToGameView()
     {
-        EnableMenu();
         _allMenu.SetActive(false);
 
         _mainMenu.SetActive(false);
