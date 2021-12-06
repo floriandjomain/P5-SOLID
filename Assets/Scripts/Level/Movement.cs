@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class MovementManager
+public static class MovementData
 {
     public static Vector2Int GetVector(Movement m)
     {

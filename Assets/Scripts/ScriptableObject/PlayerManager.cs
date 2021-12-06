@@ -6,9 +6,11 @@ using UnityEngine;
 public class PlayerManager : ScriptableObject
 {
     [SerializeField] private Dictionary<string, Player> Players = new Dictionary<string, Player>();
-    [SerializeField] private Dictionary<string, Movement> Movements = new Dictionary<string, Movement>();
-
+    private GameObject playersGO;
+    
     public event Action taarniendo;
+    public event Action<string> onAddedPlayer;
+    public event Action<string> onRemovedPlayer;
 
     [SerializeField] private Player playerPrefab;
 
@@ -17,36 +19,9 @@ public class PlayerManager : ScriptableObject
 
     public void Turn(Tile[,] tiles)
     {
-        CompileMovements(tiles);
         ApplyMovements();
         Falls(tiles);
-        ResetMovements();
-        taarniendo.Invoke();
-    }
-
-    private void CompileMovements(Tile[,] tiles)
-    {
-        List<string> players = new List<string>(Players.Keys);
-        foreach (string p in players)
-        {
-            CompileMovement(Players[p], Movements[p], tiles);
-        }
-    }
-
-    private void CompileMovement(Player player, Movement movement, Tile[,] tiles)
-    {
-        if(!player.IsAlive()) return;
-        
-        Vector2Int pos = player.GetPos() + MovementManager.GetVector(movement);
-
-        if (pos.x < 0 || pos.y < 0 || pos.x >= tiles.GetLength(0) || pos.y >= tiles.GetLength(0) || tiles[pos.x, pos.y].IsBroken())
-        {
-            player.SetPos(pos);
-            player.Fall();
-            return;
-        }
-
-        player.SetNextPos(pos);
+        taarniendo?.Invoke();
     }
 
     private void ApplyMovements()
@@ -102,7 +77,7 @@ public class PlayerManager : ScriptableObject
         return conflictedPlayers;
     }
 
-    private void Falls(Tile[,] tiles)
+    public void Falls(Tile[,] tiles)
     {
         Vector2Int pos;
 
@@ -117,31 +92,18 @@ public class PlayerManager : ScriptableObject
         }
     }
 
-    private void ResetMovements()
-    {
-        List<string> moves = new List<string>(Movements.Keys);
-        foreach (string p in moves)
-            Movements[p] = Movement.None;
-    }
-
-    public void SetMovement(string player, Movement move)
-    {
-        Movements[player] = move;
-    }
-
     public void AddPlayer(string playerPseudo)
     {
         Players.Add(playerPseudo, null);
-        Movements.Add(playerPseudo, Movement.None);
+        onAddedPlayer?.Invoke(playerPseudo);
     }
 
     public void RemovePlayer(string playerPseudo)
     {
-        if (Players.ContainsKey(playerPseudo))
-        {
-            Players.Remove(playerPseudo);
-            Movements.Remove(playerPseudo);
-        }
+        if (!Players.ContainsKey(playerPseudo)) return;
+        
+        Players.Remove(playerPseudo);
+        onRemovedPlayer?.Invoke(playerPseudo);
     }
 
     public bool ContainsPlayer(string playerPseudo)
@@ -152,8 +114,8 @@ public class PlayerManager : ScriptableObject
     public void SetUp()
     {
         //Debug.Log("start players setup...");
+        playersGO = new GameObject("Players");
         PlayersInstantiation();
-        taarniendo += (() => { Debug.Log("event called"); });
         //Debug.Log("...players setup done");
     }
 
@@ -163,7 +125,7 @@ public class PlayerManager : ScriptableObject
         foreach (string playerName in players)
         {
             //Debug.Log("create player  : " + playerName);
-            Player p = Instantiate(playerPrefab);
+            Player p = Instantiate(playerPrefab, playersGO.transform, true);
             p.name = playerName;
             Players[playerName] = p;
         }
