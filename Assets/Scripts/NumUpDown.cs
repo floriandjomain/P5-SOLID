@@ -6,50 +6,69 @@ using TMPro;
 
 public class NumUpDown : MonoBehaviour
 {
-    [SerializeField] private GameSettings _gameSettings;
-    [SerializeField] private TMP_InputField _playerNumberInput;
-    [SerializeField] private int _increment = 1;
-    [SerializeField] private string fieldName = "MaxPlayerNumber";
-    [SerializeField] private int minValue = 0;
-    [SerializeField] private int maxValue = int.MaxValue;
+    public GameSettings GameSettings;
+    public TMP_InputField PlayerNumberInput;
+    public int Increment = 1;
+    public int MinValue = 0;
+    public int MaxValue = int.MaxValue;
+
+    public int SelectedIndex = 0;
+    public string FieldName = "MaxPlayerNumber";
 
     private TMP_Text _placeholderText;
-    private System.Reflection.FieldInfo fieldInfo;
+    private System.Reflection.FieldInfo _fieldInfo;
 
     public void Start()
     {
-        fieldInfo = _gameSettings.GetType().GetField(fieldName);
-        _placeholderText = _playerNumberInput.placeholder.GetComponent<TMP_Text>();
+        _fieldInfo = GameSettings.GetType().GetField(FieldName);
+        _placeholderText = PlayerNumberInput.placeholder.GetComponent<TMP_Text>();
 
         ChangePlaceholderText(GetValueField().ToString());
 
-        _playerNumberInput.onValueChanged.AddListener(OnValueChange);
+        PlayerNumberInput.onDeselect.AddListener(OnValueChange);
+        PlayerNumberInput.characterValidation = TMP_InputField.CharacterValidation.Digit;
     }
 
     private int GetValueField()
     {
-        return (int)fieldInfo.GetValue(_gameSettings);
+        return (int)_fieldInfo.GetValue(GameSettings);
     }
 
     private void SetValueField(object value)
     {
-        fieldInfo.SetValue(_gameSettings, value);
+        _fieldInfo.SetValue(GameSettings, value);
     }
 
     private void OnValueChange(string value)
     {
-        // Verify that it's a number
-        if(!int.TryParse(value, out _))
+        int intValue = int.Parse(value);
+        // Verify the boundaries
+        bool changed = false;
+        if (intValue < MinValue)
         {
-            _playerNumberInput.text = "";
+            intValue = MinValue;
+            changed = true;
+        }
+        else if (intValue > MaxValue)
+        {
+            intValue = MaxValue;
+            changed = true;
+        }
+
+        if (changed)
+        {
+            PlayerNumberInput.text = "";
+            ChangePlaceholderText(intValue.ToString());
+            SetValueField(intValue);
         }
     }
+    
 
     public void IncrementNumber()
     {
         ReplaceInputText();
-        int value = GetValueField() + _increment;
-        if (value <= maxValue)
+        int value = GetValueField() + Increment;
+        if (value <= MaxValue)
         {
             SetValueField(value);
             ChangePlaceholderText(value.ToString());
@@ -58,8 +77,8 @@ public class NumUpDown : MonoBehaviour
     public void DecrementNumber()
     {
         ReplaceInputText();
-        int value = GetValueField() - _increment;
-        if (value >= minValue)
+        int value = GetValueField() - Increment;
+        if (value >= MinValue)
         {
             SetValueField(value);
             ChangePlaceholderText(value.ToString());
@@ -68,15 +87,15 @@ public class NumUpDown : MonoBehaviour
 
     public void UpdateSettings()
     {
-        SetValueField(int.Parse(_playerNumberInput.text));
+        SetValueField(int.Parse(PlayerNumberInput.text));
     }
 
     protected void ReplaceInputText()
     {
-        if (_playerNumberInput.text != "")
+        if (PlayerNumberInput.text != "")
         {
             UpdateSettings();
-            _playerNumberInput.text = "";
+            PlayerNumberInput.text = "";
         }
     }
 
