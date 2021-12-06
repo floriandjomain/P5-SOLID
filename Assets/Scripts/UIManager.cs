@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
 
         _gameGUI.SetActive(false);
 
-        GoToLobbyMenu();
+        GoToSettingsMenu();
     }
 
     public void GoToSettingsMenu()

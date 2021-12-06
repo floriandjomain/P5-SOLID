@@ -166,7 +166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c603a5700f5f8ea438d263545df1625d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  twitchScenes: []
+  twitchScenes:
+  - Twitch
+  - Lobby
+  - Command
 --- !u!1 &1786480055
 GameObject:
   m_ObjectHideFlags: 0
