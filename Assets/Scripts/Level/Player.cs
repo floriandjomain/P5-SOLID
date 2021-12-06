@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     {
         isAlive = false;
         capsule.SetActive(false);
-        Debug.Log("A player died");
+        TwitchClientSender.SendMessage(gameObject.name + " just fell");
     }
         
     public bool IsAlive() => isAlive;

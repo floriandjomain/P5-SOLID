@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using static System.Random;
 using UnityEngine;
+using Random = System.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private GameSettings gameSettings;
     [SerializeField] private GameState gameState;
+    private Queue<string> messageQueue;
+    private Random rnd = new Random();
 
     [SerializeField] private string[] PlayerCheatCode;
     [SerializeField] private bool UseCheat;
@@ -63,8 +65,6 @@ public class GameManager : MonoBehaviour
     {
         Movement move = Movement.None+random%5;
 
-        System.Random rnd = new System.Random();
-
         //Debug.Log("<color=red>!!!PlayersMoveCheat code activated!!!</color>");
         foreach (string playerName in PlayerCheatCode)
             SetMovement(playerName, move+(rnd.Next(5)));
@@ -75,12 +75,29 @@ public class GameManager : MonoBehaviour
     {
         //Debug.Log("start game setup...");
         playerManager.SetUp();
-        arenaManager.SetUp(playerManager.GetPlayers(), gameSettings.TileMaxLifePoints, CheckForFalls);
+        arenaManager.SetUp(playerManager.GetPlayers().Count, gameSettings.TileMaxLifePoints, CheckForFalls);
+        PlacePlayers();
         movementManager.SetUp(playerManager);
         yield return null;
         cameraManager.SetUp(playerManager);
         //_cameraManager.UpdatePosition();
         //Debug.Log("...game setup done");
+    }
+
+    private void PlacePlayers()
+    {
+        Dictionary<string, Player> players = playerManager.GetPlayers();
+        List<string> playerNames = new List<string>(players.Keys);
+
+        List<Vector2Int> walkableTiles = arenaManager.GetWalkableTilesPositions();
+        
+        foreach (string player in playerNames)
+        {
+            Vector2Int tile = walkableTiles[rnd.Next(walkableTiles.Count)];
+            players[player].SetPos(tile);
+            walkableTiles.Remove(tile);
+            //Debug.Log("placing player " + player + " at position " + players[player].GetPos());
+        }
     }
 
     private void CheckForFalls()
@@ -100,11 +117,6 @@ public class GameManager : MonoBehaviour
         
         Dictionary<string, Player> players = playerManager.GetPlayers();
         Dictionary<string, Movement> movements = movementManager.GetMovements();
-
-        foreach (var playerName in movements.Keys)
-        {
-            Debug.Log(playerName + " " + movements[playerName]);
-        }
         
         Arena arena = arenaManager.GetArena();
         
@@ -142,23 +154,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool GameIsOn() => playerManager.GetCurrentAlivePlayerNumber() > 1;
+    public bool GameIsOn() => playerManager.GetCurrentAlivePlayerNumber() > 1;
 
     public IEnumerator StartGame()
     {
         Debug.Log("Début de partie");
         
+        gameState.AlivePlayers = new List<string>(playerManager.GetPlayers().Keys);
+        
         while (GameIsOn())
         {
-            Debug.Log("On vous écoute pendant 10sec");
+            TwitchClientSender.SendMessage("On vous écoute pendant 10sec");
             gameState.SetState(GameState.State.GameListening);
             yield return new WaitForSeconds(gameSettings.CommandInputTime);
-            Debug.Log("Vos gueules vous parlez trop");
+            TwitchClientSender.SendMessage("Vos gueules vous parlez trop");
             gameState.SetState(GameState.State.OnPlay);
             yield return new WaitForSeconds(gameSettings.PlayTime);
             PlayTurn();
+            List<string> liste = new List<string>(playerManager.GetPlayers().Keys);
+            Debug.Log("liste des joueurs " + liste.Count);
+            gameState.AlivePlayers = liste;
+            Debug.Log("liste des joueurs dans gamestate " + gameState.AlivePlayers.Count);
         }
-        
-        Debug.Log("Partie finie");
+
+        TwitchClientSender.SendMessage("Partie Finie");
+
+        foreach (string playerName in gameState.AlivePlayers)
+        {
+            Debug.Log(playerName + "was alive");
+            TwitchClientSender.SendMessage(playerName);
+        }
     }
 }
