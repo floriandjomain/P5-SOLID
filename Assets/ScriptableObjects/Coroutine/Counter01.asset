@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Counter01
   m_EditorClassIdentifier: 
   _counterText: {fileID: 11400000, guid: 886587ab220b2824485e11c48cad9049, type: 2}
-  _counterDelay: 5
+  _counterDelay: 3

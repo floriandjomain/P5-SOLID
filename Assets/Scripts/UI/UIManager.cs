@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    #region === Singleton ===
+    public static UIManager instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+        instance = this;
+    }
+    #endregion
+
     [SerializeField] private GameState _gameState;
     [Space(10)]
     [SerializeField] private GameObject _allMenu;

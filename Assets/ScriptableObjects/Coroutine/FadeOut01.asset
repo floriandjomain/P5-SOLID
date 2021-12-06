@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: FadeOut01
   m_EditorClassIdentifier: 
   _isFadeIn: 0
-  _fadingSpeed: 0.5
+  _fadingSpeed: 0.8
   _fadeImage: {fileID: 11400000, guid: 6ba0d15fdaa58bf46965a78bae2800d3, type: 2}

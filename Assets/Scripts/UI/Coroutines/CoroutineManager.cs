@@ -34,10 +34,12 @@ public class CoroutineManager : MonoBehaviour
     /// Observer for UIManager
     public event Action<string> OnEndUICoroutine;
 
+    bool _hasBeenInvok = false;
+
     //////////////////////////////
     /// Transition to Setting Menu
     //////////////////////////////
-    
+
     public void SwitchToSettingsMenu()
     {
         /// Condition d'activation de la coroutine
@@ -99,11 +101,19 @@ public class CoroutineManager : MonoBehaviour
     {
         foreach (var coroutine in _switchToGameViewCoroutines)
         {
+            /// Active le jeu au moment où le fondu va se faire pour une meilleur impression
+            if (coroutine.name.Contains("FadeOut"))
+            {
+                OnEndUICoroutine.Invoke("GoToGameView");
+                _hasBeenInvok = true;
+            }
+
             yield return StartCoroutine(coroutine.ExecuteCoroutine());
         }
 
         _switchToGameViewCoroutineRef = null;
-        OnEndUICoroutine.Invoke("GoToGameView");
+        if(!_hasBeenInvok) { OnEndUICoroutine.Invoke("GoToGameView"); }
+        else { _hasBeenInvok = false; }
     }
 
     ///////////////////
