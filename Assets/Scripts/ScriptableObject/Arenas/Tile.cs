@@ -10,6 +10,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private int currentLifePoints;
     [SerializeField] private int startTimer;
     [SerializeField] private int currentTimer;
+    [SerializeField] private bool isHollow;
     [SerializeField] private GameObject cube;
     public event Action onDestroy;
     private void Awake()
@@ -31,9 +32,9 @@ public class Tile : MonoBehaviour
         
         if (currentLifePoints == 1)
             cube.GetComponent<Renderer>().material.color = lastLifeTile.color;
-        if (currentLifePoints == startLifePoints / 2)
+        else if (currentLifePoints == startLifePoints / 2)
             cube.GetComponent<Renderer>().material.color = midLifeTile.color;
-        else if (currentLifePoints == 0)
+        else if (currentLifePoints <= 0)
         {
             gameObject.SetActive(false);
             onDestroy?.Invoke();
@@ -52,7 +53,23 @@ public class Tile : MonoBehaviour
         currentTimer = _startTimer;
     }
 
-    public bool IsBroken() => currentLifePoints == 0;
+    public bool IsBroken() => isHollow || currentLifePoints == 0;
+
+    public void SwitchHollow()
+    {
+        isHollow = !isHollow;
+
+        if (isHollow)
+        {
+            gameObject.SetActive(false);
+            cube.GetComponent<Renderer>().material.color = Color.yellow;
+        }
+        else
+        {
+            gameObject.SetActive(true);
+            OnDamage();
+        }
+    }
 
     public void Break()
     {
@@ -64,7 +81,7 @@ public class Tile : MonoBehaviour
     {
         currentTimer--;
 
-        if (currentTimer <= 0)
+        if (currentTimer > 0)
         {
             Damage(1);
             currentTimer = startTimer;

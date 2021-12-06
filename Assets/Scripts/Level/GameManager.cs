@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private GameSettings gameSettings;
     [SerializeField] private GameState gameState;
-    private Queue<string> messageQueue;
     private Random rnd = new Random();
 
     [SerializeField] private string[] PlayerCheatCode;
@@ -46,7 +45,7 @@ public class GameManager : MonoBehaviour
             PlayTurn();
         }
 
-        if (Input.GetKeyDown(KeyCode.E)) arenaManager.ErodeArena();
+        if (Input.GetKeyDown(KeyCode.E)) arenaManager.Turn();
     }
 
     private void PlayersSetCheat()
@@ -107,7 +106,7 @@ public class GameManager : MonoBehaviour
 
     private void PlayTurn()
     {
-        arenaManager.DamageTiles(playerManager.GetPlayers());
+        arenaManager.DamageTiles(playerManager.GetAllAlivePlayersPosition());
         CompileMovements();
         playerManager.Turn(arenaManager.GetTiles());
     }
@@ -154,7 +153,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool GameIsOn() => playerManager.GetCurrentAlivePlayerNumber() > 1;
+    private bool GameIsOn() => playerManager.GetCurrentAlivePlayerNumber() > 1;
 
     public IEnumerator StartGame()
     {
@@ -177,12 +176,13 @@ public class GameManager : MonoBehaviour
             Debug.Log("liste des joueurs dans gamestate " + gameState.AlivePlayers.Count);
         }
 
-        TwitchClientSender.SendMessage("Partie Finie");
-
+        string msg = "Partie Finie";
+        
         foreach (string playerName in gameState.AlivePlayers)
         {
-            Debug.Log(playerName + "was alive");
-            TwitchClientSender.SendMessage(playerName);
+            msg += "\n- " + playerName;
         }
+        
+        TwitchClientSender.SendMessage(msg);
     }
 }

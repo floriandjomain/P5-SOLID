@@ -9,6 +9,11 @@ public class ApocalypseArena : Arena
     {
         base.MapInstantiation(playerNumber, maxTileHealth, action);
 
+        MakeItApocalyptic(playerNumber, maxTileHealth);
+    }
+
+    private void MakeItApocalyptic(int playerNumber, int maxTileHealth)
+    {
         List<Vector2Int> tileMap = new List<Vector2Int>();
 
         for (int i = 0; i < playerNumber; i++)
@@ -50,10 +55,23 @@ public class ApocalypseArena : Arena
             if (IsInArena(right)) connectionCount++;
             if (IsInArena(left)) connectionCount++;
             
-            if(connectionCount<1) continue;
+            if(connectionCount < 2) continue;
             
-            BreakTile(tileToBreak);
+            Tiles[tileToBreak.x, tileToBreak.y].Break();
             tileMap.Remove(tileToBreak);
+            
+            Tiles[top.x  ,top.y  ].Damage(rnd.Next(maxTileHealth-1)+1);
+            Tiles[down.x ,down.y ].Damage(rnd.Next(maxTileHealth-1)+1);
+            Tiles[left.x ,left.y ].Damage(rnd.Next(maxTileHealth-1)+1);
+            Tiles[right.x,right.y].Damage(rnd.Next(maxTileHealth-1)+1);
+        }
+    }
+
+    public override void SetTimers()
+    {
+        foreach (Tile tile in Tiles)
+        {
+            tile.SetStartTimer(rnd.Next(5));
         }
     }
 }

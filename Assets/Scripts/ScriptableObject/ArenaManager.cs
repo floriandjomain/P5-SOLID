@@ -20,9 +20,17 @@ public class ArenaManager : ScriptableObject
 
     public Tile[,] GetTiles() => Arena.GetTiles();
 
-    public void ErodeArena() => Arena.ErodeArena();
+    public void Turn() => Arena.Turn();
 
-    public void DamageTiles(Dictionary<string, Player> players) => Arena.DamageTiles(players, 1);
+    public void DamageTiles(List<Vector2Int> tilesToDamage)
+    {
+        DamageTiles(tilesToDamage, 1);
+    }
+
+    public void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount)
+    {
+        Arena.DamageTiles(tilesToDamage, damageAmount);
+    }
 
     public void BreakTile(Vector2Int tileToBreak) => Arena.BreakTile(tileToBreak);
 

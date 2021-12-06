@@ -12,7 +12,7 @@ public class CircleArena : Arena
         
         for (int i = 0; i < playerNumber; i++)
             for (int j = 0; j < playerNumber; j++)
-                if (Vector2Int.Distance(new Vector2Int(i, j), center) > playerNumber / 2)
+                if (Vector2Int.Distance(new Vector2Int(i, j), center) > (int) (playerNumber / 2))
                     Tiles[i, j].Break();
     }
 }

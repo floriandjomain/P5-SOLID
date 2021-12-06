@@ -147,4 +147,17 @@ public class PlayerManager : ScriptableObject
 
         return alivePlayersCapsulePosition;
     }
+
+    public List<Vector2Int> GetAllAlivePlayersPosition()
+    {
+        List<Vector2Int> positions = new List<Vector2Int>();
+
+        List<string> playerNames = new List<string>(Players.Keys);
+        foreach (string playerName in playerNames)
+        {
+            if(Players[playerName].IsAlive()) positions.Add(Players[playerName].GetPos());
+        }
+
+        return positions;
+    }
 }

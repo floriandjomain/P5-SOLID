@@ -60,7 +60,7 @@ public class Arena : ScriptableObject
 
     public Tile[,] GetTiles() => Tiles;
 
-    public void ErodeArena()
+    public virtual void Turn()
     {
         Debug.Log("début d'érosion");
         foreach (Tile tile in Tiles)
@@ -73,17 +73,11 @@ public class Arena : ScriptableObject
         Debug.Log("fin d'érosion");
     }
 
-    public void DamageTiles(Dictionary<string, Player> players, int damageAmount)
+    public void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount)
     {
-        Vector2Int pos;
-
-        List<string> playerNames = new List<string>(players.Keys);
-        foreach (string p in playerNames)
+        foreach (Vector2Int tile in tilesToDamage)
         {
-            if (!players[p].IsAlive()) continue;
-            
-            pos = players[p].GetPos();
-            Tiles[pos.x,pos.y].Damage(damageAmount);
+            Tiles[tile.x,tile.y].Damage(damageAmount);
         }
     }
 
