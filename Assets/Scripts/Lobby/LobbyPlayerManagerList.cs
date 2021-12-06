@@ -92,11 +92,21 @@ public class LobbyPlayerManagerList : MonoBehaviour
             _cellSize.x = _cellSize.x - cellSizeDecrement;
             countDecreased += 1;
 
-            int nbCols = Mathf.FloorToInt(gridZone.x / _cellSize.x);
-            int nbRows = Mathf.CeilToInt((float)maxPlayer / nbCols);
+            int nbCols;
+            int nbRows = 1;
 
-
-            widthBackground = (nbCols * _cellSize.x) + (spaceBetweenCases * (nbCols + 1));
+            float calcuation = (maxPlayer * _cellSize.x) + (spaceBetweenCases * (maxPlayer + 1));
+            if (calcuation > gridZone.x)
+            {
+                nbCols = Mathf.FloorToInt(gridZone.x / _cellSize.x);
+                nbRows = Mathf.CeilToInt((float)maxPlayer / nbCols);
+                widthBackground = (nbCols * _cellSize.x) + (spaceBetweenCases * (nbCols + 1));
+            }
+            else
+            {
+                widthBackground = calcuation;
+            }
+           
             heightBackground = (nbRows * _cellSize.y) + (spaceBetweenCases * (nbRows + 1));
 
         } while (heightBackground > gridSizeY - (2 * spaceAboveBelowGrid));

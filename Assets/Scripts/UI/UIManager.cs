@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
 
         _gameGUI.SetActive(false);
 
-        //GoToLobbyMenu();
+        GoToSettingsMenu();
 
         /// Observer qui va s'execute à la fin des coroutines de transition
         CoroutineManager.instance.OnEndUICoroutine += SwitchMenu;
@@ -71,7 +71,7 @@ public class UIManager : MonoBehaviour
 
         _gameState.SetState(GameState.State.LobbyListening);
 
-        ScenesManager.Instance.StartTwitchBot();
+        // ScenesManager.Instance.StartTwitchBot();
     }
 
 
