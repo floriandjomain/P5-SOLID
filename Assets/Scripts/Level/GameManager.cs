@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MovementManager movementManager;
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private GameSettings gameSettings;
+    [SerializeField] private GameState gameState;
 
     [SerializeField] private string[] PlayerCheatCode;
     [SerializeField] private bool UseCheat;
@@ -23,8 +24,15 @@ public class GameManager : MonoBehaviour
 	    if (_instance != null && _instance != this) Destroy(gameObject);
 	        _instance = this;
 
-        if(UseCheat) PlayersSetCheat();
-        StartCoroutine(SetUp());
+        if (UseCheat)
+        {
+            PlayersSetCheat();
+            for (int i = 0; i < PlayerCheatCode.Length; i++)
+            {
+                PlayerCheatCode[i] = PlayerCheatCode[i].Replace(" ", "_");
+            }
+        }
+        //StartCoroutine(SetUp());
     }
 
     private void Update()
@@ -44,8 +52,8 @@ public class GameManager : MonoBehaviour
         //Debug.Log("!!!PlayersSetCheat code activated!!!");
         foreach (string playerName in PlayerCheatCode)
         {
-            playerManager.AddPlayer(playerName);
-            SetMovement(playerName, Movement.None);
+            playerManager.AddPlayer(playerName.Replace(" ", "_"));
+            //SetMovement(playerName, Movement.None);
             //Debug.Log(playerName + " will move" + MovementManager.ToString(move));
         }
         //Debug.Log("!!!PlayersSetCheat code used!!!");
@@ -80,7 +88,7 @@ public class GameManager : MonoBehaviour
         playerManager.Falls(arenaManager.GetTiles());
     }
 
-    public void PlayTurn()
+    private void PlayTurn()
     {
         arenaManager.DamageTiles(playerManager.GetPlayers());
         CompileMovements();
@@ -92,13 +100,21 @@ public class GameManager : MonoBehaviour
         
         Dictionary<string, Player> players = playerManager.GetPlayers();
         Dictionary<string, Movement> movements = movementManager.GetMovements();
+
+        foreach (var playerName in movements.Keys)
+        {
+            Debug.Log(playerName + " " + movements[playerName]);
+        }
+        
         Arena arena = arenaManager.GetArena();
         
         List<string> playerNames = new List<string>(players.Keys);
         
         foreach (string p in playerNames)
         {
-            CompileMovement(players[p], movements[p], arena);
+            Player _p = players[p];
+            Movement m = movements[p];
+            CompileMovement(_p, m, arena);
         }
     }
     
@@ -119,6 +135,30 @@ public class GameManager : MonoBehaviour
 
     public void SetMovement(string player, Movement move)
     {
-        movementManager.SetMovement(player, move);
+        if (gameState.GetState() == GameState.State.GameListening)
+        {
+            Debug.Log("[GameManager] " + player + " " + move);
+            movementManager.SetMovement(player, move);
+        }
+    }
+
+    private bool GameIsOn() => playerManager.GetCurrentAlivePlayerNumber() > 1;
+
+    public IEnumerator StartGame()
+    {
+        Debug.Log("Début de partie");
+        
+        while (GameIsOn())
+        {
+            Debug.Log("On vous écoute pendant 10sec");
+            gameState.SetState(GameState.State.GameListening);
+            yield return new WaitForSeconds(gameSettings.CommandInputTime);
+            Debug.Log("Vos gueules vous parlez trop");
+            gameState.SetState(GameState.State.OnPlay);
+            yield return new WaitForSeconds(gameSettings.PlayTime);
+            PlayTurn();
+        }
+        
+        Debug.Log("Partie finie");
     }
 }

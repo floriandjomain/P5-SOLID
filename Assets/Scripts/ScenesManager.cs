@@ -28,8 +28,10 @@ public class ScenesManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    public IEnumerator StartGame()
     {
         SceneManager.LoadScene("Level", LoadSceneMode.Additive);
+        yield return GameManager.Instance.SetUp();
+        yield return GameManager.Instance.StartGame();
     }
 }

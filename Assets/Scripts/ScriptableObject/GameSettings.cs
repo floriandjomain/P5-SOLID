@@ -6,7 +6,8 @@ public class GameSettings : ScriptableObject
     public int MaxPlayerNumber;
     public int TileMaxLifePoints;
 
-    [Tooltip("Temps en ms")] public float CommandInputTime;
+    [Tooltip("Temps en s")] public float CommandInputTime;
+    [Tooltip("Temps en s")] public float PlayTime;
     
     public AudioClip JumpSound;
     public AudioClip BumpSound;

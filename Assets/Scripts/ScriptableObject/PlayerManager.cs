@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Manager/Player")]
@@ -16,6 +17,7 @@ public class PlayerManager : ScriptableObject
 
     public Dictionary<string, Player> GetPlayers() => Players;
     public int GetCurrentPlayerNumber() => Players.Count;
+    public int GetCurrentAlivePlayerNumber() => Players.Keys.Count(player => Players[player].IsAlive());
 
     public void Turn(Tile[,] tiles)
     {
@@ -94,6 +96,8 @@ public class PlayerManager : ScriptableObject
 
     public void AddPlayer(string playerPseudo)
     {
+        if(Players.ContainsKey(playerPseudo)) return;
+        
         Players.Add(playerPseudo, null);
         onAddedPlayer?.Invoke(playerPseudo);
     }

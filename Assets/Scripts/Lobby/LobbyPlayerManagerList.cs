@@ -49,7 +49,7 @@ public class LobbyPlayerManagerList : MonoBehaviour
     {
         currentPlayerCount = playerManager.GetCurrentPlayerNumber();
         if (currentPlayerCount != oldPlayerCount) {
-            Debug.Log("Update display");
+            //Debug.Log("Update display");
             UpdateDisplay();
             oldPlayerCount = currentPlayerCount;
         }

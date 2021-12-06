@@ -21,13 +21,13 @@ public class LobbyManager : MonoBehaviour
 
     public void AddPlayer(string player)
     {
-        Debug.Log("[LobbyManager] Add Player");
+        //Debug.Log("[LobbyManager] Add Player");
         playerManager.AddPlayer(player);
     }
 
     public void RemovePlayer(string player)
     {
-        Debug.Log("[LobbyManager] Remove Player");
+        //Debug.Log("[LobbyManager] Remove Player");
         playerManager.RemovePlayer(player);
     }
 }

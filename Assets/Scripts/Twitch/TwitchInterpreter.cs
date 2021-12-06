@@ -44,7 +44,7 @@ public class TwitchInterpreter : MonoBehaviour
         {
             if (_twitchQueue.QueueCount() > 0)
             {
-                Debug.Log("Dequeue message");
+                //Debug.Log("Dequeue message");
                 Interpret(_twitchQueue.Dequeue());
             }
         }
