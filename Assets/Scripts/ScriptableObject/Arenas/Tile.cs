@@ -19,8 +19,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private Material lastLifeTile;
     [SerializeField] private int startLifePoints;
     [SerializeField] private int currentLifePoints;
-    [SerializeField] private int startTimer;
-    [SerializeField] private int currentTimer;
+    [SerializeField] private int timer;
     [SerializeField] private TileState state;
     [SerializeField] private GameObject cube;
     public event Action onDestroy;
@@ -59,11 +58,7 @@ public class Tile : MonoBehaviour
         currentLifePoints = startLife;
     }
 
-    public void SetStartTimer(int _startTimer)
-    {
-        startTimer   = _startTimer;
-        currentTimer = _startTimer;
-    }
+    public void SetStartTimer(int _startTimer) => timer = _startTimer;
 
     public bool IsBroken() => state==TileState.Hollow || currentLifePoints == 0;
 
@@ -103,13 +98,7 @@ public class Tile : MonoBehaviour
 
     public void TimerShot()
     {
-        currentTimer--;
-
-        if (currentTimer > 0)
-        {
-            Damage(1);
-            currentTimer = startTimer;
-        }
+        if (--timer <= 0) Damage(1);
     }
 
     public void AddActionToDeath(Action action)
