@@ -3,12 +3,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ScriptableObject/GameSettings")]
 public class GameSettings : ScriptableObject
 {
+    public string StreamerControlType;
+    
     public int MaxPlayerNumber;
     public int TileMaxLifePoints;
 
     [Tooltip("Temps en s")] public float CommandInputTime;
     [Tooltip("Temps en s")] public float PlayTime;
-    
+
     public AudioClip JumpSound;
     public AudioClip BumpSound;
     public AudioClip FallSound;
