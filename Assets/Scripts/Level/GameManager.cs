@@ -36,18 +36,6 @@ public class GameManager : MonoBehaviour
         //StartCoroutine(SetUp());
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && UseCheat)
-        {
-            float time = Time.deltaTime*100000;
-            PlayersGetMoveCheat((int)time);
-            PlayTurn();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E)) arenaManager.Turn();
-    }
-
     private void PlayersSetCheat()
     {
         //Debug.Log("!!!PlayersSetCheat code activated!!!");
@@ -106,6 +94,7 @@ public class GameManager : MonoBehaviour
 
     private void PlayTurn()
     {
+        arenaManager.Turn();
         arenaManager.DamageTiles(playerManager.GetAllAlivePlayersPosition());
         CompileMovements();
         playerManager.Turn(arenaManager.GetTiles());
@@ -148,7 +137,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameState.GetState() == GameState.State.GameListening)
         {
-            Debug.Log("[GameManager] " + player + " " + move);
+            Debug.Log($"[GameManager] {player} + {move}");
             movementManager.SetMovement(player, move);
         }
     }
@@ -163,26 +152,43 @@ public class GameManager : MonoBehaviour
         
         while (GameIsOn())
         {
-            TwitchClientSender.SendMessage("On vous écoute pendant 10sec");
+            TwitchClientSender.SendMessage($"On vous écoute pendant {gameSettings.CommandInputTime}sec");
             gameState.SetState(GameState.State.GameListening);
             yield return new WaitForSeconds(gameSettings.CommandInputTime);
+            
             TwitchClientSender.SendMessage("Vos gueules vous parlez trop");
             gameState.SetState(GameState.State.OnPlay);
             yield return new WaitForSeconds(gameSettings.PlayTime);
+            
             PlayTurn();
+            
             List<string> liste = new List<string>(playerManager.GetPlayers().Keys);
-            Debug.Log("liste des joueurs " + liste.Count);
+            Debug.Log($"liste des joueurs {liste.Count}");
             gameState.AlivePlayers = liste;
-            Debug.Log("liste des joueurs dans gamestate " + gameState.AlivePlayers.Count);
+            Debug.Log($"liste des joueurs dans gamestate {gameState.AlivePlayers.Count}");
         }
 
         string msg = "Partie Finie";
         
         foreach (string playerName in gameState.AlivePlayers)
         {
-            msg += "\n- " + playerName;
+            msg += $"\n- {playerName}";
         }
         
         TwitchClientSender.SendMessage(msg);
+    }
+
+    public void ForceTurn()
+    {
+        if (!UseCheat) return;
+
+        float time = Time.deltaTime*100000;
+        PlayersGetMoveCheat((int)time);
+        PlayTurn();
+    }
+
+    public void ArenaTurn()
+    {
+        arenaManager.Turn();
     }
 }
