@@ -3,6 +3,17 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
+    #region TileState
+
+    public enum TileState
+    {
+        Vanilla,
+        Hollow,
+        Holy
+    }
+
+    #endregion
+    
     [SerializeField] private Material healthyTile;
     [SerializeField] private Material midLifeTile;
     [SerializeField] private Material lastLifeTile;
@@ -10,13 +21,14 @@ public class Tile : MonoBehaviour
     [SerializeField] private int currentLifePoints;
     [SerializeField] private int startTimer;
     [SerializeField] private int currentTimer;
-    [SerializeField] private bool isHollow;
+    [SerializeField] private TileState state;
     [SerializeField] private GameObject cube;
     public event Action onDestroy;
     private void Awake()
     {
         cube.GetComponent<Renderer>().material.color = healthyTile.color;
         cube.transform.localScale = new Vector3(2f, 0.5f, 2f);
+        state = TileState.Vanilla;
     }
 
     public void Damage(int damageAmount)
@@ -53,23 +65,35 @@ public class Tile : MonoBehaviour
         currentTimer = _startTimer;
     }
 
-    public bool IsBroken() => isHollow || currentLifePoints == 0;
+    public bool IsBroken() => state==TileState.Hollow || currentLifePoints == 0;
 
-    public void SwitchHollow()
+    public void SwitchState(TileState _state)
     {
-        isHollow = !isHollow;
+        state = _state;
 
-        if (isHollow)
+        switch (state)
         {
-            gameObject.SetActive(false);
-            cube.GetComponent<Renderer>().material.color = Color.yellow;
-        }
-        else
-        {
-            gameObject.SetActive(true);
-            OnDamage();
+            case TileState.Vanilla:
+            {
+                gameObject.SetActive(true);
+                OnDamage();
+                break;
+            }
+            case TileState.Holy:
+            {
+                gameObject.SetActive(true);
+                cube.GetComponent<Renderer>().material.color = Color.white;
+                break;
+            }
+            default:
+            {
+                gameObject.SetActive(false);
+                break;
+            }
         }
     }
+
+    public TileState GetState() => state;
 
     public void Break()
     {

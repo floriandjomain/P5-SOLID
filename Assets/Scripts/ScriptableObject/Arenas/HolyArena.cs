@@ -1,15 +1,32 @@
+using System;
+using UnityEditor.Experimental.TerrainAPI;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Arena/Holy")]
 public class HolyArena : Arena
 {
+    private int holyZoneSize;
     private int holyTimer = 4;
+
+    public override void MapInstantiation(int playerNumber, int maxTileHealth, Action action)
+    {
+        base.MapInstantiation(playerNumber, maxTileHealth, action);
+
+        holyZoneSize = playerNumber;
+    }
+    
     public override void Turn()
     {
-        if (holyTimer == 4)
-            ComputeHoly();
-        else if (holyTimer == 0)
-            SetHollows();
+        switch (holyTimer)
+        {
+            case 4:
+                holyZoneSize--;
+                ComputeHoly();
+                break;
+            case 0:
+                SetHollows();
+                break;
+        }
 
         holyTimer = (holyTimer - 1) % 5;
 
@@ -23,11 +40,11 @@ public class HolyArena : Arena
 
     private void ComputeHoly()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("compute holy");
     }
 
     private void SetHollows()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("set hollows");
     }
 }
