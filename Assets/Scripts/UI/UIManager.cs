@@ -28,6 +28,8 @@ public class UIManager : MonoBehaviour
     [Space(10)]
     [SerializeField] private GameObject _gameGUI;
 
+    [Space(15)]
+    [SerializeField] private AudioAsset _sfxButton;
 
     private void Start()
     {

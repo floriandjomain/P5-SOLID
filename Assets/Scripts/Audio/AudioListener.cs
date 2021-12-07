@@ -11,7 +11,6 @@ public class AudioListener : MonoBehaviour
     {
         audioSource.clip = clip;
         audioSource.Play();
-        // create audio source
-        // parameter it
+        
     }
 }
