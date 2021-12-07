@@ -169,6 +169,7 @@ MonoBehaviour:
   _twitchQueue: {fileID: 11400000, guid: 51ef11260bb0a3e43825a8e51c882196, type: 2}
   _gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
   _commands: {fileID: 2102962617}
+  commandPerfix: 33
 --- !u!1 &1373857862
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: join
+  commands:
+  - join
   commandType: 0
   onCommandFound:
     m_PersistentCalls:
@@ -295,7 +297,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: left
+  commands:
+  - left
   commandType: 1
   onCommandFound:
     m_PersistentCalls:
@@ -324,7 +327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: down
+  commands:
+  - down
   commandType: 1
   onCommandFound:
     m_PersistentCalls:
@@ -353,7 +357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: right
+  commands:
+  - right
   commandType: 1
   onCommandFound:
     m_PersistentCalls:
@@ -382,7 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: up
+  commands:
+  - up
   commandType: 1
   onCommandFound:
     m_PersistentCalls:
@@ -411,7 +417,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: leave
+  commands:
+  - leave
   commandType: 0
   onCommandFound:
     m_PersistentCalls:

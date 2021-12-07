@@ -255,6 +255,7 @@ MonoBehaviour:
   cameraManager: {fileID: 11400000, guid: 05262b9a1cd4ca143ac8cd4338b0f47f, type: 2}
   gameSettings: {fileID: 11400000, guid: 21aea94cb883fbf41b72961edfaebfc3, type: 2}
   gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
+  _textCoroutine: {fileID: 11400000, guid: b440fa8e261fa8a4397e9988bab19531, type: 2}
   PlayerCheatCode:
   - Romain
   - Marco Polo

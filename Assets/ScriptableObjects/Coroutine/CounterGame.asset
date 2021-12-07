@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e331b6af90350a04eb56802c56e9033e, type: 3}
-  m_Name: FadeOutFast
+  m_Script: {fileID: 11500000, guid: bcdd7512613e0514b90c6f01eb0fa1aa, type: 3}
+  m_Name: CounterGame
   m_EditorClassIdentifier: 
-  _isFadeIn: 0
-  _fadingSpeed: 5
-  _fadeImage: {fileID: 11400000, guid: 6ba0d15fdaa58bf46965a78bae2800d3, type: 2}
+  _counterText: {fileID: 11400000, guid: e4721d600342ee54580fc84abdcd2050, type: 2}
+  _counterDelay: 10
+  _usePrecision: 1

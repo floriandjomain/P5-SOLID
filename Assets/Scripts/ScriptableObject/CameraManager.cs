@@ -25,7 +25,7 @@ public class CameraManager : ScriptableObject
         if (alivePlayersCount <= 2) return;
         
         foreach (Vector3 position in alivePlayersCapsulePosition)
-            newPos+=position;
+            newPos += position;
             
         newPos = newPos / alivePlayersCount + (Vector3.up * 2.5f) * alivePlayersCount;
         //Debug.Log("camPos=" + _camera.transform.position + ", newPos=" + newPos);

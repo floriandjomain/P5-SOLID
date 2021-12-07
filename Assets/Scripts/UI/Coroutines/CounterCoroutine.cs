@@ -7,7 +7,8 @@ using TMPro;
 public class CounterCoroutine : GameCoroutine
 {
     [SerializeField] private TextVariable _counterText;
-    [SerializeField] private float _counterDelay; 
+    [SerializeField] private float _counterDelay;
+    [SerializeField] private bool _usePrecision;
     public override IEnumerator ExecuteCoroutine()
     {
         //TMP_Text counterText = parameters[1] as TMP_Text;
@@ -21,7 +22,7 @@ public class CounterCoroutine : GameCoroutine
         {
             counter -= Time.deltaTime;
             floatToDisplay = counter + 0.5f; /// Amelioration d'affichage
-            _counterText.Value.text = floatToDisplay.ToString("N0"); /// "N0"permet d'arrondir les float à l'unité près (int)
+            _counterText.Value.text = floatToDisplay.ToString((_usePrecision ? "N1" : "N0")); /// "N0"permet d'arrondir les float à l'unité près (int)
 
             yield return null;
         }

@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private GameSettings gameSettings;
     [SerializeField] private GameState gameState;
+
+    [SerializeField] private CounterCoroutine _textCoroutine;
     private Random rnd = new Random();
 
     [SerializeField] private string[] PlayerCheatCode;
@@ -72,7 +74,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator SetUp()
     {
-        //Debug.Log("start game setup...");
+        Debug.Log("start game setup...");
         playerManager.SetUp();
         arenaManager.SetUp(playerManager.GetPlayers().Count, gameSettings.TileMaxLifePoints, CheckForFalls);
         PlacePlayers();
@@ -80,7 +82,7 @@ public class GameManager : MonoBehaviour
         yield return null;
         cameraManager.SetUp(playerManager);
         //_cameraManager.UpdatePosition();
-        //Debug.Log("...game setup done");
+        Debug.Log("...game setup done");
     }
 
     private void PlacePlayers()
@@ -163,6 +165,7 @@ public class GameManager : MonoBehaviour
         
         while (GameIsOn())
         {
+            StartCoroutine(_textCoroutine.ExecuteCoroutine());
             TwitchClientSender.SendMessage("On vous écoute pendant 10sec");
             gameState.SetState(GameState.State.GameListening);
             yield return new WaitForSeconds(gameSettings.CommandInputTime);

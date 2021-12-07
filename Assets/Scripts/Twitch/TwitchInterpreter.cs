@@ -9,6 +9,8 @@ public class TwitchInterpreter : MonoBehaviour
 
     [SerializeField] private GameObject _commands;
 
+    [SerializeField] private char commandPerfix;
+
     private List<TwitchCommand> _lobbyTwitchCommands;
     private List<TwitchCommand> _gameTwitchCommands;
 
@@ -65,12 +67,17 @@ public class TwitchInterpreter : MonoBehaviour
 
     private void SearchList(TwitchChatMessage twitchChatMessage, List<TwitchCommand> twitchCommands)
     {
-        foreach (TwitchCommand twitchCommand in twitchCommands)
+        if (twitchChatMessage.Message.StartsWith(commandPerfix.ToString()))
         {
-            if (twitchChatMessage.Message.StartsWith("!" + twitchCommand.command))
+            string command = twitchChatMessage.Message.TrimStart(commandPerfix);
+
+            foreach (TwitchCommand twitchCommand in twitchCommands)
             {
-                twitchCommand.onCommandFound.Invoke(twitchChatMessage.Sender);
-                break;
+                if (twitchCommand.Contains(command))
+                {
+                    twitchCommand.onCommandFound.Invoke(twitchChatMessage.Sender);
+                    break;
+                }
             }
         }
     }

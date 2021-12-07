@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ca40726f4539840b65b920a49b69eb, type: 3}
   m_Name: ArenaManager
   m_EditorClassIdentifier: 
-  Arena: {fileID: 11400000, guid: d3aca75fadb04a4499039d5f429e2989, type: 2}
+  Arena: {fileID: 11400000, guid: 47326e52c07961c429ecb625583b5fe3, type: 2}
