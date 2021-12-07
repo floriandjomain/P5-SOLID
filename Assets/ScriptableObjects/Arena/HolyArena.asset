@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe4724f6eae211d459c66186c7715f2e, type: 3}
   m_Name: HolyArena
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 0}
+  tilePrefab: {fileID: 3082964860437853806, guid: af05633d2cd6a1f4eaf32e0728e2f048, type: 3}

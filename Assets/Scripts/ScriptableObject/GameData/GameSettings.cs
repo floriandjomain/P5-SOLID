@@ -3,6 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ScriptableObject/GameSettings")]
 public class GameSettings : ScriptableObject
 {
+    public string StreamerControlType;
+    
     public int MaxPlayerNumber;
     public int TileMaxLifePoints;
 

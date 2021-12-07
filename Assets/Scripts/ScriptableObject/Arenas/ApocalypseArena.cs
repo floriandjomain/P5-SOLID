@@ -14,29 +14,22 @@ public class ApocalypseArena : Arena
 
     private void MakeItApocalyptic(int playerNumber, int maxTileHealth)
     {
-        List<Vector2Int> tileMap = new List<Vector2Int>();
+        BreakPerimeter(playerNumber);
+        ApplyApocalypse(ComputeTileMap(), playerNumber, maxTileHealth);
+    }
 
+    private void BreakPerimeter(int playerNumber)
+    {
         for (int i = 0; i < playerNumber; i++)
         {
             BreakTile(i % 2 == 0
                 ? new Vector2Int(rnd.Next(playerNumber), rnd.Next(2) * (playerNumber-1))
                 : new Vector2Int(rnd.Next(2) * (playerNumber-1), rnd.Next(playerNumber)));
         }
-        
-        for (int i=0; i<Tiles.GetLength(0); i++)
-        {
-            for (int j = 0; j < Tiles.GetLength(1); j++)
-            {
-                if (!IsInArena(new Vector2Int(i,j))) continue;
-                if (!IsInArena(new Vector2Int(i,j+1))) continue;
-                if (!IsInArena(new Vector2Int(i,j-1))) continue;
-                if (!IsInArena(new Vector2Int(i+1,j))) continue;
-                if (!IsInArena(new Vector2Int(i-1,j))) continue;
-                
-                tileMap.Add(new Vector2Int(i,j));
-            }
-        }
+    }
 
+    private void ApplyApocalypse(List<Vector2Int> tileMap, int playerNumber, int maxTileHealth)
+    {
         while (tileMap.Count>playerNumber*playerNumber/2)
         {
             Vector2Int tileToBreak = tileMap[rnd.Next(tileMap.Count)];
@@ -65,6 +58,27 @@ public class ApocalypseArena : Arena
             Tiles[left.x ,left.y ].Damage(rnd.Next(maxTileHealth-1)+1);
             Tiles[right.x,right.y].Damage(rnd.Next(maxTileHealth-1)+1);
         }
+    }
+
+    private List<Vector2Int> ComputeTileMap()
+    {
+        List<Vector2Int> tileMap = new List<Vector2Int>();
+        
+        for (int i=0; i<Tiles.GetLength(0); i++)
+        {
+            for (int j = 0; j < Tiles.GetLength(1); j++)
+            {
+                if (!IsInArena(new Vector2Int(i,j))) continue;
+                if (!IsInArena(new Vector2Int(i,j+1))) continue;
+                if (!IsInArena(new Vector2Int(i,j-1))) continue;
+                if (!IsInArena(new Vector2Int(i+1,j))) continue;
+                if (!IsInArena(new Vector2Int(i-1,j))) continue;
+                
+                tileMap.Add(new Vector2Int(i,j));
+            }
+        }
+
+        return tileMap;
     }
 
     public override void SetTimers()

@@ -82,7 +82,7 @@ public class UIManager : MonoBehaviour
         _lobbyMenu.SetActive(false);
 
         _gameGUI.SetActive(true);
-
+    
         StartCoroutine(ScenesManager.Instance.StartGame());
     }
 
