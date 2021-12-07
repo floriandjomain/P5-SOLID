@@ -68,7 +68,7 @@ public class Arena : ScriptableObject
             if (tile.IsBroken() || rnd.Next(3) != 0) continue;
             
             tile.TimerShot();
-            Debug.Log("erosion");
+            //Debug.Log("erosion");
         }
         Debug.Log("fin d'érosion");
     }
