@@ -34,7 +34,7 @@ public class TwitchInterpreter : MonoBehaviour
         }
         else
         {
-            Debug.Log("[TwtichInterpreter] There is no commands");
+            Debug.Log("[TwitchInterpreter] There is no commands");
         }
     }
 
