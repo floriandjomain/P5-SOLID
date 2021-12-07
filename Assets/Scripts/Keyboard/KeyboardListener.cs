@@ -6,9 +6,10 @@ public class KeyboardListener : MonoBehaviour
 {
     [SerializeField] private GameState _gameState;
     [SerializeField] private GameSettings _gameSettings;
-    [SerializeField] private GameManager _gameManager;
+    // [SerializeField] private GameManager _gameManager;
     [SerializeField] private GameObject _commands;
     [SerializeField] private KeyboardData[] _keyboardDataList;
+    [SerializeField] private StringVariable _channelName;
     private KeyboardData _keyboardData;
 
     private List<KeyboardCommand> _lobbyKeyboardCommands;
@@ -25,7 +26,7 @@ public class KeyboardListener : MonoBehaviour
 
         if (!_keyboardData) _keyboardData = _keyboardDataList[0];
         
-        //keyboardData.PlayerPseudo = channelName.Value;
+        _keyboardData.PlayerPseudo = _channelName.Value;
             
         if (_commands != null)
         {
@@ -65,9 +66,9 @@ public class KeyboardListener : MonoBehaviour
                 break;
             }
             
-            if (Input.GetKeyDown(KeyCode.Space)) _gameManager.ForceTurn();
+            if (Input.GetKeyDown(KeyCode.Space)) GameManager.Instance.ForceTurn();
 
-            if (Input.GetKeyDown(KeyCode.T)) _gameManager.ArenaTurn();
+            if (Input.GetKeyDown(KeyCode.T)) GameManager.Instance.ArenaTurn();
         }
         else if(_gameState.GetState() == GameState.State.LobbyListening)
         {

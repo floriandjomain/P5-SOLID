@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
 
         _gameGUI.SetActive(false);
 
-        GoToGameView();
+        // GoToGameView();
 
         /// Observer qui va s'execute à la fin des coroutines de transition
         CoroutineManager.instance.OnEndUICoroutine += SwitchMenu;
