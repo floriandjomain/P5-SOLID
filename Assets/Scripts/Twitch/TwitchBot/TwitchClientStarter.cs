@@ -11,16 +11,15 @@ public class TwitchClientStarter : MonoBehaviour
     [SerializeField] private GameState gameState;
     [SerializeField] private TwitchChatMessageQueue twitchChatMessageQueue;
     [Space(10)]
-    [SerializeField] private string channelName;
+    [SerializeField] private StringVariable channelName;
+
 
     private async void Start()
     {
         TcpClient tcpClient = new TcpClient();
         await tcpClient.ConnectAsync(ip, port);
 
-        channelName = channelName.ToLower();
-
-        await TwitchClientSender.Initialize(tcpClient, channelName, twitchBotData.Username, twitchBotData.Password);
+        await TwitchClientSender.Initialize(tcpClient, channelName.Value.ToLower(), twitchBotData.Username, twitchBotData.Password);
 
         await TwitchClientSender.SendConnectionMessage(); // connect you
 

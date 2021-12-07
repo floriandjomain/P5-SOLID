@@ -62,6 +62,22 @@ public class NumUpDown : MonoBehaviour
             SetValueField(intValue);
         }
     }
+
+    public int GetInputValue()
+    {
+        string returnValue;
+        if(PlayerNumberInput.text == "")
+        {
+            // Return the placeholder
+            returnValue = _placeholderText.text;
+        }
+        else
+        {
+            // Return the input text
+            returnValue = PlayerNumberInput.text;
+        }
+        return int.Parse(returnValue);
+    }
     
 
     public void IncrementNumber()

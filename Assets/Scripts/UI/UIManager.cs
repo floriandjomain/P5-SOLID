@@ -4,19 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    #region === Singleton ===
-    public static UIManager instance;
-
-    private void Awake()
-    {
-        if (instance != null)
-        {
-            Destroy(this);
-            return;
-        }
-        instance = this;
-    }
-    #endregion
+    public static UIManager Instance;
 
     [SerializeField] private GameState _gameState;
     [Space(10)]
@@ -27,7 +15,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _lobbyMenu;
     [Space(10)]
     [SerializeField] private GameObject _gameGUI;
+    // [SerializeField] private 
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
 
+    }
 
     private void Start()
     {
@@ -40,8 +38,6 @@ public class UIManager : MonoBehaviour
         _lobbyMenu.SetActive(false);
 
         _gameGUI.SetActive(false);
-
-        GoToSettingsMenu();
 
         /// Observer qui va s'execute à la fin des coroutines de transition
         CoroutineManager.instance.OnEndUICoroutine += SwitchMenu;
@@ -71,7 +67,7 @@ public class UIManager : MonoBehaviour
 
         _gameState.SetState(GameState.State.LobbyListening);
 
-        // ScenesManager.Instance.StartTwitchBot();
+        ScenesManager.Instance.StartTwitchBot();
     }
 
 
