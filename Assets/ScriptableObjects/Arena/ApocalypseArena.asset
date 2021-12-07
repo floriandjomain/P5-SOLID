@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40ca40726f4539840b65b920a49b69eb, type: 3}
-  m_Name: ArenaManager
+  m_Script: {fileID: 11500000, guid: 1c4b275403e59ea44895d48ae29d8baa, type: 3}
+  m_Name: ApocalypseArena
   m_EditorClassIdentifier: 
-  Arena: {fileID: 11400000, guid: 22764102e9126a949b2e1e3533cfa845, type: 2}
+  tilePrefab: {fileID: 3082964860437853806, guid: af05633d2cd6a1f4eaf32e0728e2f048, type: 3}

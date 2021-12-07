@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Manager/Player")]
@@ -16,6 +17,7 @@ public class PlayerManager : ScriptableObject
 
     public Dictionary<string, Player> GetPlayers() => Players;
     public int GetCurrentPlayerNumber() => Players.Count;
+    public int GetCurrentAlivePlayerNumber() => Players.Keys.Count(player => Players[player].IsAlive());
 
     public void Turn(Tile[,] tiles)
     {
@@ -94,6 +96,8 @@ public class PlayerManager : ScriptableObject
 
     public void AddPlayer(string playerPseudo)
     {
+        if(Players.ContainsKey(playerPseudo)) return;
+        
         Players.Add(playerPseudo, null);
         onAddedPlayer?.Invoke(playerPseudo);
     }
@@ -142,5 +146,18 @@ public class PlayerManager : ScriptableObject
         }
 
         return alivePlayersCapsulePosition;
+    }
+
+    public List<Vector2Int> GetAllAlivePlayersPosition()
+    {
+        List<Vector2Int> positions = new List<Vector2Int>();
+
+        List<string> playerNames = new List<string>(Players.Keys);
+        foreach (string playerName in playerNames)
+        {
+            if(Players[playerName].IsAlive()) positions.Add(Players[playerName].GetPos());
+        }
+
+        return positions;
     }
 }

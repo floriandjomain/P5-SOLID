@@ -254,12 +254,18 @@ MonoBehaviour:
   movementManager: {fileID: 11400000, guid: 8fd1d6b379e3fff4b854b14fa7401cb3, type: 2}
   cameraManager: {fileID: 11400000, guid: 05262b9a1cd4ca143ac8cd4338b0f47f, type: 2}
   gameSettings: {fileID: 11400000, guid: 21aea94cb883fbf41b72961edfaebfc3, type: 2}
+  gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
   PlayerCheatCode:
   - Romain
   - Marco Polo
   - Magalie
   - Catra
-  - Du pain !!!
+  - Du_pain_!!!
+  - Du pain !!!2
+  - Du pain !!!3
+  - Du pain !!!4
+  - Du pain !!!5
+  - Du pain !!!6
   UseCheat: 1
 --- !u!1 &1969033719
 GameObject:

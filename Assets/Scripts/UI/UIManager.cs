@@ -81,7 +81,7 @@ public class UIManager : MonoBehaviour
 
         _gameGUI.SetActive(true);
 
-        ScenesManager.Instance.StartGame();
+        StartCoroutine(ScenesManager.Instance.StartGame());
     }
 
     public void EnableMenu()

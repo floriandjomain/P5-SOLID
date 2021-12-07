@@ -1,10 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Game state")]
 public class GameState : ScriptableObject
 {
+    #region Enum
     public enum State
     {
         LobbyListening,
@@ -23,5 +23,14 @@ public class GameState : ScriptableObject
     public void SetState(State state)
     {
         _state = state;
+    }
+
+    #endregion
+
+    public List<string> AlivePlayers;
+
+    public void SaveGame()
+    {
+        
     }
 }

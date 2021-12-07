@@ -8,28 +8,31 @@ public class ArenaManager : ScriptableObject
     [SerializeField] private Arena Arena;
     public Action<Tile[,]> onBrokenTile;
 
-    public void SetUp(Dictionary<string, Player> players, int maxTileHealth, Action action)
+    public void SetUp(int playerCount, int maxTileHealth, Action action)
     {
         //Debug.Log("start map setup...");
-        Arena.MapInstantiation(players.Count, maxTileHealth, action);
-        PlacePlayers(players);
+        Arena.MapInstantiation(playerCount, maxTileHealth, action);
+        Arena.SetTimers();
         //Debug.Log("...map setup done");
     }
 
-    private void PlacePlayers(Dictionary<string, Player> players) => Arena.PlacePlayers(players);
+    public List<Vector2Int> GetWalkableTilesPositions() => Arena.GetWalkableTilesPositions();
 
     public Tile[,] GetTiles() => Arena.GetTiles();
 
-    public void ErodeArena() => Arena.ErodeArena();
+    public void Turn() => Arena.Turn();
 
-    public void DamageTiles(Dictionary<string, Player> players) => Arena.DamageTiles(players, 1);
+    public void DamageTiles(List<Vector2Int> tilesToDamage)
+    {
+        DamageTiles(tilesToDamage, 1);
+    }
+
+    public void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount)
+    {
+        Arena.DamageTiles(tilesToDamage, damageAmount);
+    }
 
     public void BreakTile(Vector2Int tileToBreak) => Arena.BreakTile(tileToBreak);
-
-    public void OnBrokenTile()
-    {
-        
-    }
 
     public Arena GetArena() => Arena;
 }

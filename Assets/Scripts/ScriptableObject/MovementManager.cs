@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +10,13 @@ public class MovementManager : ScriptableObject
 
     public void SetUp(PlayerManager playerManager)
     {
+        foreach (string playerName in playerManager.GetPlayers().Keys)
+        {
+            Movements.Add(playerName, Movement.None);
+        }
+        
         playerManager.taarniendo += ResetMovements;
-        playerManager.onAddedPlayer += AddPlayer;
-        playerManager.onRemovedPlayer += RemovePlayer;
+        ResetMovements();
     }
     
     private void ResetMovements()
@@ -26,18 +31,5 @@ public class MovementManager : ScriptableObject
     public void SetMovement(string player, Movement move)
     {
         Movements[player] = move;
-    }
-
-    public void AddPlayer(string playerPseudo)
-    {
-        Movements.Add(playerPseudo, Movement.None);
-    }
-
-    public void RemovePlayer(string playerPseudo)
-    {
-        if (Movements.ContainsKey(playerPseudo))
-        {
-            Movements.Remove(playerPseudo);
-        }
     }
 }
