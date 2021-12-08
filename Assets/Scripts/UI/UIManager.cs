@@ -15,7 +15,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _lobbyMenu;
     [Space(10)]
     [SerializeField] private GameObject _gameGUI;
-    // [SerializeField] private 
+    [SerializeField] private LobbyPlayerManagerList _lobbyPlayerManagerList;
+
     private void Awake()
     {
         if (Instance != null)
@@ -24,22 +25,15 @@ public class UIManager : MonoBehaviour
             return;
         }
         Instance = this;
-
     }
 
     private void Start()
     {
         _gameState.SetState(GameState.State.NotListening);
 
-        _allMenu.SetActive(true);
+        GoToMainMenu();
 
-        _mainMenu.SetActive(true);
-        _settingsMenu.SetActive(false);
-        _lobbyMenu.SetActive(false);
-
-        _gameGUI.SetActive(false);
-
-        // GoToGameView();
+        GoToSettingsMenu();
 
         /// Observer qui va s'execute à la fin des coroutines de transition
         CoroutineManager.instance.OnEndUICoroutine += SwitchMenu;
@@ -52,9 +46,21 @@ public class UIManager : MonoBehaviour
         else if (wichMenu == "GoToGameView") { GoToGameView(); }
     }
 
+    public void GoToMainMenu()
+    {
+        EnableMenu();
+
+        _mainMenu.SetActive(true);
+        _settingsMenu.SetActive(false);
+        _lobbyMenu.SetActive(false);
+
+        _gameGUI.SetActive(false);
+    }
+
     public void GoToSettingsMenu()
     {
         EnableMenu();
+
         _mainMenu.SetActive(false);
         _settingsMenu.SetActive(true);
         _lobbyMenu.SetActive(false);
@@ -63,13 +69,21 @@ public class UIManager : MonoBehaviour
     public void GoToLobbyMenu()
     {
         EnableMenu();
+
         _mainMenu.SetActive(false);
         _settingsMenu.SetActive(false);
         _lobbyMenu.SetActive(true);
 
         _gameState.SetState(GameState.State.LobbyListening);
 
-        ScenesManager.Instance.StartTwitchBot();
+        _lobbyPlayerManagerList.CreateLobby();
+
+        // ScenesManager.Instance.StartTwitchBot();
+    }
+
+    public void DisableTwitchBot()
+    {
+        // ScenesManager.Instance.StopTwitchBot();
     }
 
 

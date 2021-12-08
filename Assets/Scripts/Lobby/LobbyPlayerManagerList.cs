@@ -15,33 +15,28 @@ public class LobbyPlayerManagerList : MonoBehaviour
     [SerializeField] private TMP_Text playerNumberText;
     [Space(10)]
     [SerializeField] private float spaceBetweenCases = 10;
-    [SerializeField] private float spaceAboveBelowGrid = 50;
     [SerializeField] private int cellSizeDecrement = 50;
     [SerializeField] private float fontSizeDecrement = 2.5f;
     [SerializeField] private Vector2 cellSize = new Vector2(500, 100);
-    [SerializeField] private Vector2 gridZone = new Vector2(1920, 850);
 
     private int currentPlayerCount = 0;
     private int oldPlayerCount = 0;
 
-    private float gridSizeY = 0;
+    private Vector2 gridSize = Vector2.zero;
 
     private List<GameObject> playersText;
     private GridLayoutGroup gridLayoutGroup;
 
-    private void Start()
+    public void CreateLobby()
     {
-        UpdateText(currentPlayerCount, gameSettings.MaxPlayerNumber);
         playersText = new List<GameObject>();
-
         gridLayoutGroup = gridLayout.GetComponent<GridLayoutGroup>();
         gridLayoutGroup.cellSize = cellSize;
-        
-        gridSizeY = gridLayout.GetComponent<RectTransform>().sizeDelta.y;
+        gridSize = gridLayout.GetComponent<RectTransform>().sizeDelta;
 
+        UpdateText(currentPlayerCount, gameSettings.MaxPlayerNumber);   
         DisplayList(gameSettings.MaxPlayerNumber);
-
-        ClearNames();
+        SetAllNames();
     }
 
     // Update is called once per frame
@@ -49,8 +44,8 @@ public class LobbyPlayerManagerList : MonoBehaviour
     {
         currentPlayerCount = playerManager.GetCurrentPlayerNumber();
         if (currentPlayerCount != oldPlayerCount) {
-            //Debug.Log("Update display");
             UpdateDisplay();
+            UpdateText(currentPlayerCount, gameSettings.MaxPlayerNumber);
             oldPlayerCount = currentPlayerCount;
         }
     }
@@ -62,7 +57,7 @@ public class LobbyPlayerManagerList : MonoBehaviour
 
     private void UpdateDisplay()
     {
-        ClearNames();
+        SetAllNames();
 
         int cpt = 0;
         foreach(KeyValuePair<string, Player> player in playerManager.GetPlayers())
@@ -72,7 +67,27 @@ public class LobbyPlayerManagerList : MonoBehaviour
         }
     }
 
-    private void ClearNames()
+    private void ClearDisplay()
+    {
+        foreach(Transform child in gridLayout.transform)
+        {
+            Destroy(child.gameObject);
+            playersText.Clear();
+        }
+    }
+
+    private void ClearPlayers()
+    {
+        playerManager.RemoveAllPlayers();
+    }
+
+    public void ClearData()
+    {
+        ClearDisplay();
+        ClearPlayers();
+    }
+
+    private void SetAllNames()
     {
         foreach(GameObject playerText in playersText)
         {
@@ -82,38 +97,40 @@ public class LobbyPlayerManagerList : MonoBehaviour
 
     private void DisplayList(int maxPlayer)
     {
-        Vector2 _cellSize = new Vector2(cellSize.x + cellSizeDecrement, cellSize.y);
+        Vector2 __cellSize = new Vector2(cellSize.x + cellSizeDecrement, cellSize.y);
         float widthBackground = 0;
         float heightBackground = 0;
         int countDecreased = -1;
 
         do {
             // Calculate "best" cell size
-            _cellSize.x = _cellSize.x - cellSizeDecrement;
+            __cellSize.x = __cellSize.x - cellSizeDecrement;
             countDecreased += 1;
 
-            int nbCols;
+            int nbCols = -1;
             int nbRows = 1;
 
-            float calcuation = (maxPlayer * _cellSize.x) + (spaceBetweenCases * (maxPlayer + 1));
-            if (calcuation > gridZone.x)
+            float calcuation = (maxPlayer * __cellSize.x) + (spaceBetweenCases * (maxPlayer + 1));
+            if (calcuation > gridSize.x)
             {
-                nbCols = Mathf.FloorToInt(gridZone.x / _cellSize.x);
+                // BUG : if > 35 , calculation become wrong
+                nbCols = Mathf.FloorToInt(gridSize.x / __cellSize.x);
                 nbRows = Mathf.CeilToInt((float)maxPlayer / nbCols);
-                widthBackground = (nbCols * _cellSize.x) + (spaceBetweenCases * (nbCols + 1));
+
+                widthBackground = (nbCols * __cellSize.x) + (spaceBetweenCases * (nbCols + 1));
             }
             else
             {
                 widthBackground = calcuation;
             }
            
-            heightBackground = (nbRows * _cellSize.y) + (spaceBetweenCases * (nbRows + 1));
+            heightBackground = (nbRows * __cellSize.y) + (spaceBetweenCases * (nbRows + 1));
 
-        } while (heightBackground > gridSizeY - (2 * spaceAboveBelowGrid));
+        } while (heightBackground >= gridSize.y);
 
         // Set the size of the black background (for simulating borders)
         blackBackground.sizeDelta = new Vector2(widthBackground, heightBackground);
-        gridLayoutGroup.cellSize = _cellSize;
+        gridLayoutGroup.cellSize = __cellSize;
 
         // Create the right number of prefabs
         for (int i = 0; i < maxPlayer; i++)

@@ -28,6 +28,14 @@ public class ScenesManager : MonoBehaviour
         }
     }
 
+    public void StopTwitchBot()
+    {
+        foreach (string sceneName in twitchScenes)
+        {
+            SceneManager.UnloadSceneAsync(sceneName);
+        }
+    }
+
     public IEnumerator StartGame()
     {
         yield return SceneManager.LoadSceneAsync("Level", LoadSceneMode.Additive);

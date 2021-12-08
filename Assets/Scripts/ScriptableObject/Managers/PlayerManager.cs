@@ -110,6 +110,11 @@ public class PlayerManager : ScriptableObject
         onRemovedPlayer?.Invoke(playerPseudo);
     }
 
+    public void RemoveAllPlayers()
+    {
+        Players.Clear();
+    }
+
     public bool ContainsPlayer(string playerPseudo)
     {
         return Players.ContainsKey(playerPseudo);
