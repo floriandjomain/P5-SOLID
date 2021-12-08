@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Net.Sockets;
+using System.Threading;
 
 public class TwitchClientStarter : MonoBehaviour
 {
@@ -13,17 +14,20 @@ public class TwitchClientStarter : MonoBehaviour
     [Space(10)]
     [SerializeField] private StringVariable channelName;
 
+    private TcpClient _tcpClient;
+
 
     private async void Start()
     {
-        TcpClient tcpClient = new TcpClient();
-        await tcpClient.ConnectAsync(ip, port);
+        Debug.Log("[TwitchClientStarter] Start");
+        _tcpClient = new TcpClient();
+        await _tcpClient.ConnectAsync(ip, port);
 
-        await TwitchClientSender.Initialize(tcpClient, channelName.Value.ToLower(), twitchBotData.Username, twitchBotData.Password);
+        await TwitchClientSender.Initialize(_tcpClient, channelName.Value.ToLower(), twitchBotData.Username, twitchBotData.Password);
 
-        await TwitchClientSender.SendConnectionMessage(); // connect you
+        await TwitchClientSender.SendConnectionMessage(); // Connect you
 
-        TwitchClientReader.Initialize(tcpClient);
+        TwitchClientReader.Initialize(_tcpClient);
 
         TwitchClientReader.OnMessage += TwitchClientReader_OnMessage;
 
@@ -39,4 +43,15 @@ public class TwitchClientStarter : MonoBehaviour
             twitchChatMessageQueue.Enqueue(twitchChatMessage);
         }
     }
+
+    private async void OnDisable()
+    {
+        await TwitchClientSender.SendMessage("I left (but not really I think, I dont know)");
+        TwitchClientReader.StopReading();
+
+        Thread.Sleep(1000);
+
+        _tcpClient.Close();
+    }
+
 }

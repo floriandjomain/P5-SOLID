@@ -9,6 +9,7 @@ public class CounterCoroutine : GameCoroutine
     [SerializeField] private TextVariable _counterText;
     [SerializeField] private float _counterDelay;
     [SerializeField] private bool _usePrecision;
+
     public override IEnumerator ExecuteCoroutine()
     {
         //TMP_Text counterText = parameters[1] as TMP_Text;
@@ -28,5 +29,10 @@ public class CounterCoroutine : GameCoroutine
         }
 
         _counterText.Value.gameObject.SetActive(false);
+    }
+
+    public void SetCounterDelay(float delay)
+    {
+        _counterDelay = delay;
     }
 }
