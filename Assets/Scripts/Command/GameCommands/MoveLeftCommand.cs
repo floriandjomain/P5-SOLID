@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MoveLeftCommand : GameCommand
 {
-    public MoveLeftCommand(string _player)
+    public MoveLeftCommand(string player)
     {
-        player = _player;
+        _player = player;
     }
 
     public override void Execute()
     {
-        GameManager.Instance.SetMovement(player, Movement.Left);
+        GameManager.Instance.SetMovement(_player, Movement.Left);
         Debug.Log("Move Left");
     }
 }

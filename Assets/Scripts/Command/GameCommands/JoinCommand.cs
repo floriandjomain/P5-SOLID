@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class JoinCommand : GameCommand
 {
-    public JoinCommand(string _player)
+    public JoinCommand(string player)
     {
-        player = _player;
+        _player = player;
     }
 
     public override void Execute()
     {
-        LobbyManager.Instance.AddPlayer(player);
+        LobbyManager.Instance.AddPlayer(_player);
     }
 }

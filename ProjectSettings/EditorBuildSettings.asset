@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI.unity
     guid: 2d793f995492f9347afe70f21d0b15b2
+  - enabled: 1
+    path: Assets/Scenes/Tests/Flupi/Keyboard.unity
+    guid: 8f0b3854516e9774680ff45a0ff5fe23
   m_configObjects: {}

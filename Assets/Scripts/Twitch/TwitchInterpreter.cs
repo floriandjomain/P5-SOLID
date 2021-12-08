@@ -9,7 +9,7 @@ public class TwitchInterpreter : MonoBehaviour
 
     [SerializeField] private GameObject _commands;
 
-    [SerializeField] private char commandPerfix;
+    [SerializeField] private char _commandPerfix;
 
     private List<TwitchCommand> _lobbyTwitchCommands;
     private List<TwitchCommand> _gameTwitchCommands;
@@ -24,11 +24,11 @@ public class TwitchInterpreter : MonoBehaviour
             TwitchCommand[] commands = _commands.GetComponents<TwitchCommand>();
             foreach (TwitchCommand tc in commands)
             {
-                if(tc.commandType == TwitchCommand.CommandType.Game)
+                if(tc.Type == TwitchCommand.CommandType.Game)
                 {
                     _gameTwitchCommands.Add(tc);
                 }
-                else if (tc.commandType == TwitchCommand.CommandType.Lobby)
+                else if (tc.Type == TwitchCommand.CommandType.Lobby)
                 {
                     _lobbyTwitchCommands.Add(tc);
                 }
@@ -67,15 +67,15 @@ public class TwitchInterpreter : MonoBehaviour
 
     private void SearchList(TwitchChatMessage twitchChatMessage, List<TwitchCommand> twitchCommands)
     {
-        if (twitchChatMessage.Message.StartsWith(commandPerfix.ToString()))
+        if (twitchChatMessage.Message.StartsWith(_commandPerfix.ToString()))
         {
-            string command = twitchChatMessage.Message.TrimStart(commandPerfix);
+            string command = twitchChatMessage.Message.TrimStart(_commandPerfix);
 
             foreach (TwitchCommand twitchCommand in twitchCommands)
             {
                 if (twitchCommand.Contains(command))
                 {
-                    twitchCommand.onCommandFound.Invoke(twitchChatMessage.Sender);
+                    twitchCommand.OnCommandFound.Invoke(twitchChatMessage.Sender);
                     break;
                 }
             }

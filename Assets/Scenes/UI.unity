@@ -3887,16 +3887,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad4b06da2b1994469a9c87416d07931, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSettings: {fileID: 11400000, guid: 21aea94cb883fbf41b72961edfaebfc3, type: 2}
-  playerManager: {fileID: 11400000, guid: f54382553db50784da85ae86e5c9327e, type: 2}
-  gridLayout: {fileID: 1164744338}
-  blackBackground: {fileID: 1984189487}
-  prefab: {fileID: 2913057493504311088, guid: 9cdbc0ddfd499864984a19f18fd1c746, type: 3}
-  playerNumberText: {fileID: 682101801}
-  spaceBetweenCases: 10
-  cellSizeDecrement: 50
-  fontSizeDecrement: 2.5
-  cellSize: {x: 500, y: 80}
+  _gameSettings: {fileID: 11400000, guid: 21aea94cb883fbf41b72961edfaebfc3, type: 2}
+  _playerManager: {fileID: 11400000, guid: f54382553db50784da85ae86e5c9327e, type: 2}
+  _gridLayout: {fileID: 1164744338}
+  _blackBackground: {fileID: 1984189487}
+  _prefab: {fileID: 2913057493504311088, guid: 9cdbc0ddfd499864984a19f18fd1c746, type: 3}
+  _playerNumberText: {fileID: 682101801}
+  _spaceBetweenCases: 10
+  _cellSizeDecrement: 50
+  _fontSizeDecrement: 2.5
+  _cellSize: {x: 500, y: 100}
 --- !u!1 &1877156710
 GameObject:
   m_ObjectHideFlags: 0

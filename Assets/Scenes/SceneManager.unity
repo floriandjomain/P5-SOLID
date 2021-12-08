@@ -214,6 +214,7 @@ MonoBehaviour:
   - Twitch
   - Lobby
   - Command
+  - Keyboard
 --- !u!1 &1786480055
 GameObject:
   m_ObjectHideFlags: 0

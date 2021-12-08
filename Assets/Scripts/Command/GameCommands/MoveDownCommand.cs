@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MoveDownCommand : GameCommand
 {
-    public MoveDownCommand(string _player)
+    public MoveDownCommand(string player)
     {
-        player = _player;
+        _player = player;
     }
 
     public override void Execute()
     {
-        GameManager.Instance.SetMovement(player, Movement.Down);
+        GameManager.Instance.SetMovement(_player, Movement.Down);
         Debug.Log("Move Down");
     }
 }

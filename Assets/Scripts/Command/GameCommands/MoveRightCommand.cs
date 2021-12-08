@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MoveRightCommand : GameCommand
 {
-    public MoveRightCommand(string _player)
+    public MoveRightCommand(string player)
     {
-        player = _player;
+        _player = player;
     }
 
     public override void Execute()
     {
-        GameManager.Instance.SetMovement(player, Movement.Right);
+        GameManager.Instance.SetMovement(_player, Movement.Right);
         Debug.Log("Move Right");
     }
 }

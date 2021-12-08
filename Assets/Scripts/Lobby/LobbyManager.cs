@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviour
 {
-    [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private PlayerManager _playerManager;
 
     private static LobbyManager _instance;
 
@@ -22,12 +22,12 @@ public class LobbyManager : MonoBehaviour
     public void AddPlayer(string player)
     {
         //Debug.Log("[LobbyManager] Add Player");
-        playerManager.AddPlayer(player);
+        _playerManager.AddPlayer(player);
     }
 
     public void RemovePlayer(string player)
     {
         //Debug.Log("[LobbyManager] Remove Player");
-        playerManager.RemovePlayer(player);
+        _playerManager.RemovePlayer(player);
     }
 }

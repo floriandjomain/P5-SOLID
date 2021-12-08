@@ -33,8 +33,6 @@ public class UIManager : MonoBehaviour
 
         GoToMainMenu();
 
-        GoToSettingsMenu();
-
         /// Observer qui va s'execute à la fin des coroutines de transition
         CoroutineManager.instance.OnEndUICoroutine += SwitchMenu;
     }
@@ -78,12 +76,12 @@ public class UIManager : MonoBehaviour
 
         _lobbyPlayerManagerList.CreateLobby();
 
-        // ScenesManager.Instance.StartTwitchBot();
+        ScenesManager.Instance.StartTwitchBot();
     }
 
     public void DisableTwitchBot()
     {
-        // ScenesManager.Instance.StopTwitchBot();
+        ScenesManager.Instance.StopTwitchBot();
     }
 
 
