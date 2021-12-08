@@ -5,14 +5,13 @@ using UnityEngine.UI;
 
 public class UILobbyManager : MonoBehaviour
 {
-    [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private PlayerManager _playerManager;
     [SerializeField] private Button _launchPlayerButton;
-    [SerializeField] private int _minNumberPlayer;
-
+    [SerializeField] private IntVariable _minNumberPlayer;
 
     private void Update()
     {
-        if(playerManager.GetCurrentPlayerNumber() < _minNumberPlayer)
+        if (_playerManager.GetCurrentPlayerNumber() < _minNumberPlayer.Value)
         {
             _launchPlayerButton.interactable = false;
         }
