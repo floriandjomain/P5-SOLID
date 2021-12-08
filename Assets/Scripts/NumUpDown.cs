@@ -7,7 +7,7 @@ using TMPro;
 public class NumUpDown : MonoBehaviour
 {
     public GameSettings GameSettings;
-    public TMP_InputField PlayerNumberInput;
+    public TMP_InputField NumberInput;
     public int Increment = 1;
     public int MinValue = 0;
     public int MaxValue = int.MaxValue;
@@ -17,16 +17,19 @@ public class NumUpDown : MonoBehaviour
 
     private TMP_Text _placeholderText;
     private System.Reflection.FieldInfo _fieldInfo;
+    private int _currentValue;
 
     public void Start()
     {
         _fieldInfo = GameSettings.GetType().GetField(FieldName);
-        _placeholderText = PlayerNumberInput.placeholder.GetComponent<TMP_Text>();
+        _placeholderText = NumberInput.placeholder.GetComponent<TMP_Text>();
 
-        ChangePlaceholderText(GetValueField().ToString());
+        _currentValue = GetValueField();
 
-        PlayerNumberInput.onDeselect.AddListener(OnValueChange);
-        PlayerNumberInput.characterValidation = TMP_InputField.CharacterValidation.Digit;
+        ChangePlaceholderText(_currentValue.ToString());
+
+        NumberInput.onDeselect.AddListener(OnDeselect);
+        NumberInput.characterValidation = TMP_InputField.CharacterValidation.Digit;
     }
 
     private int GetValueField()
@@ -39,34 +42,38 @@ public class NumUpDown : MonoBehaviour
         _fieldInfo.SetValue(GameSettings, value);
     }
 
-    private void OnValueChange(string value)
+    private void OnDeselect(string value)
     {
-        int intValue = int.Parse(value);
-        // Verify the boundaries
-        bool changed = false;
-        if (intValue < MinValue)
+        int intValue;
+        if (int.TryParse(value, out intValue))
         {
-            intValue = MinValue;
-            changed = true;
-        }
-        else if (intValue > MaxValue)
-        {
-            intValue = MaxValue;
-            changed = true;
-        }
+            // Verify the boundaries
+            bool changed = false;
+            if (intValue < MinValue)
+            {
+                intValue = MinValue;
+                changed = true;
+            }
+            else if (intValue > MaxValue)
+            {
+                intValue = MaxValue;
+                changed = true;
+            }
 
-        if (changed)
-        {
-            PlayerNumberInput.text = "";
-            ChangePlaceholderText(intValue.ToString());
-            SetValueField(intValue);
+            if (changed)
+            {
+                NumberInput.text = "";
+                ChangePlaceholderText(intValue.ToString());      
+            }
+
+            _currentValue = intValue;
         }
     }
 
     public int GetInputValue()
     {
         string returnValue;
-        if(PlayerNumberInput.text == "")
+        if(NumberInput.text == "")
         {
             // Return the placeholder
             returnValue = _placeholderText.text;
@@ -74,7 +81,7 @@ public class NumUpDown : MonoBehaviour
         else
         {
             // Return the input text
-            returnValue = PlayerNumberInput.text;
+            returnValue = NumberInput.text;
         }
         return int.Parse(returnValue);
     }
@@ -82,41 +89,34 @@ public class NumUpDown : MonoBehaviour
 
     public void IncrementNumber()
     {
-        ReplaceInputText();
-        int value = GetValueField() + Increment;
+        RemoveInputText();
+        int value = _currentValue + Increment;
         if (value <= MaxValue)
         {
-            SetValueField(value);
+            _currentValue = value;
             ChangePlaceholderText(value.ToString());
         }
     }
+
     public void DecrementNumber()
     {
-        ReplaceInputText();
-        int value = GetValueField() - Increment;
+        RemoveInputText();
+        int value = _currentValue - Increment;
         if (value >= MinValue)
         {
-            SetValueField(value);
+            _currentValue = value;
             ChangePlaceholderText(value.ToString());
         }
     }
 
-    public void UpdateSettings()
+    private void RemoveInputText()
     {
-        SetValueField(int.Parse(PlayerNumberInput.text));
+        if (NumberInput.text != "") NumberInput.text = "";
     }
 
-    protected void ReplaceInputText()
+    public void ChangePlaceholderText(string text)
     {
-        if (PlayerNumberInput.text != "")
-        {
-            UpdateSettings();
-            PlayerNumberInput.text = "";
-        }
-    }
-
-    protected void ChangePlaceholderText(string text)
-    {
+        NumberInput.text = "";
         _placeholderText.text = text;
     }
 }

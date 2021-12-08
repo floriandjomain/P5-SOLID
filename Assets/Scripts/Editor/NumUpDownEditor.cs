@@ -32,7 +32,7 @@ public class NumUpDownEditor : Editor
 
         EditorGUILayout.Space();
 
-        numUpDown.PlayerNumberInput = EditorGUILayout.ObjectField("Player Number Input", numUpDown.PlayerNumberInput, typeof(TMP_InputField), true) as TMP_InputField;
+        numUpDown.NumberInput = EditorGUILayout.ObjectField("Number Input", numUpDown.NumberInput, typeof(TMP_InputField), true) as TMP_InputField;
 
         EditorGUILayout.Space();
 
