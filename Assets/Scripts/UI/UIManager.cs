@@ -49,6 +49,11 @@ public class UIManager : MonoBehaviour
         CoroutineManager.instance.OnEndUICoroutine += SwitchMenu;
     }
 
+    public void PlaySFX()
+    {
+        _sfxButton.PlayClip();
+    }
+
     public void SwitchMenu(string wichMenu)
     {
         if(wichMenu == "GoToSettingsMenu") { GoToSettingsMenu(); }
@@ -88,6 +93,7 @@ public class UIManager : MonoBehaviour
         _gameGUI.SetActive(true);
 
         ScenesManager.Instance.StartGame();
+        AudioManager.instance.PlayLevelMusic();
     }
 
     public void EnableMenu()

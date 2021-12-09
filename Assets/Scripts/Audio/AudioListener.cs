@@ -11,6 +11,5 @@ public class AudioListener : MonoBehaviour
     {
         audioSource.clip = clip;
         audioSource.Play();
-        
     }
 }

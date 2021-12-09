@@ -10,19 +10,63 @@ public class AudioAsset : ScriptableObject
 
     [SerializeField] private AudioClip _audioClip;
 
+    [Tooltip("Is it a soundeffect or a music ?")]
+    [SerializeField] private bool _isBackground;
+
     [Range(0.0f, 1.0f)]
     [SerializeField] private float _volume;
 
     /// Call by objects of other scene like player, button...
     public void PlayClip()
     {
-        _audioSource.PlayOneShot(_audioClip, _volume);
+        if (_audioSource != null)
+        {
+            if(_isBackground)
+            {
+                _audioSource.Play();
+            }
+            else
+            {
+                _audioSource.PlayOneShot(_audioClip, _volume);
+            }
+        }
     }
 
-    public void Play()
+    ////////////
+    /// Setting
+    ////////////
+    
+    public void Active()
     {
-        _audioSource.Play();
+        if (_audioSource != null)
+        {
+            if (_isBackground)
+            {
+                SettingMusic();
+            }
+            else
+            {
+                SettingSoundEffect();
+            }
+        }
     }
+
+    public void SettingSoundEffect()
+    {
+        _audioSource.loop = false;
+    }
+
+    private void SettingMusic()
+    {
+        _audioSource.loop = true;
+        _audioSource.clip = _audioClip;
+        _audioSource.volume = _volume;
+    }
+
+    /*public void Play(AudioClip clip)
+    {
+        _audioSource.PlayOneShot(clip, _volume);
+    }*/
 
     /// Call by AudioSourceSetter
     public void SetAudioSource(AudioSource newAudioSource)

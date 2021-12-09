@@ -13,10 +13,18 @@ public class AudioSourceSetter : MonoBehaviour
     {
         _audioSource = GetComponent<AudioSource>();
         _audioAsset.SetAudioSource(_audioSource);
+        _audioAsset.Active();
     }
 
     private void OnDisable()
     {
         _audioAsset.SetAudioSource(null);
+    }
+
+    public void SwitchAudioAsset(AudioAsset newAudioAsset)
+    {
+        _audioAsset = newAudioAsset;
+        _audioAsset.SetAudioSource(_audioSource);
+        _audioAsset.Active();
     }
 }
