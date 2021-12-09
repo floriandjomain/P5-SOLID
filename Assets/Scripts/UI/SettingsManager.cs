@@ -14,6 +14,8 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] private CounterCoroutine _gameCoroutineTime;
     [SerializeField] private CounterCoroutine _autoLaunchCoroutineTime;
     [Space(10)]
+    [SerializeField] private Toggle _toggleKeepPlayer;
+    [Space(10)]
     [SerializeField] private NumUpDown _numUpDownPlayerNumber;
     [SerializeField] private NumUpDown _numUpDownCommandInputTime;
     [SerializeField] private NumUpDown _numUpDownTileLifePoints;
@@ -52,6 +54,8 @@ public class SettingsManager : MonoBehaviour
             _gameCoroutineTime.SetCounterDelay(inputValueCommandTime);
 
             _channelName.Value = _channelField.text;
+
+            _gameSettings.KeepPlayersAfterFinish = _toggleKeepPlayer.isOn;
 
             // Auto launch
             _gameSettings.UseAutoLaunch = _toggleAutoLaunch.isOn;

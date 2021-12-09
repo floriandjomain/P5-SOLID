@@ -112,7 +112,8 @@ public class PlayerManager : ScriptableObject
 
     public void RemoveAllPlayers()
     {
-        foreach(string key in Players.Keys) 
+        List<string> keys = Players.Keys.ToList();
+        foreach (string key in keys) 
         {
             RemovePlayer(key);
         }
@@ -129,7 +130,7 @@ public class PlayerManager : ScriptableObject
     public bool ContainsPlayer(string playerPseudo)
     {
         return Players.ContainsKey(playerPseudo);
-    }
+    } 
 
     public void SetUp()
     {
