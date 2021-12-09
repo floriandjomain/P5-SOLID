@@ -76,9 +76,14 @@ public class LobbyPlayerManagerList : MonoBehaviour
         }
     }
 
-    private void ClearPlayers()
+    public void ClearPlayers()
     {
         _playerManager.RemoveAllPlayers();
+    }
+
+    public void RemoveMovements()
+    {
+        _playerManager.RemoveAllMovmentPlayer();
     }
 
     public void ClearData()
@@ -87,7 +92,7 @@ public class LobbyPlayerManagerList : MonoBehaviour
         ClearPlayers();
     }
 
-    private void SetAllNames()
+    public void SetAllNames()
     {
         foreach(GameObject playerText in _playersText)
         {

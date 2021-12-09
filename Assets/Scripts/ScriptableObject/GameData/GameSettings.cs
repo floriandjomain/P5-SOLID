@@ -8,6 +8,8 @@ public class GameSettings : ScriptableObject
     public bool UseAutoLaunch;
     public int AutoLaunchTime;
 
+    public bool KeepPlayersAfterFinish;
+
     public int MaxPlayerNumber;
     public int TileMaxLifePoints;
 

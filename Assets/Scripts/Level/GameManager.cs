@@ -179,6 +179,8 @@ public class GameManager : MonoBehaviour
         }
         
         TwitchClientSender.SendMessage(msg);
+
+        UIManager.Instance.DisplayEndText(gameState.AlivePlayers);
     }
 
     public void ForceTurn()

@@ -36,6 +36,24 @@ public class ScenesManager : MonoBehaviour
         }
     }
 
+    public void UnloadLevel()
+    {
+        bool isLoaded = false;
+
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            if (SceneManager.GetSceneAt(i).name == "Level")
+            {
+                isLoaded = true;
+            }
+        }
+
+        if (isLoaded)
+        {
+            SceneManager.UnloadSceneAsync("Level");
+        }        
+    }
+
     public IEnumerator StartGame()
     {
         yield return SceneManager.LoadSceneAsync("Level", LoadSceneMode.Additive);

@@ -112,7 +112,18 @@ public class PlayerManager : ScriptableObject
 
     public void RemoveAllPlayers()
     {
-        Players.Clear();
+        foreach(string key in Players.Keys) 
+        {
+            RemovePlayer(key);
+        }
+    }
+
+    public void RemoveAllMovmentPlayer()
+    {
+        foreach (string key in Players.Keys)
+        {
+            onRemovedPlayer?.Invoke(key);
+        }
     }
 
     public bool ContainsPlayer(string playerPseudo)

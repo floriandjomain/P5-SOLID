@@ -13,12 +13,18 @@ public class MovementManager : ScriptableObject
         foreach (string playerName in playerManager.GetPlayers().Keys)
         {
             Movements.Add(playerName, Movement.None);
+            playerManager.onRemovedPlayer += RemoveMovement;
         }
-        
+
         playerManager.taarniendo += ResetMovements;
         ResetMovements();
     }
-    
+
+    private void RemoveMovement(string playerName)
+    {
+        Movements.Remove(playerName);
+    }
+
     private void ResetMovements()
     {
         List<string> moves = new List<string>(Movements.Keys);
