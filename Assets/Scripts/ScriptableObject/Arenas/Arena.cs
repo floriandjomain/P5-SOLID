@@ -62,15 +62,7 @@ public class Arena : ScriptableObject
 
     public virtual void Turn()
     {
-        Debug.Log("début d'érosion");
-        foreach (Tile tile in Tiles)
-        {
-            if (tile.IsBroken() || rnd.Next(3) != 0) continue;
-            
-            tile.TimerShot();
-            //Debug.Log("erosion");
-        }
-        Debug.Log("fin d'érosion");
+        
     }
 
     public void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount)
