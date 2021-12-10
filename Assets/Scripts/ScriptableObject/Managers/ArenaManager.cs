@@ -10,10 +10,10 @@ public class ArenaManager : ScriptableObject
 
     public void SetUp(int playerCount, int maxTileHealth, Action action)
     {
-        //Debug.Log("start map setup...");
+        //Debug.Log("[ArenaManager] start map setup...");
         Arena.MapInstantiation(playerCount, maxTileHealth, action);
         Arena.SetTimers();
-        //Debug.Log("...map setup done");
+        //Debug.Log("[ArenaManager] ...map setup done");
     }
 
     public List<Vector2Int> GetWalkableTilesPositions() => Arena.GetWalkableTilesPositions();

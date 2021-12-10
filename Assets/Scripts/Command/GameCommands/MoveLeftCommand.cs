@@ -12,6 +12,5 @@ public class MoveLeftCommand : GameCommand
     public override void Execute()
     {
         GameManager.Instance.SetMovement(player, Movement.Left);
-        Debug.Log("Move Left");
     }
 }

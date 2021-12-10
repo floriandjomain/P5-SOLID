@@ -12,6 +12,5 @@ public class MoveUpCommand : GameCommand
     public override void Execute()
     {
         GameManager.Instance.SetMovement(player, Movement.Up);
-        Debug.Log("Move Up");
     }
 }
