@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcdd7512613e0514b90c6f01eb0fa1aa, type: 3}
-  m_Name: AutoLaunchCounter
+  m_Name: CounterBackLobby
   m_EditorClassIdentifier: 
-  _counterText: {fileID: 11400000, guid: 336a066a8739a514a8f40cfe8618230b, type: 2}
-  _counterDelay: 30
+  _counterText: {fileID: 11400000, guid: d09c4292f4969304caa35191933ca203, type: 2}
+  _counterDelay: 15
   _usePrecision: 0
