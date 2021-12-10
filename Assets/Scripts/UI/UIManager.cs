@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _gameGUI;
 
     [Space(15)]
-    [SerializeField] private AudioAsset _sfxButton;
+    [SerializeField] private GameEvent _clickButton;
 
     private void Start()
     {
@@ -49,9 +49,12 @@ public class UIManager : MonoBehaviour
         CoroutineManager.instance.OnEndUICoroutine += SwitchMenu;
     }
 
-    public void PlaySFX()
+    public void ClickButton()
     {
-        _sfxButton.PlayClip();
+        //Play SFX
+        _clickButton.Raise();
+        //Desactive menu
+        DisableMenu();
     }
 
     public void SwitchMenu(string wichMenu)
@@ -105,7 +108,6 @@ public class UIManager : MonoBehaviour
     {
         _allMenu.SetActive(false);
     }
-
 
     public void QuitGame()
     {

@@ -119,7 +119,9 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 06452e580ecfcd742924eb4a69f25c98
+    name: BackgroundMusic-Volume
   m_AudioMixerGroupViews:
   - guids:
     - 103414a2275acf74db709d66030b7038
@@ -176,7 +178,7 @@ AudioMixerSnapshotController:
   m_SnapshotID: 1dc49b47643550e4db37b756b3bd2999
   m_FloatValues:
     b94fb7a215bd1bc488a1a6c498053232: -4.560346
-    06452e580ecfcd742924eb4a69f25c98: 1.4306194
+    06452e580ecfcd742924eb4a69f25c98: -2.8722944
     d4df4f2bc4912dd47849fbf229dcaccf: -53.697163
     8f63531d2cf720e4794fbe4675a688bd: -53.897724
   m_TransitionOverrides: {}
