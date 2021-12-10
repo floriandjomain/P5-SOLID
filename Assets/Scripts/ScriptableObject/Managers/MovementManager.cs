@@ -15,11 +15,10 @@ public class MovementManager : ScriptableObject
             Movements.Add(playerName, Movement.None);
         }
         
-        playerManager.taarniendo += ResetMovements;
         ResetMovements();
     }
     
-    private void ResetMovements()
+    public void ResetMovements()
     {
         List<string> moves = new List<string>(Movements.Keys);
         foreach (string p in moves)
