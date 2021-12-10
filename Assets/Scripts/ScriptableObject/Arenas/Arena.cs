@@ -13,7 +13,8 @@ public class Arena : ScriptableObject
 
     private void InspectorMapInstantiation()
     {
-        arenaGO = new GameObject("Arena");
+        // arenaGO = new GameObject("Arena");
+        arenaGO = GameObject.Find("Arena");
     }
 
     public virtual void MapInstantiation(int playerNumber, int maxTileHealth, Action action)

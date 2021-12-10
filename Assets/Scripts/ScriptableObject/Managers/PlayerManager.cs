@@ -135,7 +135,8 @@ public class PlayerManager : ScriptableObject
     public void SetUp()
     {
         //Debug.Log("start players setup...");
-        playersGO = new GameObject("Players");
+        // playersGO = new GameObject("Players");
+        playersGO = GameObject.Find("Players");
         PlayersInstantiation();
         //Debug.Log("...players setup done");
     }
