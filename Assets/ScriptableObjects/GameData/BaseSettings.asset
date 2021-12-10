@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StreamerControlType: ZQSD
   UseAutoLaunch: 0
-  AutoLaunchTime: 10
+  AutoLaunchTime: 0
   KeepPlayersAfterFinish: 1
   MaxPlayerNumber: 15
   TileMaxLifePoints: 1
-  CommandInputTime: 10
-  PlayTime: 2
+  CommandInputTime: 15
+  PlayTime: 1
   JumpSound: {fileID: 0}
   BumpSound: {fileID: 0}
   FallSound: {fileID: 0}
