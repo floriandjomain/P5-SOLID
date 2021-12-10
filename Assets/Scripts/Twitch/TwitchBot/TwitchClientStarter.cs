@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 
 public class TwitchClientStarter : MonoBehaviour
 {
@@ -14,13 +15,18 @@ public class TwitchClientStarter : MonoBehaviour
     [Space(10)]
     [SerializeField] private StringVariable channelName;
 
-    private TcpClient _tcpClient;
+    // private TcpClient _tcpClient;
 
 
-    private async void Start()
+    private void Start()
+    {
+        Task.Run(TwitchThread);
+    }
+
+    private async void TwitchThread()
     {
         Debug.Log("[TwitchClientStarter] Start");
-        _tcpClient = new TcpClient();
+        TcpClient _tcpClient = new TcpClient();
         await _tcpClient.ConnectAsync(ip, port);
 
         await TwitchClientSender.InitializeAsync(_tcpClient, channelName.Value.ToLower(), twitchBotData.Username, twitchBotData.Password);
@@ -48,10 +54,5 @@ public class TwitchClientStarter : MonoBehaviour
     {
         TwitchClientReader.StopReading();
         await TwitchClientSender.SendMessageAsync("I left (but not really I think, I dont know)");
-        
-        Thread.Sleep(1000);
-
-        _tcpClient.Close(); // Raise an error in [TwitchClientReader]
     }
-
 }

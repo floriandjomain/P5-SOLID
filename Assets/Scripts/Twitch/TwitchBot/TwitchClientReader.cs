@@ -2,6 +2,8 @@ using UnityEngine;
 using System.IO;
 using System.Net.Sockets;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 public static class TwitchClientReader
 {
@@ -11,20 +13,33 @@ public static class TwitchClientReader
     public delegate void TwitchChatEventHandler(TwitchChatMessage twitchChatMessage);
 
     private static bool _IsReading;
+    private static CancellationTokenSource _cancellationTokenSource;
 
     public static void Initialize(TcpClient tcpClient)
     {
         _streamReader = new StreamReader(tcpClient.GetStream());
         _IsReading = true;
+        _cancellationTokenSource = new CancellationTokenSource();
+    }
+
+    public static Task<T> WithCancellation<T>(this Task<T> task, CancellationToken cancellationToken)
+    {
+        return task.IsCompleted // fast-path optimization
+            ? task
+            : task.ContinueWith(
+                completedTask => completedTask.GetAwaiter().GetResult(),
+                cancellationToken,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
     }
 
     public static async void StartReading()
     {
-        while (_IsReading)
+        try
         {
-            try
+            while (_IsReading)
             {
-                string line = await _streamReader.ReadLineAsync();
+                string line = await _streamReader.ReadLineAsync().WithCancellation(_cancellationTokenSource.Token);
 
                 string[] split = line.Split(' ');
                 // if { PING :tmi.twitch.tv } => Respond with { PONG :tmi.twitch.tv }
@@ -49,16 +64,21 @@ public static class TwitchClientReader
                     });
                 }
             }
-            catch (ObjectDisposedException e)
-            {
-                Debug.Log("Caugth an ObjectDisposedException" + e.Message);
-            }
         }
+        catch (TaskCanceledException e)
+        {
+            Debug.Log("Caugth an TaskCanceledException in Thread [" + Thread.CurrentThread.Name + "]" + e.Message);
+        }
+        finally
+        {
+            _cancellationTokenSource.Dispose();
+        }
+        
     }
 
     public static void StopReading()
     {
         _IsReading = false;
+        _cancellationTokenSource.Cancel();
     }
-
 }
