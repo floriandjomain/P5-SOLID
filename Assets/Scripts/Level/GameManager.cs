@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get => _instance; }
 
+    public GameObject ArenaGO;
+    public GameObject PlayersGO;
+
     [SerializeField] private ArenaManager arenaManager;
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private MovementManager movementManager;
@@ -40,37 +43,37 @@ public class GameManager : MonoBehaviour
 
     private void PlayersSetCheat()
     {
-        //Debug.Log("!!!PlayersSetCheat code activated!!!");
+        //Debug.Log("[GameManager] !!!PlayersSetCheat code activated!!!");
         foreach (string playerName in PlayerCheatCode)
         {
             playerManager.AddPlayer(playerName.Replace(" ", "_"));
             //SetMovement(playerName, Movement.None);
             //Debug.Log(playerName + " will move" + MovementManager.ToString(move));
         }
-        //Debug.Log("!!!PlayersSetCheat code used!!!");
+        //Debug.Log("[GameManager] !!!PlayersSetCheat code used!!!");
     }
 
     private void PlayersGetMoveCheat(int random)
     {
         Movement move = Movement.None+random%5;
 
-        //Debug.Log("<color=red>!!!PlayersMoveCheat code activated!!!</color>");
+        //Debug.Log("[GameManager] <color=red>!!!PlayersMoveCheat code activated!!!</color>");
         foreach (string playerName in PlayerCheatCode)
             SetMovement(playerName, move+(rnd.Next(5)));
-        //Debug.Log("<color=red>!!!PlayersMoveCheat code used!!!</color>");
+        //Debug.Log("[GameManager] <color=red>!!!PlayersMoveCheat code used!!!</color>");
     }
 
     public IEnumerator SetUp()
     {
-        Debug.Log("start game setup...");
-        playerManager.SetUp();
+        Debug.Log("[GameManager] start game setup...");
+        playerManager.SetUp(gameSettings.PlayTime);
         arenaManager.SetUp(playerManager.GetPlayers().Count, gameSettings.TileMaxLifePoints, CheckForFalls);
         PlacePlayers();
         movementManager.SetUp(playerManager);
         yield return null;
         cameraManager.SetUp(playerManager);
         //_cameraManager.UpdatePosition();
-        Debug.Log("...game setup done");
+        Debug.Log("[GameManager] ...game setup done");
     }
 
     private void PlacePlayers()
@@ -83,9 +86,9 @@ public class GameManager : MonoBehaviour
         foreach (string player in playerNames)
         {
             Vector2Int tile = walkableTiles[rnd.Next(walkableTiles.Count)];
-            players[player].SetPos(tile);
+            players[player].Setup(tile);
             walkableTiles.Remove(tile);
-            //Debug.Log("placing player " + player + " at position " + players[player].GetPos());
+            //Debug.Log($"[GameManager] placing player {player} at position {players[player].GetPos()}");
         }
     }
 
@@ -100,6 +103,7 @@ public class GameManager : MonoBehaviour
         arenaManager.DamageTiles(playerManager.GetAllAlivePlayersPosition());
         CompileMovements();
         playerManager.Turn(arenaManager.GetTiles());
+        movementManager.ResetMovements();
     }
 
     private void CompileMovements()
@@ -137,18 +141,15 @@ public class GameManager : MonoBehaviour
 
     public void SetMovement(string player, Movement move)
     {
-        if (gameState.GetState() == GameState.State.GameListening)
-        {
-            Debug.Log($"[GameManager] {player} + {move}");
+        Debug.Log($"[GameManager] {player} -> {move}");
             movementManager.SetMovement(player, move);
-        }
     }
 
     private bool GameIsOn() => playerManager.GetCurrentAlivePlayerNumber() > 1;
 
     public IEnumerator StartGame()
     {
-        Debug.Log("Début de partie");
+        Debug.Log("[GameManager] Début de partie");
         
         gameState.AlivePlayers = new List<string>(playerManager.GetPlayers().Keys);
         
@@ -161,24 +162,26 @@ public class GameManager : MonoBehaviour
             
             TwitchClientSender.SendMessage("Vos gueules vous parlez trop");
             gameState.SetState(GameState.State.OnPlay);
-            yield return new WaitForSeconds(gameSettings.PlayTime);
             
             PlayTurn();
+            yield return new WaitForSeconds(gameSettings.PlayTime);
             
-            List<string> liste = new List<string>(playerManager.GetPlayers().Keys);
-            Debug.Log($"liste des joueurs {liste.Count}");
+            List<string> liste = new List<string>(playerManager.GetAllAlivePlayersName());
+            //Debug.Log($"[GameManager] liste des joueurs {liste.Count}");
             gameState.AlivePlayers = liste;
-            Debug.Log($"liste des joueurs dans gamestate {gameState.AlivePlayers.Count}");
+            //Debug.Log($"[GameManager] liste des joueurs dans gamestate {gameState.AlivePlayers.Count}");
         }
 
         string msg = "Partie Finie";
+        Debug.Log($"[GameManager] {msg}");
         
         foreach (string playerName in gameState.AlivePlayers)
         {
-            msg += $"\n- {playerName}";
+            //msg += $"\n- {playerName}";
+            Debug.Log($"[GameManager] \n- {playerName}");
         }
         
-        TwitchClientSender.SendMessage(msg);
+        //TwitchClientSender.SendMessage(msg);
     }
 
     public void ForceTurn()
