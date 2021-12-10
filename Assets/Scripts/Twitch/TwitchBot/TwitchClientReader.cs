@@ -31,7 +31,7 @@ public static class TwitchClientReader
                 if (line.StartsWith("PING"))
                 {
                     // Call the TwitchClientSender To Send That Message
-                    await TwitchClientSender.SendPongResponse(split[1]);
+                    await TwitchClientSender.SendPongResponseAsync(split[1]);
                 }
 
                 if (split.Length > 2 && split[1] == "PRIVMSG")
@@ -51,7 +51,7 @@ public static class TwitchClientReader
             }
             catch (ObjectDisposedException e)
             {
-                Debug.Log("Caugth an ObjectDisposedException");
+                Debug.Log("Caugth an ObjectDisposedException" + e.Message);
             }
         }
     }

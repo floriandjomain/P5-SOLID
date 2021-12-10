@@ -7,7 +7,7 @@ public static class TwitchClientSender
     private static StreamWriter _streamWriter;
     private static string _channelName;
 
-    public static async Task Initialize(TcpClient tcpClient, string channelName, string nickname, string password)
+    public static async Task InitializeAsync(TcpClient tcpClient, string channelName, string nickname, string password)
     {
         _streamWriter = new StreamWriter(tcpClient.GetStream()) { NewLine = "\r\n", AutoFlush = true };
         _channelName = channelName; 
@@ -16,19 +16,19 @@ public static class TwitchClientSender
         await _streamWriter.WriteLineAsync($"NICK {nickname}");
     }
 
-    public static async Task SendMessage(string message)
+    public static async Task SendMessageAsync(string message)
     {
         await _streamWriter.WriteLineAsync($"PRIVMSG #{_channelName} :{message}");
     }
 
-    public static async Task SendConnectionMessage()
+    public static async Task SendConnectionMessageAsync()
     {
         await _streamWriter.WriteLineAsync($"JOIN #{_channelName}");
 
-        await SendMessage("My Bot Joined !");
+        await SendMessageAsync("My Bot Joined !");
     }
 
-    public static async Task SendPongResponse(string url)
+    public static async Task SendPongResponseAsync(string url)
     {
         await _streamWriter.WriteLineAsync($"PONG {url}");
     }

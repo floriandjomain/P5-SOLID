@@ -155,11 +155,11 @@ public class GameManager : MonoBehaviour
         while (GameIsOn())
         {
             StartCoroutine(_textCoroutine.ExecuteCoroutine());
-            TwitchClientSender.SendMessage($"On vous écoute pendant {gameSettings.CommandInputTime}sec");
+            TwitchClientSender.SendMessageAsync($"On vous écoute pendant {gameSettings.CommandInputTime}sec");
             gameState.SetState(GameState.State.GameListening);
             yield return new WaitForSeconds(gameSettings.CommandInputTime);
             
-            TwitchClientSender.SendMessage("Vos gueules vous parlez trop");
+            TwitchClientSender.SendMessageAsync("Vos gueules vous parlez trop");
             gameState.SetState(GameState.State.OnPlay);
             yield return new WaitForSeconds(gameSettings.PlayTime);
             
@@ -177,8 +177,8 @@ public class GameManager : MonoBehaviour
         {
             msg += $"\n- {playerName}";
         }
-        
-        TwitchClientSender.SendMessage(msg);
+
+        TwitchClientSender.SendMessageAsync(msg);
 
         UIManager.Instance.DisplayEndText(gameState.AlivePlayers);
     }

@@ -23,9 +23,9 @@ public class TwitchClientStarter : MonoBehaviour
         _tcpClient = new TcpClient();
         await _tcpClient.ConnectAsync(ip, port);
 
-        await TwitchClientSender.Initialize(_tcpClient, channelName.Value.ToLower(), twitchBotData.Username, twitchBotData.Password);
+        await TwitchClientSender.InitializeAsync(_tcpClient, channelName.Value.ToLower(), twitchBotData.Username, twitchBotData.Password);
 
-        await TwitchClientSender.SendConnectionMessage(); // Connect you
+        await TwitchClientSender.SendConnectionMessageAsync(); // Connect you
 
         TwitchClientReader.Initialize(_tcpClient);
 
@@ -46,12 +46,12 @@ public class TwitchClientStarter : MonoBehaviour
 
     private async void OnDisable()
     {
-        await TwitchClientSender.SendMessage("I left (but not really I think, I dont know)");
         TwitchClientReader.StopReading();
-
+        await TwitchClientSender.SendMessageAsync("I left (but not really I think, I dont know)");
+        
         Thread.Sleep(1000);
 
-        _tcpClient.Close();
+        _tcpClient.Close(); // Raise an error in [TwitchClientReader]
     }
 
 }
