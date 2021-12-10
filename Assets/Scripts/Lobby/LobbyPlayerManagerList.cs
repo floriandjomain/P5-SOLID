@@ -6,75 +6,95 @@ using TMPro;
 
 public class LobbyPlayerManagerList : MonoBehaviour
 {
-    [SerializeField] private GameSettings gameSettings;
-    [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private GameSettings _gameSettings;
+    [SerializeField] private PlayerManager _playerManager;
     [Space(10)]
-    [SerializeField] private GameObject gridLayout;
-    [SerializeField] private RectTransform blackBackground;
-    [SerializeField] private GameObject prefab;
-    [SerializeField] private TMP_Text playerNumberText;
+    [SerializeField] private GameObject _gridLayout;
+    [SerializeField] private RectTransform _blackBackground;
+    [SerializeField] private GameObject _prefab;
+    [SerializeField] private TMP_Text _playerNumberText;
     [Space(10)]
-    [SerializeField] private float spaceBetweenCases = 10;
-    [SerializeField] private float spaceAboveBelowGrid = 50;
-    [SerializeField] private int cellSizeDecrement = 50;
-    [SerializeField] private float fontSizeDecrement = 2.5f;
-    [SerializeField] private Vector2 cellSize = new Vector2(500, 100);
-    [SerializeField] private Vector2 gridZone = new Vector2(1920, 850);
+    [SerializeField] private float _spaceBetweenCases = 10;
+    [SerializeField] private int _cellSizeDecrement = 50;
+    [SerializeField] private float _fontSizeDecrement = 2.5f;
+    [SerializeField] private Vector2 _cellSize = new Vector2(500, 100);
 
-    private int currentPlayerCount = 0;
-    private int oldPlayerCount = 0;
+    private int _currentPlayerCount = 0;
+    private int _oldPlayerCount = 0;
 
-    private float gridSizeY = 0;
+    private Vector2 _gridSize = Vector2.zero;
 
-    private List<GameObject> playersText;
-    private GridLayoutGroup gridLayoutGroup;
+    private List<GameObject> _playersText;
+    private GridLayoutGroup _gridLayoutGroup;
 
-    private void Start()
+    public void CreateLobby()
     {
-        UpdateText(currentPlayerCount, gameSettings.MaxPlayerNumber);
-        playersText = new List<GameObject>();
+        _playersText = new List<GameObject>();
+        _gridLayoutGroup = _gridLayout.GetComponent<GridLayoutGroup>();
+        _gridLayoutGroup.cellSize = _cellSize;
+        _gridSize = _gridLayout.GetComponent<RectTransform>().sizeDelta;
 
-        gridLayoutGroup = gridLayout.GetComponent<GridLayoutGroup>();
-        gridLayoutGroup.cellSize = cellSize;
-        
-        gridSizeY = gridLayout.GetComponent<RectTransform>().sizeDelta.y;
-
-        DisplayList(gameSettings.MaxPlayerNumber);
-
-        ClearNames();
+        UpdateText(_currentPlayerCount, _gameSettings.MaxPlayerNumber);   
+        DisplayList(_gameSettings.MaxPlayerNumber);
+        SetAllNames();
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentPlayerCount = playerManager.GetCurrentPlayerNumber();
-        if (currentPlayerCount != oldPlayerCount) {
-            //Debug.Log("Update display");
+        _currentPlayerCount = _playerManager.GetCurrentPlayerNumber();
+        if (_currentPlayerCount != _oldPlayerCount) {
             UpdateDisplay();
-            oldPlayerCount = currentPlayerCount;
+            UpdateText(_currentPlayerCount, _gameSettings.MaxPlayerNumber);
+            _oldPlayerCount = _currentPlayerCount;
         }
     }
 
     private void UpdateText(int currentPlayer, int maxPlayer)
     {
-        playerNumberText.text = currentPlayer + " / " + maxPlayer;
+        _playerNumberText.text = currentPlayer + " / " + maxPlayer;
     }
 
     private void UpdateDisplay()
     {
-        ClearNames();
+        SetAllNames();
 
         int cpt = 0;
-        foreach(KeyValuePair<string, Player> player in playerManager.GetPlayers())
+        foreach(KeyValuePair<string, Player> player in _playerManager.GetPlayers())
         {
-            playersText[cpt].GetComponentInChildren<TMP_Text>().text = player.Key;
+            _playersText[cpt].GetComponentInChildren<TMP_Text>().text = player.Key;
             cpt++;
         }
     }
 
-    private void ClearNames()
+    private void ClearDisplay()
     {
-        foreach(GameObject playerText in playersText)
+        foreach(Transform child in _gridLayout.transform)
+        {
+            Destroy(child.gameObject);
+            _playersText.Clear();
+        }
+    }
+
+    public void ClearPlayers()
+    {
+        _playerManager.RemoveAllPlayers();
+    }
+
+    public void RemoveMovements()
+    {
+        _playerManager.RemoveAllMovmentPlayer();
+    }
+
+    public void ClearData()
+    {
+        ClearDisplay();
+        ClearPlayers();
+    }
+
+    public void SetAllNames()
+    {
+        foreach(GameObject playerText in _playersText)
         {
             playerText.GetComponentInChildren<TMP_Text>().text = "";
         }
@@ -82,46 +102,48 @@ public class LobbyPlayerManagerList : MonoBehaviour
 
     private void DisplayList(int maxPlayer)
     {
-        Vector2 _cellSize = new Vector2(cellSize.x + cellSizeDecrement, cellSize.y);
+        Vector2 cellSize = new Vector2(_cellSize.x + _cellSizeDecrement, _cellSize.y);
         float widthBackground = 0;
         float heightBackground = 0;
         int countDecreased = -1;
 
         do {
             // Calculate "best" cell size
-            _cellSize.x = _cellSize.x - cellSizeDecrement;
+            cellSize.x = cellSize.x - _cellSizeDecrement;
             countDecreased += 1;
 
-            int nbCols;
+            int nbCols = -1;
             int nbRows = 1;
 
-            float calcuation = (maxPlayer * _cellSize.x) + (spaceBetweenCases * (maxPlayer + 1));
-            if (calcuation > gridZone.x)
+            float calcuation = (maxPlayer * cellSize.x) + (_spaceBetweenCases * (maxPlayer + 1));
+            if (calcuation > _gridSize.x)
             {
-                nbCols = Mathf.FloorToInt(gridZone.x / _cellSize.x);
+                // BUG : if > 35 , calculation become wrong
+                nbCols = Mathf.FloorToInt(_gridSize.x / cellSize.x);
                 nbRows = Mathf.CeilToInt((float)maxPlayer / nbCols);
-                widthBackground = (nbCols * _cellSize.x) + (spaceBetweenCases * (nbCols + 1));
+
+                widthBackground = (nbCols * cellSize.x) + (_spaceBetweenCases * (nbCols + 1));
             }
             else
             {
                 widthBackground = calcuation;
             }
            
-            heightBackground = (nbRows * _cellSize.y) + (spaceBetweenCases * (nbRows + 1));
+            heightBackground = (nbRows * cellSize.y) + (_spaceBetweenCases * (nbRows + 1));
 
-        } while (heightBackground > gridSizeY - (2 * spaceAboveBelowGrid));
+        } while (heightBackground >= _gridSize.y);
 
         // Set the size of the black background (for simulating borders)
-        blackBackground.sizeDelta = new Vector2(widthBackground, heightBackground);
-        gridLayoutGroup.cellSize = _cellSize;
+        _blackBackground.sizeDelta = new Vector2(widthBackground, heightBackground);
+        _gridLayoutGroup.cellSize = cellSize;
 
         // Create the right number of prefabs
         for (int i = 0; i < maxPlayer; i++)
         {
-            GameObject go = Instantiate(prefab, gridLayout.transform);
+            GameObject go = Instantiate(_prefab, _gridLayout.transform);
             TMP_Text text = go.GetComponentInChildren<TMP_Text>();
-            text.fontSize = text.fontSize - (fontSizeDecrement * countDecreased);
-            playersText.Add(go);
+            text.fontSize = text.fontSize - (_fontSizeDecrement * countDecreased);
+            _playersText.Add(go);
         }
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using System.Net.Sockets;
+using System;
 
 public static class TwitchClientReader
 {
@@ -9,42 +10,55 @@ public static class TwitchClientReader
     public static event TwitchChatEventHandler OnMessage = delegate { };
     public delegate void TwitchChatEventHandler(TwitchChatMessage twitchChatMessage);
 
+    private static bool _IsReading;
+
     public static void Initialize(TcpClient tcpClient)
     {
         _streamReader = new StreamReader(tcpClient.GetStream());
+        _IsReading = true;
     }
 
     public static async void StartReading()
     {
-        while (true)
+        while (_IsReading)
         {
-            string line = await _streamReader.ReadLineAsync();
-            
-            string[] split = line.Split(' ');
-            // if { PING :tmi.twitch.tv } => Respond with { PONG :tmi.twitch.tv }
-            if (line.StartsWith("PING"))
+            try
             {
-                Debug.Log("PONG");
-                // Call the TwitchClientSender To Send That Message
-                await TwitchClientSender.SendPongResponse(split[1]);
-            }
+                string line = await _streamReader.ReadLineAsync();
 
-            if (split.Length > 2 && split[1] == "PRIVMSG")
-            {
-                // line => { :username!username@username.tmi.twitch.tv PRIVMSG #channel :hello }
-                int exclamationPointPosition = split[0].IndexOf("!");
-                string username = split[0].Substring(1, exclamationPointPosition - 1);
-                string channel = split[2].TrimStart('#');
-                string message = split[3].TrimStart(':');
-                
-                OnMessage(new TwitchChatMessage
+                string[] split = line.Split(' ');
+                // if { PING :tmi.twitch.tv } => Respond with { PONG :tmi.twitch.tv }
+                if (line.StartsWith("PING"))
                 {
-                    Message = message,
-                    Sender = username
-                });
+                    // Call the TwitchClientSender To Send That Message
+                    await TwitchClientSender.SendPongResponseAsync(split[1]);
+                }
+
+                if (split.Length > 2 && split[1] == "PRIVMSG")
+                {
+                    // line => { :username!username@username.tmi.twitch.tv PRIVMSG #channel :hello }
+                    int exclamationPointPosition = split[0].IndexOf("!");
+                    string username = split[0].Substring(1, exclamationPointPosition - 1);
+                    string channel = split[2].TrimStart('#');
+                    string message = split[3].TrimStart(':');
+
+                    OnMessage(new TwitchChatMessage
+                    {
+                        Message = message,
+                        Sender = username
+                    });
+                }
             }
-            
+            catch (ObjectDisposedException e)
+            {
+                Debug.Log("Caugth an ObjectDisposedException" + e.Message);
+            }
         }
+    }
+
+    public static void StopReading()
+    {
+        _IsReading = false;
     }
 
 }

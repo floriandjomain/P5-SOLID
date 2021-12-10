@@ -4,7 +4,12 @@ using UnityEngine;
 public class GameSettings : ScriptableObject
 {
     public string StreamerControlType;
-    
+
+    public bool UseAutoLaunch;
+    public int AutoLaunchTime;
+
+    public bool KeepPlayersAfterFinish;
+
     public int MaxPlayerNumber;
     public int TileMaxLifePoints;
 

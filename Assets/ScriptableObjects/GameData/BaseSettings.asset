@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: BaseSettings
   m_EditorClassIdentifier: 
   StreamerControlType: ZQSD
-  MaxPlayerNumber: 20
-  TileMaxLifePoints: 2
+  UseAutoLaunch: 0
+  AutoLaunchTime: 10
+  KeepPlayersAfterFinish: 1
+  MaxPlayerNumber: 15
+  TileMaxLifePoints: 1
   CommandInputTime: 10
   PlayTime: 2
   JumpSound: {fileID: 0}

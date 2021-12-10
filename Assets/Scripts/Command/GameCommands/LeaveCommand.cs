@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class LeaveCommand : GameCommand
 {
-    public LeaveCommand(string _player)
+    public LeaveCommand(string player)
     {
-        player = _player;
+        _player = player;
     }
 
     public override void Execute()
     {
-        LobbyManager.Instance.RemovePlayer(player);
+        LobbyManager.Instance.RemovePlayer(_player);
     }
 }

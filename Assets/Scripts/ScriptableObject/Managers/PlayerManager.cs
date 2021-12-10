@@ -114,10 +114,27 @@ public class PlayerManager : ScriptableObject
         onRemovedPlayer?.Invoke(playerPseudo);
     }
 
+    public void RemoveAllPlayers()
+    {
+        List<string> keys = Players.Keys.ToList();
+        foreach (string key in keys) 
+        {
+            RemovePlayer(key);
+        }
+    }
+
+    public void RemoveAllMovmentPlayer()
+    {
+        foreach (string key in Players.Keys)
+        {
+            onRemovedPlayer?.Invoke(key);
+        }
+    }
+
     public bool ContainsPlayer(string playerPseudo)
     {
         return Players.ContainsKey(playerPseudo);
-    }
+    } 
 
     public void SetUp(float playTime)
     {

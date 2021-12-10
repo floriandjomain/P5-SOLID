@@ -166,6 +166,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27cf31d445112eb40b9cd34bfc5f56ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commandQueue: {fileID: 11400000, guid: f18b62586fd3b6e418206f6e64e6b155, type: 2}
-  gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
-  playerManager: {fileID: 11400000, guid: f54382553db50784da85ae86e5c9327e, type: 2}
+  CommandQueue: {fileID: 11400000, guid: f18b62586fd3b6e418206f6e64e6b155, type: 2}

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CommandManager : MonoBehaviour
 {
-    public CommandQueue commandQueue;
+    public CommandQueue CommandQueue;
 
     private void Update()
     {
-        if (commandQueue.QueueCount() > 0) commandQueue.Dequeue().Execute();
+        if (CommandQueue.QueueCount() > 0) CommandQueue.Dequeue().Execute();
     }
 }
