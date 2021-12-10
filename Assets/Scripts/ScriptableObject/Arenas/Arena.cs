@@ -8,18 +8,10 @@ public class Arena : ScriptableObject
 {
     protected Tile[,] Tiles;
     [SerializeField] protected Tile tilePrefab;
-    private GameObject arenaGO;
     protected Random rnd = new Random();
-
-    private void InspectorMapInstantiation()
-    {
-        arenaGO = new GameObject("Arena");
-    }
 
     public virtual void MapInstantiation(int playerNumber, int maxTileHealth, Action action)
     {
-        InspectorMapInstantiation();
-        
         //Arene classique
         Tiles = new Tile[playerNumber, playerNumber];
         
@@ -42,7 +34,7 @@ public class Arena : ScriptableObject
 
     private Tile CreateTile(int maxTileHealth, Action action)
     {
-        Tile tile = Instantiate(tilePrefab, arenaGO.transform, true);
+        Tile tile = Instantiate(tilePrefab, GameManager.Instance.ArenaGO.transform, true);
         
         tile.SetStartLife(maxTileHealth);
         tile.AddActionToDeath(action);
