@@ -2,57 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TwitchInterpreter : MonoBehaviour
 {
     [SerializeField] private TwitchChatMessageQueue _twitchQueue;
     [SerializeField] private GameState _gameState;
 
-    [SerializeField] private GameObject _commands;
+    [SerializeField] private List<TwitchCommand> _lobbyTwitchCommands;
+    [SerializeField] private List<TwitchCommand> _gameTwitchCommands;
 
     [SerializeField] private char _commandPerfix;
 
-    private List<TwitchCommand> _lobbyTwitchCommands;
-    private List<TwitchCommand> _gameTwitchCommands;
-
-    private void Start()
+    public void Update()
     {
-        _lobbyTwitchCommands = new List<TwitchCommand>();
-        _gameTwitchCommands = new List<TwitchCommand>();
-
-        if (_commands != null)
+        if (_twitchQueue.QueueCount() > 0)
         {
-            TwitchCommand[] commands = _commands.GetComponents<TwitchCommand>();
-            foreach (TwitchCommand tc in commands)
-            {
-                if(tc.Type == TwitchCommand.CommandType.Game)
-                {
-                    _gameTwitchCommands.Add(tc);
-                }
-                else if (tc.Type == TwitchCommand.CommandType.Lobby)
-                {
-                    _lobbyTwitchCommands.Add(tc);
-                }
-            }
-        }
-        else
-        {
-            Debug.Log("[TwitchInterpreter] There is no commands");
+            Debug.Log("Dequeue message");
+            Interpret(_twitchQueue.Dequeue());
         }
     }
 
-    private void Update()
-    {
-        if (_gameState.GetState() == GameState.State.GameListening || _gameState.GetState() == GameState.State.LobbyListening)
-        {
-            if (_twitchQueue.QueueCount() > 0)
-            {
-                //Debug.Log("Dequeue message");
-                Interpret(_twitchQueue.Dequeue());
-            }
-        }
-    }
-
-    
     private void Interpret(TwitchChatMessage twitchChatMessage)
     {
         if (_gameState.GetState() == GameState.State.GameListening)
@@ -76,6 +45,7 @@ public class TwitchInterpreter : MonoBehaviour
                 if (twitchCommand.Contains(command))
                 {
                     twitchCommand.OnCommandFound.Invoke(twitchChatMessage.Sender);
+                    Debug.Log("Invoke found command");
                     break;
                 }
             }
