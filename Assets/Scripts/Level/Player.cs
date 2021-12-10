@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool isAlive;
     [SerializeField] public bool willUTurn;
     [SerializeField] private float height;
+    [SerializeField] public bool IsMoving;
     public float PlayTime;
 
     // Start is called before the first frame update
@@ -74,9 +74,12 @@ public class Player : MonoBehaviour
         
     public bool IsAlive() => isAlive;
 
-    public void ApplyMovement()
+    public IEnumerator ApplyMovement()
     {
-        StartCoroutine(MoveFromTo(position, nextPosition));
+        IsMoving = true;
+        Debug.Log("on applique un movement");
+        yield return (MoveFromTo(position, nextPosition));
+        IsMoving = false;
     }
 
     public Vector3 GetCapsulePos() => capsule.transform.position;
@@ -87,8 +90,11 @@ public class Player : MonoBehaviour
         Fall();
     }
 
-    public void UTurn()
+    public IEnumerator UTurn()
     {
-        StartCoroutine(CoUTurn(position, nextPosition));
+        IsMoving = true;
+        Debug.Log("on applique un u-turn");
+        yield return (CoUTurn(position, nextPosition));
+        IsMoving = false;
     }
 }

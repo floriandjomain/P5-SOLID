@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,16 +19,15 @@ public class PlayerManager : ScriptableObject
     public int GetCurrentPlayerNumber() => Players.Count;
     public int GetCurrentAlivePlayerNumber() => Players.Keys.Count(player => Players[player].IsAlive());
 
-    public void Turn(Tile[,] tiles)
+    public IEnumerator Turn()
     {
-        ApplyMovements();
-        Falls(tiles);
+        yield return ApplyMovements(CheckForConflicts());
         taarniendo?.Invoke();
     }
 
-    private void ApplyMovements()
+    private IEnumerator ApplyMovements(List<string> conflictedPlayers)
     {
-        List<string> conflictedPlayers = CheckForConflicts();
+        List<Player> movingPlayers = new List<Player>();
         
         List<string> players = new List<string>(Players.Keys);
         foreach (string p in players)
@@ -37,15 +37,40 @@ public class PlayerManager : ScriptableObject
             if (!conflictedPlayers.Contains(p))
             {
                 if(p == "flupiiipi") Debug.Log("[PlayerManager] apply movement");
-                Players[p].ApplyMovement();
+                GameManager.Instance.StartPlayerCoroutine(Players[p].ApplyMovement());
+                movingPlayers.Add(Players[p]);
             }
             else
             {
                 if(p == "flupiiipi") Debug.Log("[PlayerManager] u-turn");
-                if(Players[p].willUTurn)
-                    Players[p].UTurn();
+                if (Players[p].willUTurn)
+                {
+                    GameManager.Instance.StartPlayerCoroutine(Players[p].UTurn());
+                    movingPlayers.Add(Players[p]);
+                }
             }
         }
+
+        yield return new WaitForSeconds(2);
+        yield return WaitForPlayersToMove(movingPlayers);
+    }
+
+    private IEnumerator WaitForPlayersToMove(List<Player> movingPlayers)
+    {
+        bool ok;
+        
+        do
+        {
+            ok = true;
+            
+            foreach (Player p in movingPlayers)
+            {
+                if (p.IsMoving) ok = false;
+            }
+            
+        } while (!ok);
+
+        yield return null;
     }
 
     private List<string> CheckForConflicts()

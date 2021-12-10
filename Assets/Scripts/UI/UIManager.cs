@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
 
         GoToMainMenu();
 
-        /// Observer qui va s'execute à la fin des coroutines de transition
+        /// Observer qui va s'execute Ã  la fin des coroutines de transition
         CoroutineManager.instance.OnEndUICoroutine += SwitchMenu;
     }
 

@@ -26,6 +26,7 @@ public class MovementManager : ScriptableObject
 
     public void ResetMovements()
     {
+        Debug.Log("reset movements");
         List<string> moves = new List<string>(Movements.Keys);
         foreach (string p in moves)
             Movements[p] = Movement.None;

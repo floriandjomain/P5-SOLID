@@ -12,7 +12,6 @@ public class CameraManager : ScriptableObject
         _playerManager.taarniendo += UpdatePosition;
         _camera = Camera.main;
         _camera.transform.rotation = Quaternion.LookRotation(Vector3.down);
-        UpdatePosition();
     }
 
     public void UpdatePosition()
