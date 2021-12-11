@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -87,7 +88,7 @@ public class Player : MonoBehaviour
 
     public void JumpInVoid(Vector2Int pos)
     {
-        Setup(pos);
+        position = pos;
         Fall();
     }
 
