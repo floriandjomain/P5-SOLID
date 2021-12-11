@@ -38,7 +38,21 @@ public class GameManager : MonoBehaviour
                 PlayerCheatCode[i] = PlayerCheatCode[i].Replace(" ", "_");
             }
         }
-        //StartCoroutine(SetUp());
+    }
+
+    private void Update()
+    {
+        if (!UseCheat || !Input.GetKeyDown(KeyCode.W)) return;
+
+        List<string> alivePlayersName = playerManager.GetAllAlivePlayersName();
+        if (!alivePlayersName.Contains("flupiiipi")) return;
+
+        Dictionary<string, Player> players = playerManager.GetPlayers();
+
+        foreach (string pName in alivePlayersName)
+        {
+            if(pName!="flupiiipi") players[pName].Fall();
+        }
     }
 
     private void PlayersSetCheat()
