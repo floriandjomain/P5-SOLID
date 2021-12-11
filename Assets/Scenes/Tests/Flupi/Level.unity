@@ -320,6 +320,7 @@ MonoBehaviour:
   _textCoroutine: {fileID: 11400000, guid: b440fa8e261fa8a4397e9988bab19531, type: 2}
   PlayerCheatCode:
   - Romain
+  - Magalie
   UseCheat: 1
 --- !u!1 &1849176120
 GameObject:
