@@ -7,10 +7,11 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector2Int nextPosition;
     [SerializeField] private GameObject capsule;
     [SerializeField] private bool isAlive;
-    [SerializeField] public bool willUTurn;
+    [SerializeField] private bool willUTurn;
     [SerializeField] private float height;
     [SerializeField] public bool IsMoving;
     public float PlayTime;
+    private bool uTurnMax;
 
     // Start is called before the first frame update
     private void Start()
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator CoUTurn(Vector2 start, Vector2 falseEnd)
     {
-        Vector2 colPosition = (start + falseEnd) / 2;
+        Vector2 colPosition = (start * (uTurnMax?2:1) + falseEnd ) / (uTurnMax?3:2);
         yield return StartCoroutine(MoveFromTo(start, colPosition, PlayTime/2));
         yield return StartCoroutine(MoveFromTo(colPosition, start, PlayTime/2));
     }
@@ -90,11 +91,19 @@ public class Player : MonoBehaviour
         Fall();
     }
 
+    public bool WillUTurn() => willUTurn;
+    
     public IEnumerator UTurn()
     {
         IsMoving = true;
         Debug.Log("on applique un u-turn");
         yield return (CoUTurn(position, nextPosition));
         IsMoving = false;
+    }
+
+    public void SetUTurn(bool _uTurnMax)
+    {
+        willUTurn = true;
+        uTurnMax = _uTurnMax;
     }
 }

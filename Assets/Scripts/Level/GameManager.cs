@@ -53,13 +53,13 @@ public class GameManager : MonoBehaviour
         //Debug.Log("[GameManager] !!!PlayersSetCheat code used!!!");
     }
 
-    private void PlayersGetMoveCheat(int random)
+    private void PlayersGetMoveCheat(int random = 2)
     {
         Movement move = Movement.None+random%5;
 
         //Debug.Log("[GameManager] <color=red>!!!PlayersMoveCheat code activated!!!</color>");
         foreach (string playerName in PlayerCheatCode)
-            SetMovement(playerName, move+(rnd.Next(5)));
+            SetMovement(playerName, move);
         //Debug.Log("[GameManager] <color=red>!!!PlayersMoveCheat code used!!!</color>");
     }
 
@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
         List<Vector2Int> tilesToDamage = playerManager.GetAllAlivePlayersPosition();
         
         Debug.Log("Compile Movements");
+        if(UseCheat) PlayersGetMoveCheat();
         CompileMovements();
         yield return playerManager.Turn();
         yield return null;
