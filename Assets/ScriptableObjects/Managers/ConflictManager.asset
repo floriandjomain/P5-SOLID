@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62ccfdb34bb2d0a44961485fa7390396, type: 3}
-  m_Name: PlayerManager
+  m_Script: {fileID: 11500000, guid: 11f0e75e4ab50624f82092b69886eea9, type: 3}
+  m_Name: ConflictManager
   m_EditorClassIdentifier: 
-  _conflictManager: {fileID: 11400000, guid: 4a92c16512f59f54bbfe6b1577374a0e, type: 2}
-  playerPrefab: {fileID: -7902310782287360304, guid: cd8eb9fbf438fa44383148a7ecafef13, type: 3}

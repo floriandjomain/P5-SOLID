@@ -8,6 +8,7 @@ using UnityEngine;
 public class PlayerManager : ScriptableObject
 {
     [SerializeField] private Dictionary<string, Player> Players = new Dictionary<string, Player>();
+    [SerializeField] private ConflictManager _conflictManager;
     
     public event Action taarniendo;
     public event Action<string> onRemovedPlayer;
@@ -20,7 +21,7 @@ public class PlayerManager : ScriptableObject
 
     public IEnumerator Turn()
     {
-        yield return ApplyMovements(ComputeConflicts());
+        yield return ApplyMovements(_conflictManager.ComputeConflicts(Players, GetAllAlivePlayersName()));
         taarniendo?.Invoke();
     }
 
@@ -70,53 +71,6 @@ public class PlayerManager : ScriptableObject
         } while (!ok);
 
         yield return null;
-    }
-
-    private List<string> ComputeConflicts()
-    {
-        List<string> conflictedPlayers = new List<string>();
-        List<string> players = GetAllAlivePlayersName();
-        
-        foreach(string p1 in players)
-        {
-            //if won't move
-            if (conflictedPlayers.Contains(p1) || Players[p1].GetPos() == Players[p1].GetNextPos()) continue;
-            
-            //get p1's positions
-            Vector2Int p1Pos = Players[p1].GetPos();
-            Vector2Int p1NextPos = Players[p1].GetNextPos();
-            
-            foreach(string p2 in players)
-            {
-                if (p1 == p2) continue;
-                
-                //get p2's positions
-                Vector2Int p2Pos = Players[p2].GetPos();
-                Vector2Int p2NextPos = Players[p2].GetNextPos();
-                
-                if (!conflictedPlayers.Contains(p2))
-                {
-                    if (p1Pos == p2NextPos && p2Pos == p1NextPos || p1NextPos == p2NextPos)
-                    {
-                        bool max = p1NextPos != p2NextPos;
-                        AddToConflictList(ref conflictedPlayers, p2, max);
-                        AddToConflictList(ref conflictedPlayers, p1, max);
-                    }
-                }
-                else if (p1NextPos == p2Pos)
-                    AddToConflictList(ref conflictedPlayers, p1, true);
-            }
-        }
-        
-        return conflictedPlayers;
-    }
-
-    private void AddToConflictList(ref List<string> list, string pName, bool _uTurnMax)
-    {
-        if (list.Contains(pName)) return;
-                    
-        list.Add(pName);
-        Players[pName].SetUTurn(_uTurnMax);
     }
 
     public void Falls(Tile[,] tiles)
