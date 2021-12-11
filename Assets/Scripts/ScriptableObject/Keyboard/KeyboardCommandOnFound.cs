@@ -30,7 +30,6 @@ public class KeyboardCommandOnFound : ScriptableObject
     public void CreateMoveDownCommand(string player)
     {
         _commandQueue.Enqueue(CommandFactory.GetMoveDownCommand(player));
-
     }
 
     public void CreateMoveLeftCommand(string player)
