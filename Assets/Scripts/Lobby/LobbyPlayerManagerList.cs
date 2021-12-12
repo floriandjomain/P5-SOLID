@@ -118,8 +118,7 @@ public class LobbyPlayerManagerList : MonoBehaviour
             float calcuation = (maxPlayer * cellSize.x) + (_spaceBetweenCases * (maxPlayer + 1));
             if (calcuation > _gridSize.x)
             {
-                // BUG : if > 35 , calculation become wrong
-                nbCols = Mathf.FloorToInt(_gridSize.x / cellSize.x);
+                nbCols = Mathf.FloorToInt(_gridSize.x / (cellSize.x + _spaceBetweenCases));
                 nbRows = Mathf.CeilToInt((float)maxPlayer / nbCols);
 
                 widthBackground = (nbCols * cellSize.x) + (_spaceBetweenCases * (nbCols + 1));
