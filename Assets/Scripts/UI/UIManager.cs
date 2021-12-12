@@ -82,7 +82,7 @@ public class UIManager : MonoBehaviour
         _gameGUI.SetActive(false);
 
         _gameState.SetState(GameState.State.LobbyListening);
-        ScenesManager.Instance.UnloadLevel();
+        ScenesManager.Instance.UnloadLevelIfLoaded();
 
         if (_gameSettings.KeepPlayersAfterFinish)
         {

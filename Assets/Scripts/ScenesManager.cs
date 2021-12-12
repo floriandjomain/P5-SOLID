@@ -36,7 +36,7 @@ public class ScenesManager : MonoBehaviour
         }
     }
 
-    public void UnloadLevel()
+    public void UnloadLevelIfLoaded()
     {
         bool isLoaded = false;
 
