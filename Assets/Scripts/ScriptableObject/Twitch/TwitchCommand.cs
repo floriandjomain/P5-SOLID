@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(menuName = "Twitch/Command")]
+[CreateAssetMenu(menuName = "Command/Twitch")]
 public class TwitchCommand : ScriptableObject
 {
     public enum CommandType { Lobby, Game }

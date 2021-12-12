@@ -7,48 +7,32 @@ public class KeyboardListener : MonoBehaviour
     [SerializeField] private GameState _gameState;
     [SerializeField] private GameSettings _gameSettings;
     // [SerializeField] private GameManager _gameManager;
-    [SerializeField] private GameObject _commands;
+    [SerializeField] private List<KeyboardCommand> _lobbyKeyboardCommands;
+    [SerializeField] private List<KeyboardCommand> _gameKeyboardCommands;
+
     [SerializeField] private KeyboardData[] _keyboardDataList;
     [SerializeField] private StringVariable _channelName;
-    private KeyboardData _keyboardData;
 
-    private List<KeyboardCommand> _lobbyKeyboardCommands;
-    private List<KeyboardCommand> _gameKeyboardCommands;
+    private KeyboardData _keyboardData;
 
     private void Start()
     {
-        _lobbyKeyboardCommands = new List<KeyboardCommand>();
-        _gameKeyboardCommands = new List<KeyboardCommand>();
-
+        // Keyboard selection
         foreach (KeyboardData keyboardData in _keyboardDataList)
             if (_gameSettings.StreamerControlType == keyboardData.DataName)
                 _keyboardData = keyboardData;
 
         if (!_keyboardData) _keyboardData = _keyboardDataList[0];
-        
+        // Key board name in case joins
         _keyboardData.PlayerPseudo = _channelName.Value;
-            
-        if (_commands != null)
+           
+        foreach (KeyboardCommand kc in _lobbyKeyboardCommands)
         {
-            KeyboardCommand[] commands = _commands.GetComponents<KeyboardCommand>();
-            foreach (KeyboardCommand kc in commands)
-            {
-                kc.Command = _keyboardData.GetKey(kc.CommandName);
-                //Debug.Log($"key registered {kc.CommandName}");
-                
-                if(kc.commandType == KeyboardCommand.CommandType.Game)
-                {
-                    _gameKeyboardCommands.Add(kc);
-                }
-                else if (kc.commandType == KeyboardCommand.CommandType.Lobby)
-                {
-                    _lobbyKeyboardCommands.Add(kc);
-                }
-            }
+            kc.Command = _keyboardData.GetKey(kc.CommandName);
         }
-        else
+        foreach (KeyboardCommand kc in _gameKeyboardCommands)
         {
-            Debug.Log("[KeyboardInterpreter] There is no commands");
+            kc.Command = _keyboardData.GetKey(kc.CommandName);
         }
     }
 
@@ -59,10 +43,8 @@ public class KeyboardListener : MonoBehaviour
             foreach (KeyboardCommand keyboardCommand in _gameKeyboardCommands)
             {
                 if (!Input.GetKeyDown(keyboardCommand.Command)) continue;
-                
-                //Debug.Log("[Keyboard Listener] on passe combien de fois ici ?");
-                
-                keyboardCommand.onCommandFound.Invoke(_keyboardData.PlayerPseudo);
+                                
+                keyboardCommand.OnCommandFound.Invoke(_keyboardData.PlayerPseudo);
                 break;
             }
             
@@ -76,7 +58,7 @@ public class KeyboardListener : MonoBehaviour
             {
                 if (!Input.GetKeyDown(keyboardCommand.Command)) continue;
 
-                keyboardCommand.onCommandFound.Invoke(_keyboardData.PlayerPseudo);
+                keyboardCommand.OnCommandFound.Invoke(_keyboardData.PlayerPseudo);
                 break;
             }
         }

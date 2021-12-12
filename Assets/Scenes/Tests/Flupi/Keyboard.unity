@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,222 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &986095692
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 986095694}
-  - component: {fileID: 986095693}
-  - component: {fileID: 986095699}
-  - component: {fileID: 986095698}
-  - component: {fileID: 986095697}
-  - component: {fileID: 986095696}
-  - component: {fileID: 986095695}
-  m_Layer: 0
-  m_Name: KeyboardCommands
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &986095693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986095692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcef732e75234d4449f08d8d6f142d90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CommandName: Join
-  Command: 0
-  commandType: 0
-  onCommandFound:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: d0b63fa0930716b41af897c4b52c9903, type: 2}
-        m_TargetAssemblyTypeName: KeyboardCommandOnFound, Assembly-CSharp
-        m_MethodName: CreateJoinCommand
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!4 &986095694
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986095692}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.19141006, y: 0.96659684, z: 0.35527277}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &986095695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986095692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcef732e75234d4449f08d8d6f142d90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CommandName: Right
-  Command: 0
-  commandType: 1
-  onCommandFound:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: d0b63fa0930716b41af897c4b52c9903, type: 2}
-        m_TargetAssemblyTypeName: KeyboardCommandOnFound, Assembly-CSharp
-        m_MethodName: CreateMoveRightCommand
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &986095696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986095692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcef732e75234d4449f08d8d6f142d90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CommandName: Down
-  Command: 0
-  commandType: 1
-  onCommandFound:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: d0b63fa0930716b41af897c4b52c9903, type: 2}
-        m_TargetAssemblyTypeName: KeyboardCommandOnFound, Assembly-CSharp
-        m_MethodName: CreateMoveDownCommand
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &986095697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986095692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcef732e75234d4449f08d8d6f142d90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CommandName: Left
-  Command: 0
-  commandType: 1
-  onCommandFound:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: d0b63fa0930716b41af897c4b52c9903, type: 2}
-        m_TargetAssemblyTypeName: KeyboardCommandOnFound, Assembly-CSharp
-        m_MethodName: CreateMoveLeftCommand
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &986095698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986095692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcef732e75234d4449f08d8d6f142d90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CommandName: Up
-  Command: 0
-  commandType: 1
-  onCommandFound:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: d0b63fa0930716b41af897c4b52c9903, type: 2}
-        m_TargetAssemblyTypeName: KeyboardCommandOnFound, Assembly-CSharp
-        m_MethodName: CreateMoveUpCommand
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &986095699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986095692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcef732e75234d4449f08d8d6f142d90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CommandName: Leave
-  Command: 0
-  commandType: 0
-  onCommandFound:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: d0b63fa0930716b41af897c4b52c9903, type: 2}
-        m_TargetAssemblyTypeName: KeyboardCommandOnFound, Assembly-CSharp
-        m_MethodName: CreateLeaveCommand
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &1559358429
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,11 +154,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
   _gameSettings: {fileID: 11400000, guid: 21aea94cb883fbf41b72961edfaebfc3, type: 2}
-  _gameManager: {fileID: 0}
-  _commands: {fileID: 986095692}
+  _lobbyKeyboardCommands:
+  - {fileID: 11400000, guid: 4988ea0bc0bcf1042b876e18ab944142, type: 2}
+  - {fileID: 11400000, guid: 21cfeed0a0934234194d70efa691c2d2, type: 2}
+  _gameKeyboardCommands:
+  - {fileID: 11400000, guid: 4078c25392c7e3e45a1a54cf1b32fc0e, type: 2}
+  - {fileID: 11400000, guid: 6b3b602f374c38a4d812db625d86c783, type: 2}
+  - {fileID: 11400000, guid: 1ec5cc949e458cd43984560f9a04a660, type: 2}
+  - {fileID: 11400000, guid: 06bb79d8b9599384d82198c81cc18381, type: 2}
   _keyboardDataList:
   - {fileID: 11400000, guid: 4478d1ff034c47746988a1f5df968233, type: 2}
   - {fileID: 11400000, guid: 7df5c883bac06c741819edceabb58ef2, type: 2}
+  - {fileID: 11400000, guid: aa1ccf966329ee04284083021d2d3cd6, type: 2}
   _channelName: {fileID: 11400000, guid: 396c3c80d17b82244a53d7768c089ae4, type: 2}
 --- !u!4 &1559358431
 Transform:
