@@ -12,7 +12,6 @@ public class CameraManager : ScriptableObject
         _playerManager.taarniendo += UpdatePosition;
         _camera = Camera.main;
         _camera.transform.rotation = Quaternion.LookRotation(Vector3.down);
-        UpdatePosition();
     }
 
     public void UpdatePosition()
@@ -22,7 +21,7 @@ public class CameraManager : ScriptableObject
         List<Vector3> alivePlayersCapsulePosition = _playerManager.GetAllAlivePlayersCapsulePosition();
         int alivePlayersCount = alivePlayersCapsulePosition.Count;
 
-        if (alivePlayersCount <= 2) return;
+        if (alivePlayersCount < 2) return;
         
         foreach (Vector3 position in alivePlayersCapsulePosition)
             newPos += position;

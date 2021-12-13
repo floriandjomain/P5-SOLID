@@ -16,7 +16,6 @@ public class MovementManager : ScriptableObject
             playerManager.onRemovedPlayer += RemoveMovement;
         }
 
-        playerManager.taarniendo += ResetMovements;
         ResetMovements();
     }
 
@@ -25,8 +24,9 @@ public class MovementManager : ScriptableObject
         Movements.Remove(playerName);
     }
 
-    private void ResetMovements()
+    public void ResetMovements()
     {
+        Debug.Log("reset movements");
         List<string> moves = new List<string>(Movements.Keys);
         foreach (string p in moves)
             Movements[p] = Movement.None;

@@ -101,7 +101,7 @@ public class CoroutineManager : MonoBehaviour
     {
         foreach (var coroutine in _switchToGameViewCoroutines)
         {
-            /// Active le jeu au moment où le fondu va se faire pour une meilleur impression
+            /// Active le jeu au moment oÃ¹ le fondu va se faire pour une meilleur impression
             if (coroutine.name.Contains("FadeOut"))
             {
                 OnEndUICoroutine.Invoke("GoToGameView");

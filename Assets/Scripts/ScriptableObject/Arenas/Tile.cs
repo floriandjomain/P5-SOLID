@@ -17,8 +17,8 @@ public class Tile : MonoBehaviour
     [SerializeField] private Material healthyTile;
     [SerializeField] private Material midLifeTile;
     [SerializeField] private Material lastLifeTile;
-    [SerializeField] private int startLifePoints;
-    [SerializeField] private int currentLifePoints;
+    [SerializeField] private float startLifePoints;
+    [SerializeField] private float currentLifePoints;
     [SerializeField] private int timer;
     [SerializeField] private TileState state;
     [SerializeField] private GameObject cube;
@@ -41,11 +41,11 @@ public class Tile : MonoBehaviour
     {
         if (currentLifePoints > startLifePoints / 2) return;
         
-        if (currentLifePoints == 1)
-            cube.GetComponent<Renderer>().material.color = lastLifeTile.color;
-        else if (currentLifePoints == startLifePoints / 2)
+        if (currentLifePoints == startLifePoints / 2)
             cube.GetComponent<Renderer>().material.color = midLifeTile.color;
-        else if (currentLifePoints <= 0)
+        else if (currentLifePoints == 1f && startLifePoints != 1f)
+            cube.GetComponent<Renderer>().material.color = lastLifeTile.color;
+        else if (currentLifePoints < 1f)
         {
             gameObject.SetActive(false);
             onDestroy?.Invoke();

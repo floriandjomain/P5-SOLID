@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Experimental.TerrainAPI;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Arena/Holy")]
