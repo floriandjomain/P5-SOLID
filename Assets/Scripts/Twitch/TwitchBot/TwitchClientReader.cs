@@ -68,13 +68,7 @@ public static class TwitchClientReader
         catch (TaskCanceledException e)
         {
             Debug.Log("Caugth an TaskCanceledException in Thread [" + Thread.CurrentThread.Name + "]" + e.Message);
-        }
-        finally
-        {
-            _cancellationTokenSource.Dispose();
-            _streamReader.Dispose();
-        }
-        
+        } 
     }
 
     public static void StopReading()

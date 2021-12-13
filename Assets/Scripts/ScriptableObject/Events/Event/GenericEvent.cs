@@ -8,8 +8,7 @@ public abstract class GenericEvent<T> : ScriptableObject where T : IGameEvent
 
     public void Raise()
     {
-        Debug.Log("ici");
-        for(int i = _eventListeners.Count; i >= 0; i--)
+        for (int i = _eventListeners.Count - 1; i >= 0; i--)
         {
             _eventListeners[i].OnEventRaised();
         }
