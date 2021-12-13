@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b930b0ff63b6c24f97406783d88f87d, type: 3}
-  m_Name: GameCommandQueue
+  m_Script: {fileID: 11500000, guid: f64faea07b34a2a44b9408b154c5a686, type: 3}
+  m_Name: EnqueueGameCommand
   m_EditorClassIdentifier: 
-  _event: {fileID: 11400000, guid: 321a8d3e5d9ce9145b7bd61c9a74b2e8, type: 2}

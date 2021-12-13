@@ -9,7 +9,6 @@ public class TwitchCommandOnFound : ScriptableObject
 
     public void CreateJoinCommand(string player)
     {
-        Debug.Log("oui");
         _commandQueue.Enqueue(CommandFactory.GetJoinCommand(player));
     }
 

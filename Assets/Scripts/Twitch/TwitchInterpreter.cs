@@ -13,28 +13,14 @@ public class TwitchInterpreter : MonoBehaviour
 
     [SerializeField] private char _commandPerfix;
 
-    public void Update()
-    {
-        /*
-        if (_twitchQueue.QueueCount() > 0)
-        {
-            Debug.Log("Dequeue message");
-            Interpret(_twitchQueue.Dequeue());
-        }
-        */
-    }
-
     public void DequeueMessage()
     {
-        Debug.Log("Interpreter - Dequeue message");
-        // Interpret(_twitchQueue.Dequeue());
+        Debug.Log("Interpret");
+        Interpret(_twitchQueue.Dequeue());
     }
 
     private void Interpret(TwitchChatMessage twitchChatMessage)
     {
-        Debug.Log("Interpret");
-        Debug.Log(_gameState.GetState());
-
         if (_gameState.GetState() == GameState.State.GameListening)
         {
             SearchList(twitchChatMessage, _gameTwitchCommands);

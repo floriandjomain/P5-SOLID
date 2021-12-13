@@ -11,10 +11,7 @@ public class GameEventListener : MonoBehaviour, IGameEvent
 
     public void OnEventRaised()
     {
-        Debug.Log("toto");
-        Debug.Log("Listener - " + _onEventRaised.GetPersistentMethodName(0));
         _onEventRaised.Invoke();
-        Debug.Log("toto 2");
     }
 
     private void OnEnable()
