@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Twitch/TwitchCommandFound")]
-public class TwitchCommandOnFound : ScriptableObject
+[CreateAssetMenu(menuName = "OnCommandFound")]
+public class CommandOnFound : ScriptableObject
 {
     [SerializeField] private CommandQueue _commandQueue;
 
