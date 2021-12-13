@@ -18,6 +18,7 @@ public class TwitchClientStarter : MonoBehaviour
     private void Start()
     {
         Task.Run(TwitchThread);
+        // TwitchThread();
     }
 
     private async void TwitchThread()

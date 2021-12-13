@@ -13,10 +13,14 @@ public class TwitchInterpreter : MonoBehaviour
 
     [SerializeField] private char _commandPerfix;
 
-    public void DequeueMessage()
+
+    private void Update()
     {
-        Debug.Log("Interpret");
-        Interpret(_twitchQueue.Dequeue());
+        if (_twitchQueue.QueueCount() > 0)
+        {
+            Debug.Log("Interpret");
+            Interpret(_twitchQueue.Dequeue());
+        }
     }
 
     private void Interpret(TwitchChatMessage twitchChatMessage)
