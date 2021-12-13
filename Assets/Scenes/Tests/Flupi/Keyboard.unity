@@ -153,15 +153,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
-  _gameSettings: {fileID: 11400000, guid: 21aea94cb883fbf41b72961edfaebfc3, type: 2}
-  _lobbyKeyboardCommands:
+  _lobbyCommands:
   - {fileID: 11400000, guid: 4988ea0bc0bcf1042b876e18ab944142, type: 2}
   - {fileID: 11400000, guid: 21cfeed0a0934234194d70efa691c2d2, type: 2}
-  _gameKeyboardCommands:
+  _gameCommands:
   - {fileID: 11400000, guid: 4078c25392c7e3e45a1a54cf1b32fc0e, type: 2}
   - {fileID: 11400000, guid: 6b3b602f374c38a4d812db625d86c783, type: 2}
   - {fileID: 11400000, guid: 1ec5cc949e458cd43984560f9a04a660, type: 2}
   - {fileID: 11400000, guid: 06bb79d8b9599384d82198c81cc18381, type: 2}
+  _gameSettings: {fileID: 11400000, guid: 21aea94cb883fbf41b72961edfaebfc3, type: 2}
   _keyboardDataList:
   - {fileID: 11400000, guid: 4478d1ff034c47746988a1f5df968233, type: 2}
   - {fileID: 11400000, guid: 7df5c883bac06c741819edceabb58ef2, type: 2}

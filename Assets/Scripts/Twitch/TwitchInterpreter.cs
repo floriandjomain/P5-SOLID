@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class TwitchInterpreter : MonoBehaviour
+public class TwitchInterpreter : InputInterpreter<TwitchCommand>
 {
     [SerializeField] private TwitchChatMessageQueue _twitchQueue;
-    [SerializeField] private GameState _gameState;
-
-    [SerializeField] private List<TwitchCommand> _lobbyTwitchCommands;
-    [SerializeField] private List<TwitchCommand> _gameTwitchCommands;
 
     [SerializeField] private char _commandPerfix;
-
 
     private void Update()
     {
@@ -27,11 +22,11 @@ public class TwitchInterpreter : MonoBehaviour
     {
         if (_gameState.GetState() == GameState.State.GameListening)
         {
-            SearchList(twitchChatMessage, _gameTwitchCommands);
+            SearchList(twitchChatMessage, _gameCommands);
         }
         else if(_gameState.GetState() == GameState.State.LobbyListening)
         {
-            SearchList(twitchChatMessage, _lobbyTwitchCommands);
+            SearchList(twitchChatMessage, _lobbyCommands);
         }
     }
 

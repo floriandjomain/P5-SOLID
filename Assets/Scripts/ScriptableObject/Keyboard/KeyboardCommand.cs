@@ -9,5 +9,4 @@ public class KeyboardCommand : InputCommand
 
     public string CommandName { get => _name; }
     public KeyCode Command { get => _command; set => _command = value; }
-
 }

@@ -201,16 +201,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5cfe3008370f445a5a245a04830ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _twitchQueue: {fileID: 11400000, guid: 51ef11260bb0a3e43825a8e51c882196, type: 2}
   _gameState: {fileID: 11400000, guid: 9d075d7a14f6ea14e8296d58e9380e4a, type: 2}
-  _lobbyTwitchCommands:
+  _lobbyCommands:
   - {fileID: 11400000, guid: a030688ca6fd9a14ca89b603973562ce, type: 2}
   - {fileID: 11400000, guid: 333df5dbe8ea4ba4098609cadfff350d, type: 2}
-  _gameTwitchCommands:
+  _gameCommands:
   - {fileID: 11400000, guid: 90e17e8f7f7286e4f838077ce9ad4eea, type: 2}
   - {fileID: 11400000, guid: 984bf564b31e9c04490e8b388d8636a2, type: 2}
   - {fileID: 11400000, guid: dff6ad7ab605d9b40a74d1e38fac87db, type: 2}
   - {fileID: 11400000, guid: 8d5eb2472956347448c8b73ce9ddd504, type: 2}
+  _twitchQueue: {fileID: 11400000, guid: 51ef11260bb0a3e43825a8e51c882196, type: 2}
   _commandPerfix: 33
 --- !u!4 &1800726038
 Transform:
