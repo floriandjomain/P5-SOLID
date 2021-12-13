@@ -72,6 +72,7 @@ public static class TwitchClientReader
         finally
         {
             _cancellationTokenSource.Dispose();
+            _streamReader.Dispose();
         }
         
     }

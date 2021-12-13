@@ -15,7 +15,7 @@ public class TwitchClientStarter : MonoBehaviour
     [Space(10)]
     [SerializeField] private StringVariable channelName;
 
-    // private TcpClient _tcpClient;
+    private TcpClient _tcpClient;
 
 
     private void Start()
@@ -26,7 +26,7 @@ public class TwitchClientStarter : MonoBehaviour
     private async void TwitchThread()
     {
         Debug.Log("[TwitchClientStarter] Start");
-        TcpClient _tcpClient = new TcpClient();
+        _tcpClient = new TcpClient();
         await _tcpClient.ConnectAsync(ip, port);
 
         await TwitchClientSender.InitializeAsync(_tcpClient, channelName.Value.ToLower(), twitchBotData.Username, twitchBotData.Password);
@@ -54,5 +54,6 @@ public class TwitchClientStarter : MonoBehaviour
     {
         TwitchClientReader.StopReading();
         await TwitchClientSender.SendMessageAsync("I left (but not really I think, I dont know)");
+        _tcpClient.Dispose();
     }
 }
