@@ -22,12 +22,7 @@ public class ArenaManager : ScriptableObject
 
     public void Turn() => Arena.Turn();
 
-    public void DamageTiles(List<Vector2Int> tilesToDamage)
-    {
-        DamageTiles(tilesToDamage, 1);
-    }
-
-    public void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount)
+    public void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount = 1)
     {
         Arena.DamageTiles(tilesToDamage, damageAmount);
     }
@@ -35,4 +30,6 @@ public class ArenaManager : ScriptableObject
     public void BreakTile(Vector2Int tileToBreak) => Arena.BreakTile(tileToBreak);
 
     public Arena GetArena() => Arena;
+
+    public Arena SetArena(Arena arena) => Arena = arena;
 }

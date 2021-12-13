@@ -20,24 +20,23 @@ public class Tile : MonoBehaviour
     [SerializeField] private float startLifePoints;
     [SerializeField] private float currentLifePoints;
     [SerializeField] private int timer;
-    [SerializeField] private TileState state;
     [SerializeField] private GameObject cube;
     public event Action onDestroy;
+    
     private void Awake()
     {
-        cube.GetComponent<Renderer>().material.color = healthyTile.color;
+        UpdateColor();
         cube.transform.localScale = new Vector3(2f, 0.5f, 2f);
-        state = TileState.Vanilla;
     }
 
     public void Damage(int damageAmount)
     {
         currentLifePoints-=damageAmount;
 
-        OnDamage();
+        UpdateColor();
     }
 
-    private void OnDamage()
+    private void UpdateColor()
     {
         if (currentLifePoints > startLifePoints / 2) return;
         
@@ -60,40 +59,12 @@ public class Tile : MonoBehaviour
 
     public void SetStartTimer(int _startTimer) => timer = _startTimer;
 
-    public bool IsBroken() => state==TileState.Hollow || currentLifePoints == 0;
-
-    public void SwitchState(TileState _state)
-    {
-        state = _state;
-
-        switch (state)
-        {
-            case TileState.Vanilla:
-            {
-                gameObject.SetActive(true);
-                OnDamage();
-                break;
-            }
-            case TileState.Holy:
-            {
-                gameObject.SetActive(true);
-                cube.GetComponent<Renderer>().material.color = Color.white;
-                break;
-            }
-            default:
-            {
-                gameObject.SetActive(false);
-                break;
-            }
-        }
-    }
-
-    public TileState GetState() => state;
+    public bool IsBroken() => currentLifePoints == 0;
 
     public void Break()
     {
         currentLifePoints = 0;
-        OnDamage();
+        UpdateColor();
     }
 
     public void TimerShot()
@@ -105,4 +76,6 @@ public class Tile : MonoBehaviour
     {
         onDestroy += action;
     }
+
+    public float GetLife() => currentLifePoints;
 }

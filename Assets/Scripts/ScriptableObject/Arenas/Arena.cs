@@ -75,7 +75,7 @@ public class Arena : ScriptableObject
     {
         List<Vector2Int> walkableTilesPositions = new List<Vector2Int>();
 
-        for(int i=0; i<Tiles.GetLength(0); i++)
+        for(int i = 0; i < Tiles.GetLength(0); i++)
             for (int j = 0; j < Tiles.GetLength(1); j++)
                 if (!Tiles[i,j].IsBroken()) walkableTilesPositions.Add(new Vector2Int(i,j));
 

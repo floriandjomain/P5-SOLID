@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Random = System.Random;
 
@@ -30,29 +31,37 @@ public class GameManager : MonoBehaviour
 	    if (_instance != null && _instance != this) Destroy(gameObject);
 	        _instance = this;
 
-        if (UseCheat)
+        if (!UseCheat) return;
+        
+        PlayersSetCheat();
+            
+        for (int i = 0; i < PlayerCheatCode.Length; i++)
         {
-            PlayersSetCheat();
-            for (int i = 0; i < PlayerCheatCode.Length; i++)
-            {
-                PlayerCheatCode[i] = PlayerCheatCode[i].Replace(" ", "_");
-            }
+            PlayerCheatCode[i] = PlayerCheatCode[i].Replace(" ", "_");
         }
     }
 
     private void Update()
     {
-        if (!UseCheat || !Input.GetKeyDown(KeyCode.W)) return;
-
-        List<string> alivePlayersName = playerManager.GetAllAlivePlayersName();
-        if (!alivePlayersName.Contains("flupiiipi")) return;
-
-        Dictionary<string, Player> players = playerManager.GetPlayers();
-
-        foreach (string pName in alivePlayersName)
+        if (!UseCheat || !Input.GetKeyDown(KeyCode.W))
         {
-            if(pName!="flupiiipi") players[pName].Fall();
+            List<string> alivePlayersName = playerManager.GetAllAlivePlayersName();
+            if (!alivePlayersName.Contains("flupiiipi")) return;
+
+            Dictionary<string, Player> players = playerManager.GetPlayers();
+
+            foreach (string pName in alivePlayersName)
+            {
+                if (pName != "flupiiipi") players[pName].Fall();
+            }
         }
+
+        if (!Input.GetKeyDown(KeyCode.LeftControl)) return;
+        
+        if (Input.GetKeyDown(KeyCode.S))
+            SaveSystem.Instance.SaveData();
+        else if (Input.GetKeyDown(KeyCode.L))
+            SaveSystem.Instance.LoadData();
     }
 
     private void PlayersSetCheat()
@@ -217,7 +226,7 @@ public class GameManager : MonoBehaviour
 
         float time = Time.deltaTime*100000;
         PlayersGetMoveCheat((int)time);
-        PlayTurn();
+        StartCoroutine(PlayTurn());
     }
 
     public void ArenaTurn()
@@ -225,9 +234,23 @@ public class GameManager : MonoBehaviour
         arenaManager.Turn();
     }
 
-    public void StartPlayerCoroutine(IEnumerator enumerator)
+    public Arena GetArena() => arenaManager.GetArena();
+    public Arena SetArena(Arena arena) => arenaManager.SetArena(arena);
+
+    public void StartPlayerCoroutine(IEnumerator enumerator) => StartCoroutine(enumerator);
+
+    public string GetState() => gameState.ToString();
+
+    public Dictionary<string, Player> GetPlayers() => playerManager.GetPlayers();
+
+    public void ResetPlayers()
     {
-        Debug.Log("[GameManager] EUGNEUGNEUH STARTPLAYERROUTINE");
-        StartCoroutine(enumerator);
+        playerManager.RemoveAllPlayers();
+    }
+
+    public void SetPlayer(string playerName, Vector2Int playerPosition, bool playerIsAlive)
+    {
+        playerManager.AddPlayer(playerName, playerPosition, playerIsAlive);
+        movementManager.SetUp(playerManager);
     }
 }

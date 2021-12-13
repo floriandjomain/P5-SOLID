@@ -10,7 +10,8 @@ public class GameState : ScriptableObject
         LobbyListening,
         GameListening,
         NotListening,
-        OnPlay
+        OnPlay,
+        OnPause
     }
 
     [SerializeField] private State _state;
@@ -18,6 +19,18 @@ public class GameState : ScriptableObject
     public State GetState()
     {
         return _state;
+    }
+
+    public new string ToString()
+    {
+        return _state switch
+        {
+            State.LobbyListening => "LobbyListening",
+            State.GameListening => "GameListening",
+            State.NotListening => "NotListening",
+            State.OnPlay => "OnPlay",
+            _ => "OnPause"
+        };
     }
 
     public void SetState(State state)
@@ -28,9 +41,4 @@ public class GameState : ScriptableObject
     #endregion
 
     public List<string> AlivePlayers;
-
-    public void SaveGame()
-    {
-        
-    }
 }
