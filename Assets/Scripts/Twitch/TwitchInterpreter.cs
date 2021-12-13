@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class TwitchInterpreter : InputInterpreter<TwitchCommand>
+public class TwitchInterpreter : ListCommandByState<TwitchCommand>
 {
     [SerializeField] private TwitchChatMessageQueue _twitchQueue;
 

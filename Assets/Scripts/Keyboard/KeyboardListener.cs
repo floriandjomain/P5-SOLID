@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyboardListener : InputInterpreter<KeyboardCommand>
+public class KeyboardListener : ListCommandByState<KeyboardCommand>
 {
     [SerializeField] private GameSettings _gameSettings;
 
