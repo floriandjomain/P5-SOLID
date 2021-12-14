@@ -20,11 +20,22 @@ public class CameraManager : ScriptableObject
         int alivePlayersCount = alivePlayersCapsulePosition.Count;
 
         if (alivePlayersCount < 2) return;
-        
-        foreach (Vector3 position in alivePlayersCapsulePosition)
-            newPos += position;
+
+        float maxDist = 0f;
+
+        foreach (Vector3 p1 in alivePlayersCapsulePosition)
+        {
+            newPos += p1;
             
-        newPos = newPos / alivePlayersCount + (Vector3.up * 2.5f) * alivePlayersCount;
+            foreach (Vector3 p2 in alivePlayersCapsulePosition)
+            {
+                float distance = Vector3.Distance(p1, p2);
+
+                if (distance > maxDist) maxDist = distance;
+            }
+        }
+
+        newPos = newPos / alivePlayersCount * 1f + (Vector3.up * maxDist);
         //Debug.Log("camPos=" + _camera.transform.position + ", newPos=" + newPos);
         _camera.transform.position = newPos;
     }
