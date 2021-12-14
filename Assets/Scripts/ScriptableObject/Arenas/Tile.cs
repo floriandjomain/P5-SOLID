@@ -21,18 +21,18 @@ public class Tile : MonoBehaviour
     public void Damage(int damageAmount)
     {
         currentLifePoints-=damageAmount;
-
         UpdateColor();
     }
 
     private void UpdateColor()
     {
-        if (currentLifePoints > startLifePoints / 2) cube.GetComponent<Renderer>().material.color = healthyTile.color;
-        else if (currentLifePoints == startLifePoints / 2)
+        if (currentLifePoints > startLifePoints / 2f)
+            cube.GetComponent<Renderer>().material.color = healthyTile.color;
+        else if (currentLifePoints == startLifePoints / 2f)
             cube.GetComponent<Renderer>().material.color = midLifeTile.color;
-        else if (currentLifePoints == 1 && startLifePoints != 1)
+        else if (currentLifePoints == 1f)
             cube.GetComponent<Renderer>().material.color = lastLifeTile.color;
-        else if (currentLifePoints < 1)
+        else if (currentLifePoints < 1f)
         {
             gameObject.SetActive(false);
             onDestroy?.Invoke();
@@ -43,6 +43,7 @@ public class Tile : MonoBehaviour
     {
         startLifePoints   = startLife;
         currentLifePoints = startLife;
+        UpdateColor();
     }
 
     public void SetStartTimer(int _startTimer) => timer = _startTimer;
@@ -71,6 +72,7 @@ public class Tile : MonoBehaviour
     public static Tile Load(string _name, int _startLifePoints, int _currentLifePoints, int _timer)
     {
         Tile t = Instantiate(GameManager.Instance.GetTilePrefab(), GameManager.Instance.ArenaGO.transform, true);
+        t.gameObject.SetActive(true);
 
         t.name = _name;
         t.startLifePoints = _startLifePoints;

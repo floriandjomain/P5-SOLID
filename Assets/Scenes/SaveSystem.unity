@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &1799396128
+--- !u!1 &420242712
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,8 +131,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1799396130}
-  - component: {fileID: 1799396129}
+  - component: {fileID: 420242714}
+  - component: {fileID: 420242713}
   m_Layer: 0
   m_Name: SaveSystem
   m_TagString: Untagged
@@ -140,13 +140,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1799396129
+--- !u!114 &420242713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799396128}
+  m_GameObject: {fileID: 420242712}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1478b3a5cf90971419cc3913884b4824, type: 3}
@@ -155,13 +155,13 @@ MonoBehaviour:
   savePath: 
   saveFileName: p5save
   saveFileExtension: .json
---- !u!4 &1799396130
+--- !u!4 &420242714
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799396128}
+  m_GameObject: {fileID: 420242712}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.2827811, y: 7.963627, z: 1.3960108}
   m_LocalScale: {x: 1, y: 1, z: 1}

@@ -12,13 +12,16 @@ public struct SaveData
     public int Turn;
 }
 
+[Serializable]
 public struct ArenaStruct
 {
     public string ArenaType;
-    public TileStruct[,] Tiles;
-    public Vector3 Scale;
+    public List<TileStruct> Tiles;
+    public int SizeX;
+    public int SizeY;
 }
 
+[Serializable]
 public struct TileStruct
 {
     public string Name;
@@ -28,6 +31,7 @@ public struct TileStruct
     public Vector2Int Position;
 }
 
+[Serializable]
 public struct PlayerStruct
 {
     public string Name;

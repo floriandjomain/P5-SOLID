@@ -31,6 +31,8 @@ public class SaveSystem : MonoBehaviour
     [SerializeField] private string saveFileExtension;
 
     private Stopwatch _stopwatch = new Stopwatch();
+
+    #region Loading
     
     public void LoadData()
     {
@@ -50,7 +52,7 @@ public class SaveSystem : MonoBehaviour
             playersObj.Add(player.Name, Player.Load(player.Name, player.IsAlive, player.Position));
         }
 
-        Tile[,] tileMap = new Tile[data.Arena.Tiles.GetLength(0), data.Arena.Tiles.GetLength(1)];
+        Tile[,] tileMap = new Tile[data.Arena.SizeX, data.Arena.SizeY];
         foreach (TileStruct t in data.Arena.Tiles)
         {
             tileMap[t.Position.x, t.Position.y] = Tile.Load(t.Name, t.StartLifePoints, t.CurrentLifePoints, t.Timer);
@@ -97,6 +99,8 @@ public class SaveSystem : MonoBehaviour
         );
     }
 
+    #endregion
+
     #region Save
 
     public void SaveData()
@@ -113,24 +117,23 @@ public class SaveSystem : MonoBehaviour
         Arena arenaObj = GameManager.Instance.GetArena();
         Tile[,] tilesObj = arenaObj.GetTiles();
         
-        TileStruct[,] tiles = new TileStruct[tilesObj.GetLength(0),tilesObj.GetLength(1)];
-
-        for (int i = 0; i < tiles.GetLength(0); i++)
+        List<TileStruct> tiles = new List<TileStruct>();
+        for (int i = 0; i < tilesObj.GetLength(0); i++)
         {
-            for (int j = 0; j < tiles.GetLength(1); j++)
+            for (int j = 0; j < tilesObj.GetLength(1); j++)
             {
                 Tile tileObj = tilesObj[i, j];
-                
-                tiles[i, j] = new TileStruct()
+
+                tiles.Add(new TileStruct()
                 {
                     StartLifePoints = tileObj.GetStartLife(),
                     CurrentLifePoints = tileObj.GetCurrentLife(),
-                    Name =  tileObj.name,
+                    Name = tileObj.name,
                     Timer = tileObj.GetTimer(),
-                    Position = new Vector2Int(i,j)
-                };
+                    Position = new Vector2Int(i, j)
+                });
             }
-            
+
             yield return null;
         }
 
@@ -138,11 +141,11 @@ public class SaveSystem : MonoBehaviour
         {
             ArenaType = arenaObj.GetType().Name,
             Tiles = tiles,
-            Scale = Vector3.one
+            SizeX = tilesObj.GetLength(0),
+            SizeY = tilesObj.GetLength(1)
         };
 
         List<PlayerStruct> players = new List<PlayerStruct>();
-
         foreach (string playerName in playersObj.Keys)
         {
             PlayerStruct player = new PlayerStruct()
@@ -182,7 +185,7 @@ public class SaveSystem : MonoBehaviour
             await fileStream.WriteAsync(bytes, 0, bytes.Length);
         }
         
-        Debug.Log($"[SaveSystem] {_stopwatch.ElapsedMilliseconds} WriteData : Start");
+        Debug.Log($"[SaveSystem] {_stopwatch.ElapsedMilliseconds} WriteData : End");
     }
     
     #endregion

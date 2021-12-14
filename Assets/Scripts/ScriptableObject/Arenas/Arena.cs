@@ -36,10 +36,11 @@ public class Arena : ScriptableObject
     private Tile CreateTile(int maxTileHealth, Action action)
     {
         Tile tile = Instantiate(tilePrefab, GameManager.Instance.ArenaGO.transform, true);
+        tile.gameObject.SetActive(true);
         
         tile.SetStartLife(maxTileHealth);
         tile.AddActionToDeath(action);
-        
+
         return tile;
     }
     

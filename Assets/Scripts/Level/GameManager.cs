@@ -54,10 +54,8 @@ public class GameManager : MonoBehaviour
                 if (pName != "flupiiipi") players[pName].Fall();
             }
         }
-
-        if (!Input.GetKeyDown(KeyCode.LeftControl)) return;
         
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.X))
             SaveSystem.Instance.SaveData();
         else if (Input.GetKeyDown(KeyCode.L))
             SaveSystem.Instance.LoadData();
@@ -191,10 +189,11 @@ public class GameManager : MonoBehaviour
         while (GameIsOn())
         {
             Debug.Log("coucou");
-            StartCoroutine(_textCoroutine.ExecuteCoroutine());
+            Coroutine c = StartCoroutine(_textCoroutine.ExecuteCoroutine());
             TwitchClientSender.SendMessageAsync($"On vous écoute pendant {gameSettings.CommandInputTime}sec");
             gameState.SetState(GameState.State.GameListening);
             yield return new WaitForSeconds(gameSettings.CommandInputTime);
+            yield return c;
             
             TwitchClientSender.SendMessageAsync("Vos gueules vous parlez trop");
             gameState.SetState(GameState.State.OnPlay);
