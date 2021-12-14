@@ -31,7 +31,7 @@ public class TwitchClient : MonoBehaviour
     private async void Start()
     {
         twitchBot = new TwitchBot(botUsername, password);
-        twitchBot.Start();
+        //twitchBot.Start();
         await twitchBot.JoinChannel(channelName);
         await twitchBot.SendMessage(channelName, "Hey my bot has started up ! ");
 
