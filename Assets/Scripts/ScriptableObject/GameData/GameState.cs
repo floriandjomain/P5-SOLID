@@ -21,17 +21,19 @@ public class GameState : ScriptableObject
         return _state;
     }
 
-    public new string ToString()
+    public int ToInt()
     {
         return _state switch
         {
-            State.LobbyListening => "LobbyListening",
-            State.GameListening => "GameListening",
-            State.NotListening => "NotListening",
-            State.OnPlay => "OnPlay",
-            _ => "OnPause"
+            State.LobbyListening => 0,
+            State.GameListening => 1,
+            State.NotListening => 2,
+            State.OnPlay => 3,
+            _ => 4
         };
     }
+
+    public static State GetStateFromInt(int state) => State.LobbyListening+state;
 
     public void SetState(State state)
     {

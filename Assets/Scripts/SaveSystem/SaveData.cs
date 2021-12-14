@@ -8,7 +8,8 @@ public struct SaveData
 {
     public ArenaStruct Arena;
     public List<PlayerStruct> Players;
-    public string State;
+    public int State;
+    public int Turn;
 }
 
 public struct ArenaStruct
@@ -21,7 +22,8 @@ public struct ArenaStruct
 public struct TileStruct
 {
     public string Name;
-    public int LifePoints;
+    public int StartLifePoints;
+    public int CurrentLifePoints;
     public int Timer;
     public Vector2Int Position;
 }

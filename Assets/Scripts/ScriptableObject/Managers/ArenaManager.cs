@@ -32,4 +32,14 @@ public class ArenaManager : ScriptableObject
     public Arena GetArena() => Arena;
 
     public Arena SetArena(Arena arena) => Arena = arena;
+
+    public Tile GetTilePrefab()
+    {
+        return Arena.GetTilePrefab();
+    }
+
+    public void Load(Arena arena)
+    {
+        Arena = arena;
+    }
 }

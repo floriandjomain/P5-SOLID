@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = System.Random;
 
 [CreateAssetMenu(menuName = "Arena/Basic")]
@@ -98,5 +99,15 @@ public class Arena : ScriptableObject
                 Tiles[i, j].SetStartTimer(playerNumber - distanceCenter);
             }
         }
+    }
+
+    public Tile GetTilePrefab()
+    {
+        return tilePrefab;
+    }
+
+    public void Load(Tile[,] tileMap)
+    {
+        Tiles = tileMap;
     }
 }

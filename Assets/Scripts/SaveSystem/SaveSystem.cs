@@ -44,9 +44,16 @@ public class SaveSystem : MonoBehaviour
     {
         SaveData data = readData.Result;
 
+        Dictionary<string, Player> playersObj = new Dictionary<string, Player>();
         foreach (PlayerStruct player in data.Players)
         {
-            GameManager.Instance.SetPlayer(player.Name, player.Position, player.IsAlive);
+            playersObj.Add(player.Name, Player.Load(player.Name, player.IsAlive, player.Position));
+        }
+
+        Tile[,] tileMap = new Tile[data.Arena.Tiles.GetLength(0), data.Arena.Tiles.GetLength(1)];
+        foreach (TileStruct t in data.Arena.Tiles)
+        {
+            tileMap[t.Position.x, t.Position.y] = Tile.Load(t.Name, t.StartLifePoints, t.CurrentLifePoints, t.Timer);
         }
 
         Arena arena;
@@ -58,18 +65,13 @@ public class SaveSystem : MonoBehaviour
             case "CircleArena":
                 arena = ScriptableObject.CreateInstance<CircleArena>();
                 break;
-            case "ApocalypseArena":
+            default:
                 arena = ScriptableObject.CreateInstance<ApocalypseArena>();
                 break;
         }
-        
-        foreach (TileStruct tile in data.Arena.Tiles)
-        {
-            tile.Name;
-            tile.Position;
-            tile.LifePoints;
-            tile.Timer;
-        }
+
+        arena.Load(tileMap);
+        GameManager.Instance.Load(playersObj, arena, GameState.GetStateFromInt(data.State), data.Turn);
     }
 
     private async Task<SaveData> ReadData()
@@ -121,8 +123,10 @@ public class SaveSystem : MonoBehaviour
                 
                 tiles[i, j] = new TileStruct()
                 {
-                    LifePoints = (int)tileObj.GetLife(),
+                    StartLifePoints = tileObj.GetStartLife(),
+                    CurrentLifePoints = tileObj.GetCurrentLife(),
                     Name =  tileObj.name,
+                    Timer = tileObj.GetTimer(),
                     Position = new Vector2Int(i,j)
                 };
             }

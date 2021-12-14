@@ -107,4 +107,15 @@ public class Player : MonoBehaviour
         willUTurn = true;
         uTurnMax = _uTurnMax;
     }
+
+    public static Player Load(string Name, bool IsAlive, Vector2Int Position)
+    {
+        Player p = Instantiate(GameManager.Instance.GetPlayerPrefab(), GameManager.Instance.PlayersGO.transform, true);
+
+        p.name = Name;
+        p.isAlive = IsAlive;
+        p.position = Position;
+        
+        return p;
+    }
 }

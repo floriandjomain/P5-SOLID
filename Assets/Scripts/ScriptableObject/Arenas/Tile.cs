@@ -3,22 +3,11 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    #region TileState
-
-    public enum TileState
-    {
-        Vanilla,
-        Hollow,
-        Holy
-    }
-
-    #endregion
-    
     [SerializeField] private Material healthyTile;
     [SerializeField] private Material midLifeTile;
     [SerializeField] private Material lastLifeTile;
-    [SerializeField] private float startLifePoints;
-    [SerializeField] private float currentLifePoints;
+    [SerializeField] private int startLifePoints;
+    [SerializeField] private int currentLifePoints;
     [SerializeField] private int timer;
     [SerializeField] private GameObject cube;
     public event Action onDestroy;
@@ -38,13 +27,12 @@ public class Tile : MonoBehaviour
 
     private void UpdateColor()
     {
-        if (currentLifePoints > startLifePoints / 2) return;
-        
-        if (currentLifePoints == startLifePoints / 2)
+        if (currentLifePoints > startLifePoints / 2) cube.GetComponent<Renderer>().material.color = healthyTile.color;
+        else if (currentLifePoints == startLifePoints / 2)
             cube.GetComponent<Renderer>().material.color = midLifeTile.color;
-        else if (currentLifePoints == 1f && startLifePoints != 1f)
+        else if (currentLifePoints == 1 && startLifePoints != 1)
             cube.GetComponent<Renderer>().material.color = lastLifeTile.color;
-        else if (currentLifePoints < 1f)
+        else if (currentLifePoints < 1)
         {
             gameObject.SetActive(false);
             onDestroy?.Invoke();
@@ -77,5 +65,20 @@ public class Tile : MonoBehaviour
         onDestroy += action;
     }
 
-    public float GetLife() => currentLifePoints;
+    public int GetStartLife() => startLifePoints;
+    public int GetCurrentLife() => currentLifePoints;
+
+    public static Tile Load(string _name, int _startLifePoints, int _currentLifePoints, int _timer)
+    {
+        Tile t = Instantiate(GameManager.Instance.GetTilePrefab(), GameManager.Instance.ArenaGO.transform, true);
+
+        t.name = _name;
+        t.startLifePoints = _startLifePoints;
+        t.currentLifePoints = _currentLifePoints;
+        t.timer = _timer;
+
+        return t;
+    }
+
+    public int GetTimer() => timer;
 }

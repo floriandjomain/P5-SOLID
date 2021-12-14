@@ -4,12 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Manager/Camera")]
 public class CameraManager : ScriptableObject
 {
-    private PlayerManager _playerManager;
     private Camera _camera;
     public void SetUp(PlayerManager playerManager)
     {
-        _playerManager = playerManager;
-        _playerManager.taarniendo += UpdatePosition;
+        playerManager.taarniendo += UpdatePosition;
         _camera = Camera.main;
         _camera.transform.rotation = Quaternion.LookRotation(Vector3.down);
     }
@@ -18,7 +16,7 @@ public class CameraManager : ScriptableObject
     {
         Vector3 newPos = Vector3.zero;
 
-        List<Vector3> alivePlayersCapsulePosition = _playerManager.GetAllAlivePlayersCapsulePosition();
+        List<Vector3> alivePlayersCapsulePosition = GameManager.Instance.GetAllAlivePlayersCapsulePosition();
         int alivePlayersCount = alivePlayersCapsulePosition.Count;
 
         if (alivePlayersCount < 2) return;

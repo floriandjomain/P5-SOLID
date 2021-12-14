@@ -189,4 +189,14 @@ public class PlayerManager : ScriptableObject
         Players[playerPseudo].Setup(playerPosition);
         if(!playerIsAlive) Players[playerPseudo].Fall();
     }
+
+    public Player GetPlayerPrefab()
+    {
+        return playerPrefab;
+    }
+
+    public void Load(Dictionary<string, Player> playersObj)
+    {
+        Players = playersObj;
+    }
 }

@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using Random = System.Random;
 
@@ -19,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private GameSettings gameSettings;
     [SerializeField] private GameState gameState;
+    [SerializeField] private int turn;
 
     [SerializeField] private CounterCoroutine _textCoroutine;
     private Random rnd = new Random();
@@ -34,7 +33,7 @@ public class GameManager : MonoBehaviour
         if (!UseCheat) return;
         
         PlayersSetCheat();
-            
+        
         for (int i = 0; i < PlayerCheatCode.Length; i++)
         {
             PlayerCheatCode[i] = PlayerCheatCode[i].Replace(" ", "_");
@@ -43,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!UseCheat || !Input.GetKeyDown(KeyCode.W))
+        if (UseCheat && Input.GetKeyDown(KeyCode.W))
         {
             List<string> alivePlayersName = playerManager.GetAllAlivePlayersName();
             if (!alivePlayersName.Contains("flupiiipi")) return;
@@ -89,6 +88,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator SetUp()
     {
         Debug.Log("[GameManager] start game setup...");
+        turn = 0;
         playerManager.SetUp(gameSettings.PlayTime);
         arenaManager.SetUp(playerManager.GetPlayers().Count, gameSettings.TileMaxLifePoints, CheckForFalls);
         PlacePlayers();
@@ -122,6 +122,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlayTurn()
     {
+        turn++;
         Debug.Log("PlayTurn");
         arenaManager.Turn();
         List<Vector2Int> tilesToDamage = playerManager.GetAllAlivePlayersPosition();
@@ -184,12 +185,12 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator StartGame()
     {
-        Debug.Log("[GameManager] Début de partie");
-        
         gameState.AlivePlayers = new List<string>(playerManager.GetPlayers().Keys);
+        Debug.Log($"[GameManager] Début de partie {playerManager.GetCurrentAlivePlayerNumber()}");
         
         while (GameIsOn())
         {
+            Debug.Log("coucou");
             StartCoroutine(_textCoroutine.ExecuteCoroutine());
             TwitchClientSender.SendMessageAsync($"On vous écoute pendant {gameSettings.CommandInputTime}sec");
             gameState.SetState(GameState.State.GameListening);
@@ -206,7 +207,7 @@ public class GameManager : MonoBehaviour
             //Debug.Log($"[GameManager] liste des joueurs dans gamestate {gameState.AlivePlayers.Count}");
         }
 
-        string msg = "Partie Finie";
+        string msg = $"Partie Finie en {turn} tours";
         //Debug.Log($"[GameManager] {msg}");
         
         foreach (string playerName in gameState.AlivePlayers)
@@ -235,11 +236,10 @@ public class GameManager : MonoBehaviour
     }
 
     public Arena GetArena() => arenaManager.GetArena();
-    public Arena SetArena(Arena arena) => arenaManager.SetArena(arena);
 
     public void StartPlayerCoroutine(IEnumerator enumerator) => StartCoroutine(enumerator);
 
-    public string GetState() => gameState.ToString();
+    public int GetState() => gameState.ToInt();
 
     public Dictionary<string, Player> GetPlayers() => playerManager.GetPlayers();
 
@@ -248,9 +248,25 @@ public class GameManager : MonoBehaviour
         playerManager.RemoveAllPlayers();
     }
 
-    public void SetPlayer(string playerName, Vector2Int playerPosition, bool playerIsAlive)
+    public Tile GetTilePrefab()
     {
-        playerManager.AddPlayer(playerName, playerPosition, playerIsAlive);
-        movementManager.SetUp(playerManager);
+        return arenaManager.GetTilePrefab();
     }
+
+    public Player GetPlayerPrefab()
+    {
+        return playerManager.GetPlayerPrefab();
+    }
+
+    public void Load(Dictionary<string, Player> playersObj, Arena arena, GameState.State state, int _turn)
+    {
+        playerManager.Load(playersObj);
+        arenaManager.Load(arena);
+        gameState.SetState(state);
+        turn = _turn;
+        cameraManager.SetUp(playerManager);
+        cameraManager.UpdatePosition();
+    }
+
+    public List<Vector3> GetAllAlivePlayersCapsulePosition() => playerManager.GetAllAlivePlayersCapsulePosition();
 }
