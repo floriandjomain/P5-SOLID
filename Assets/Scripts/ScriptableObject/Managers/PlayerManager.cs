@@ -112,7 +112,7 @@ public class PlayerManager : ScriptableObject
         }
     }
 
-    public void RemoveAllMovmentPlayer()
+    public void RemoveAllMovementPlayer()
     {
         foreach (string key in Players.Keys)
         {

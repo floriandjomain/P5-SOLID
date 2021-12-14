@@ -53,9 +53,7 @@ public class Arena : ScriptableObject
     public Tile[,] GetTiles() => Tiles;
 
     public virtual void Turn()
-    {
-        
-    }
+    { }
 
     public void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount)
     {

@@ -27,7 +27,7 @@ public class ArenaManager : ScriptableObject
         DamageTiles(tilesToDamage, 1);
     }
 
-    public void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount)
+    private void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount)
     {
         Arena.DamageTiles(tilesToDamage, damageAmount);
     }

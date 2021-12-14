@@ -83,7 +83,7 @@ public class LobbyPlayerManagerList : MonoBehaviour
 
     public void RemoveMovements()
     {
-        _playerManager.RemoveAllMovmentPlayer();
+        _playerManager.RemoveAllMovementPlayer();
     }
 
     public void ClearData()
