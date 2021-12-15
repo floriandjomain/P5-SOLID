@@ -311,6 +311,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArenaGO: {fileID: 626918042}
   PlayersGO: {fileID: 909228181}
+  Cheaters:
+  - flupiiipi
+  - algergildartz
   arenaManager: {fileID: 11400000, guid: 2c8f73910c3236047b551dc4c60fdbfa, type: 2}
   playerManager: {fileID: 11400000, guid: f54382553db50784da85ae86e5c9327e, type: 2}
   movementManager: {fileID: 11400000, guid: 8fd1d6b379e3fff4b854b14fa7401cb3, type: 2}

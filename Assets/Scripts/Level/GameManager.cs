@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject ArenaGO;
     public GameObject PlayersGO;
+    public List<string> Cheaters;
 
     [SerializeField] private ArenaManager arenaManager;
     [SerializeField] private PlayerManager playerManager;
@@ -45,20 +46,32 @@ public class GameManager : MonoBehaviour
         if (UseCheat && Input.GetKeyDown(KeyCode.W))
         {
             List<string> alivePlayersName = playerManager.GetAllAlivePlayersName();
-            if (!alivePlayersName.Contains("flupiiipi")) return;
 
+            foreach (string cheater in Cheaters)
+                if (!alivePlayersName.Contains(cheater)) return;
+            
             Dictionary<string, Player> players = playerManager.GetPlayers();
 
             foreach (string pName in alivePlayersName)
             {
-                if (pName != "flupiiipi") players[pName].Fall();
+                if (Cheaters.Contains(pName)) players[pName].Fall();
             }
         }
         
         if (Input.GetKeyDown(KeyCode.X))
             SaveSystem.Instance.SaveData();
         else if (Input.GetKeyDown(KeyCode.L))
-            SaveSystem.Instance.LoadData();
+            StartCoroutine(LoadData());
+    }
+
+    private IEnumerator LoadData()
+    {
+        GameState.State savedState = gameState.GetState();
+        gameState.SetState(GameState.State.OnPause);
+        yield return null;
+        SaveSystem.Instance.LoadData();
+        yield return null;
+        gameState.SetState(savedState);
     }
 
     private void PlayersSetCheat()

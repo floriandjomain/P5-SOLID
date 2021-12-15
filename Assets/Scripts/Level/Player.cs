@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -64,7 +65,7 @@ public class Player : MonoBehaviour
     
     public IEnumerator Setup(Vector2Int pos)
     {
-        height = name == "flupiiipi" ? 2f:1.5f;
+        height = GameManager.Instance.Cheaters.Contains(name) ? 2f:1.5f;
         position = pos;
         yield return (MoveFromTo(ConvertPositionToWorld(position) + Vector3.down * 10, ConvertPositionToWorld(position) + Vector3.up * 2, 1f));
         yield return (MoveFromTo(ConvertPositionToWorld(position) + Vector3.up * 2   , ConvertPositionToWorld(position)));
