@@ -87,17 +87,17 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("[GameManager] start game setup...");
         turn = 0;
+        cameraManager.SetUp(playerManager);
         playerManager.SetUp(gameSettings.PlayTime);
         arenaManager.SetUp(playerManager.GetPlayers().Count, gameSettings.TileMaxLifePoints, CheckForFalls);
-        PlacePlayers();
+        yield return PlacePlayers();
         movementManager.SetUp(playerManager);
         yield return null;
-        cameraManager.SetUp(playerManager);
         cameraManager.UpdatePosition();
         Debug.Log("[GameManager] ...game setup done");
     }
 
-    private void PlacePlayers()
+    private IEnumerator PlacePlayers()
     {
         Dictionary<string, Player> players = playerManager.GetPlayers();
         List<string> playerNames = new List<string>(players.Keys);
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         foreach (string player in playerNames)
         {
             Vector2Int tile = walkableTiles[rnd.Next(walkableTiles.Count)];
-            players[player].Setup(tile);
+            yield return players[player].Setup(tile);
             walkableTiles.Remove(tile);
             //Debug.Log($"[GameManager] placing player {player} at position {players[player].GetPos()}");
         }
