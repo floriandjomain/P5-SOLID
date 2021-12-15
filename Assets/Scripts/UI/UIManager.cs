@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _gameGUI;
     [Space(10)]
     [SerializeField] private GameObject _onGame;
+    [SerializeField] private GameObject _displayName;
     [SerializeField] private GameObject _endGame;
     [Space(10)]
     [SerializeField] private LobbyPlayerManagerList _lobbyPlayerManagerList;
@@ -111,6 +112,14 @@ public class UIManager : MonoBehaviour
         ScenesManager.Instance.StopTwitchBot();
     }
 
+    public void ShowPlayerName()
+    {
+        _displayName.SetActive(true);
+    }
+    public void HidePlayerName()
+    {
+        _displayName.SetActive(false);
+    }
 
     public void GoToGameView()
     {

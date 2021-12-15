@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64faea07b34a2a44b9408b154c5a686, type: 3}
-  m_Name: EnqueueTwitchMessage
+  m_Script: {fileID: 11500000, guid: b7644d619a42d0a47b4412b4c0082bed, type: 3}
+  m_Name: DisplayName
   m_EditorClassIdentifier: 

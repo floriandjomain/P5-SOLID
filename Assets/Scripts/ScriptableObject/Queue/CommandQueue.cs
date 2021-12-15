@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Queue/GameCommand")]
 public class CommandQueue : RuntimeQueue<GameCommand>
 {
-    [SerializeField] private ChangeValueEvent _event;
+    [SerializeField] private GameEvent _event;
 
     public override void Enqueue(GameCommand value)
     {

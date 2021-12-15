@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string[] PlayerCheatCode;
     [SerializeField] private bool UseCheat;
 
+    [SerializeField] private GameEventWithString _event;
+
     private void Awake()
     {
 	    if (_instance != null && _instance != this) Destroy(gameObject);
@@ -90,7 +92,14 @@ public class GameManager : MonoBehaviour
         cameraManager.SetUp(playerManager);
         playerManager.SetUp(gameSettings.PlayTime);
         arenaManager.SetUp(playerManager.GetPlayers().Count, gameSettings.TileMaxLifePoints, CheckForFalls);
+        
+        _event.Raise("");
+        UIManager.Instance.ShowPlayerName();
+
         yield return PlacePlayers();
+
+        UIManager.Instance.HidePlayerName();
+
         movementManager.SetUp(playerManager);
         yield return null;
         cameraManager.UpdatePosition();
@@ -106,6 +115,9 @@ public class GameManager : MonoBehaviour
         
         foreach (string player in playerNames)
         {
+            Debug.Log("Create " + player);
+            _event.Raise(player);
+
             Vector2Int tile = walkableTiles[rnd.Next(walkableTiles.Count)];
             yield return players[player].Setup(tile);
             walkableTiles.Remove(tile);
