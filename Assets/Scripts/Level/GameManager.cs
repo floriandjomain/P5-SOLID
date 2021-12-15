@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameSettings gameSettings;
     [SerializeField] private GameState gameState;
     [SerializeField] private int turn;
+    [SerializeField] private bool preparedToLoad = false;
 
     [SerializeField] private CounterCoroutine _textCoroutine;
     private Random rnd = new Random();
@@ -66,12 +67,15 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadData()
     {
-        GameState.State savedState = gameState.GetState();
-        gameState.SetState(GameState.State.OnPause);
-        yield return null;
+        preparedToLoad = true;
+
+        while (gameState.GetState() != GameState.State.OnPause)
+            yield return null;
+        
         SaveSystem.Instance.LoadData();
         yield return null;
-        gameState.SetState(savedState);
+
+        preparedToLoad = false;
     }
 
     private void PlayersSetCheat()
@@ -201,7 +205,6 @@ public class GameManager : MonoBehaviour
         
         while (GameIsOn())
         {
-            Debug.Log("coucou");
             Coroutine c = StartCoroutine(_textCoroutine.ExecuteCoroutine());
             TwitchClientSender.SendMessageAsync($"On vous écoute pendant {gameSettings.CommandInputTime}sec");
             gameState.SetState(GameState.State.GameListening);
@@ -213,10 +216,17 @@ public class GameManager : MonoBehaviour
             
             yield return StartCoroutine(PlayTurn());
             
-            List<string> liste = new List<string>(playerManager.GetAllAlivePlayersName());
+            List<string> alivePlayersName = new List<string>(playerManager.GetAllAlivePlayersName());
             //Debug.Log($"[GameManager] liste des joueurs {liste.Count}");
-            if(liste.Count>0) gameState.AlivePlayers = liste;
+            if(alivePlayersName.Count>0) gameState.AlivePlayers = alivePlayersName;
             //Debug.Log($"[GameManager] liste des joueurs dans gamestate {gameState.AlivePlayers.Count}");
+
+            if (!preparedToLoad) continue;
+            
+            gameState.SetState(GameState.State.OnPause);
+                
+            while (preparedToLoad)
+                yield return null;
         }
 
         string msg = $"Partie Finie en {turn} tours";
