@@ -17,7 +17,7 @@ public class PlayerManager : ScriptableObject
 
     public Dictionary<string, Player> GetPlayers() => Players;
     public int GetCurrentPlayerNumber() => Players.Count;
-    public int GetCurrentAlivePlayerNumber() => Players.Keys.Count(player => Players[player].IsAlive());
+    public int GetCurrentAlivePlayerNumber() => Players.Keys.Count(player => Players[player].IsAlive);
 
     public IEnumerator Turn()
     {
@@ -32,7 +32,7 @@ public class PlayerManager : ScriptableObject
         List<string> players = new List<string>(Players.Keys);
         foreach (string p in players)
         {
-            if (!Players[p].IsAlive()) continue;
+            if (!Players[p].IsAlive) continue;
             
             if (!conflictedPlayers.Contains(p))
             {
@@ -44,7 +44,7 @@ public class PlayerManager : ScriptableObject
             {
                 Debug.Log($"[PlayerManager] {p} u-turn");
                 
-                if (!Players[p].WillUTurn()) continue;
+                if (!Players[p].WillUTurn) continue;
                 
                 GameManager.Instance.StartPlayerCoroutine(Players[p].UTurn());
                 movingPlayers.Add(Players[p]);
@@ -80,9 +80,9 @@ public class PlayerManager : ScriptableObject
         List<string> players = new List<string>(Players.Keys);
         foreach (string p in players)
         {
-            if (!Players[p].IsAlive()) continue;
+            if (!Players[p].IsAlive) continue;
             
-            pos = Players[p].GetPos();
+            pos = Players[p].Position;
 
             if (tiles[pos.x, pos.y].IsBroken()) Players[p].Fall();
         }
@@ -152,7 +152,7 @@ public class PlayerManager : ScriptableObject
 
         foreach (string playerName in GetAllAlivePlayersName())
         {
-            if(Players[playerName].IsAlive()) alivePlayersCapsulePosition.Add(Players[playerName].GetCapsulePos());
+            if(Players[playerName].IsAlive) alivePlayersCapsulePosition.Add(Players[playerName].GetCapsulePos());
         }
 
         return alivePlayersCapsulePosition;
@@ -164,7 +164,7 @@ public class PlayerManager : ScriptableObject
 
         foreach (string playerName in GetAllAlivePlayersName())
         {
-            if(Players[playerName].IsAlive()) positions.Add(Players[playerName].GetPos());
+            if(Players[playerName].IsAlive) positions.Add(Players[playerName].Position);
         }
 
         return positions;
@@ -177,7 +177,7 @@ public class PlayerManager : ScriptableObject
         List<string> playerNames = Players.Keys.ToList();
         foreach (string playerName in playerNames)
         {
-            if(Players[playerName].IsAlive()) alivePlayerNames.Add(playerName);
+            if(Players[playerName].IsAlive) alivePlayerNames.Add(playerName);
         }
 
         return alivePlayerNames;

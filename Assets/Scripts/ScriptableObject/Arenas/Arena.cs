@@ -7,14 +7,18 @@ using Random = System.Random;
 [CreateAssetMenu(menuName = "Arena/Basic")]
 public class Arena : ScriptableObject
 {
-    protected Tile[,] Tiles;
-    [SerializeField] protected Tile tilePrefab;
-    protected Random rnd = new Random();
+    protected Tile[,] _tiles;
+    [SerializeField] protected Tile _tilePrefab;
+    protected Random _rnd = new Random();
+
+    public Tile[,] Tiles { get => _tiles; }
+    public Tile TilePrefab { get => _tilePrefab; }
+
 
     public virtual void MapInstantiation(int playerNumber, int maxTileHealth, Action action)
     {
-        //Arene classique
-        Tiles = new Tile[playerNumber, playerNumber];
+        // Arene classique
+        _tiles = new Tile[playerNumber, playerNumber];
         
         for (int i = 0; i < playerNumber; i++)
         {
@@ -27,15 +31,15 @@ public class Arena : ScriptableObject
                 transform.position = new Vector3(i * localScale.x * 2.5f, 0, j * localScale.z * 2.5f);
                 tile.name = "tile("+i+","+j+")";
                 
-                Tiles[i, j] = tile;
-                //Debug.Log("Tile set");
+                _tiles[i, j] = tile;
+                // Debug.Log("Tile set");
             }
         }
     }
 
     private Tile CreateTile(int maxTileHealth, Action action)
     {
-        Tile tile = Instantiate(tilePrefab, GameManager.Instance.ArenaGO.transform, true);
+        Tile tile = Instantiate(_tilePrefab, GameManager.Instance.ArenaGO.transform, true);
         tile.gameObject.SetActive(true);
         
         tile.SetStartLife(maxTileHealth);
@@ -46,13 +50,12 @@ public class Arena : ScriptableObject
     
     public bool IsInArena(Vector2Int pos)
     {
-        if (pos.x < 0 || pos.x >= Tiles.GetLength(0) || pos.y < 0 || pos.y >= Tiles.GetLength(1))
+        if (pos.x < 0 || pos.x >= _tiles.GetLength(0) || pos.y < 0 || pos.y >= _tiles.GetLength(1))
             return false;
 
-        return !Tiles[pos.x, pos.y].IsBroken();
+        return !_tiles[pos.x, pos.y].IsBroken();
     }
 
-    public Tile[,] GetTiles() => Tiles;
 
     public virtual void Turn()
     { }
@@ -61,30 +64,30 @@ public class Arena : ScriptableObject
     {
         foreach (Vector2Int tile in tilesToDamage)
         {
-            Tiles[tile.x,tile.y].Damage(damageAmount);
+            _tiles[tile.x,tile.y].Damage(damageAmount);
         }
     }
 
     public void BreakTile(Vector2Int tileToBreak)
     {
         if(IsInArena(tileToBreak))
-            Tiles[tileToBreak.x, tileToBreak.y].Break();
+            _tiles[tileToBreak.x, tileToBreak.y].Break();
     }
 
     public List<Vector2Int> GetWalkableTilesPositions()
     {
         List<Vector2Int> walkableTilesPositions = new List<Vector2Int>();
 
-        for(int i = 0; i < Tiles.GetLength(0); i++)
-            for (int j = 0; j < Tiles.GetLength(1); j++)
-                if (!Tiles[i,j].IsBroken()) walkableTilesPositions.Add(new Vector2Int(i,j));
+        for(int i = 0; i < _tiles.GetLength(0); i++)
+            for (int j = 0; j < _tiles.GetLength(1); j++)
+                if (!_tiles[i,j].IsBroken()) walkableTilesPositions.Add(new Vector2Int(i,j));
 
         return walkableTilesPositions;
     }
 
     public virtual void SetTimers()
     {
-        int playerNumber = Tiles.GetLength(0);
+        int playerNumber = _tiles.GetLength(0);
 
         for (int i = 0; i < playerNumber; i++)
         {
@@ -95,18 +98,13 @@ public class Arena : ScriptableObject
                     Mathf.Pow(playerNumber / 2 - j, 2)
                 ) * playerNumber / 2;
 
-                Tiles[i, j].SetStartTimer(playerNumber - distanceCenter);
+                _tiles[i, j].SetStartTimer(playerNumber - distanceCenter);
             }
         }
     }
 
-    public Tile GetTilePrefab()
-    {
-        return tilePrefab;
-    }
-
     public void Load(Tile[,] tileMap)
     {
-        Tiles = tileMap;
+        _tiles = tileMap;
     }
 }

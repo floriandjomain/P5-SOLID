@@ -23,8 +23,8 @@ public class ApocalypseArena : Arena
         for (int i = 0; i < playerNumber; i++)
         {
             BreakTile(i % 2 == 0
-                ? new Vector2Int(rnd.Next(playerNumber), rnd.Next(2) * (playerNumber-1))
-                : new Vector2Int(rnd.Next(2) * (playerNumber-1), rnd.Next(playerNumber)));
+                ? new Vector2Int(_rnd.Next(playerNumber), _rnd.Next(2) * (playerNumber-1))
+                : new Vector2Int(_rnd.Next(2) * (playerNumber-1), _rnd.Next(playerNumber)));
         }
     }
 
@@ -32,7 +32,7 @@ public class ApocalypseArena : Arena
     {
         while (tileMap.Count>playerNumber*playerNumber/2)
         {
-            Vector2Int tileToBreak = tileMap[rnd.Next(tileMap.Count)];
+            Vector2Int tileToBreak = tileMap[_rnd.Next(tileMap.Count)];
             
             if (!IsInArena(tileToBreak)) continue;
 
@@ -53,10 +53,10 @@ public class ApocalypseArena : Arena
             Tiles[tileToBreak.x, tileToBreak.y].Break();
             tileMap.Remove(tileToBreak);
             
-            Tiles[top.x  ,top.y  ].Damage(rnd.Next(maxTileHealth-1)+1);
-            Tiles[down.x ,down.y ].Damage(rnd.Next(maxTileHealth-1)+1);
-            Tiles[left.x ,left.y ].Damage(rnd.Next(maxTileHealth-1)+1);
-            Tiles[right.x,right.y].Damage(rnd.Next(maxTileHealth-1)+1);
+            Tiles[top.x  ,top.y  ].Damage(_rnd.Next(maxTileHealth-1)+1);
+            Tiles[down.x ,down.y ].Damage(_rnd.Next(maxTileHealth-1)+1);
+            Tiles[left.x ,left.y ].Damage(_rnd.Next(maxTileHealth-1)+1);
+            Tiles[right.x,right.y].Damage(_rnd.Next(maxTileHealth-1)+1);
         }
     }
 
@@ -85,7 +85,7 @@ public class ApocalypseArena : Arena
     {
         foreach (Tile tile in Tiles)
         {
-            tile.SetStartTimer(rnd.Next(5));
+            tile.SetStartTimer(_rnd.Next(5));
         }
     }
 }

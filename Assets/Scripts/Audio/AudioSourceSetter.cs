@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class AudioSourceSetter : MonoBehaviour
 {
     [SerializeField] private AudioAsset _audioAsset;

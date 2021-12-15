@@ -11,19 +11,19 @@ public class ConflictManager : ScriptableObject
         foreach(string p1Name in alivePlayersName)
         {
             //if won't move
-            if (conflictedPlayers.Contains(p1Name) || players[p1Name].GetPos() == players[p1Name].GetNextPos()) continue;
+            if (conflictedPlayers.Contains(p1Name) || players[p1Name].Position == players[p1Name].NextPosition) continue;
             
             //get p1's positions
-            Vector2Int p1Pos = players[p1Name].GetPos();
-            Vector2Int p1NextPos = players[p1Name].GetNextPos();
+            Vector2Int p1Pos = players[p1Name].Position;
+            Vector2Int p1NextPos = players[p1Name].NextPosition;
             
             foreach(string p2Name in alivePlayersName)
             {
                 if (p1Name == p2Name) continue;
                 
                 //get p2's positions
-                Vector2Int p2Pos = players[p2Name].GetPos();
-                Vector2Int p2NextPos = players[p2Name].GetNextPos();
+                Vector2Int p2Pos = players[p2Name].Position;
+                Vector2Int p2NextPos = players[p2Name].NextPosition;
                 
                 if (!conflictedPlayers.Contains(p2Name))
                 {

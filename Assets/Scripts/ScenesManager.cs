@@ -12,7 +12,7 @@ public class ScenesManager : MonoBehaviour
         get => _instance;
     }
 
-    [SerializeField] private List<string> twitchScenes;
+    [SerializeField] private List<string> _twitchScenes;
 
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class ScenesManager : MonoBehaviour
 
     public void StartTwitchBot()
     {
-        foreach(string sceneName in twitchScenes)
+        foreach(string sceneName in _twitchScenes)
         {
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
         }
@@ -30,19 +30,20 @@ public class ScenesManager : MonoBehaviour
 
     public void StopTwitchBot()
     {
-        foreach (string sceneName in twitchScenes)
+        foreach (string sceneName in _twitchScenes)
         {
-            SceneManager.UnloadSceneAsync(sceneName);
+            UnloadIfLoaded(sceneName);
+            // SceneManager.UnloadSceneAsync(sceneName);
         }
     }
 
-    public void UnloadLevelIfLoaded()
+    public void UnloadIfLoaded(string sceneName)
     {
         bool isLoaded = false;
 
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
-            if (SceneManager.GetSceneAt(i).name == "Level")
+            if (SceneManager.GetSceneAt(i).name == sceneName)
             {
                 isLoaded = true;
             }
@@ -50,8 +51,13 @@ public class ScenesManager : MonoBehaviour
 
         if (isLoaded)
         {
-            SceneManager.UnloadSceneAsync("Level");
-        }        
+            SceneManager.UnloadSceneAsync(sceneName);
+        }
+    }
+
+    public void UnloadLevelIfLoaded()
+    {
+        UnloadIfLoaded("Level");     
     }
 
     public IEnumerator StartGame()

@@ -140,7 +140,7 @@ public class UIManager : MonoBehaviour
         _gameGUI.SetActive(true);
 
         ScenesManager.Instance.StartGame();
-        AudioManager.instance.PlayLevelMusic();
+        AudioManager.Instance.PlayLevelMusic();
 
         _onGame.SetActive(true);
         _endGame.SetActive(false);

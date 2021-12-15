@@ -5,21 +5,32 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Vector2Int position;
-    [SerializeField] private Vector2Int nextPosition;
-    [SerializeField] private GameObject capsule;
-    [SerializeField] private bool isAlive;
-    [SerializeField] private bool willUTurn;
-    [SerializeField] private float height;
-    [SerializeField] public bool IsMoving;
-    public float PlayTime;
-    private bool uTurnMax;
+    [SerializeField] private Vector2Int _position;
+    [SerializeField] private Vector2Int _nextPosition;
+    [SerializeField] private GameObject _capsule;
+    [SerializeField] private bool _isAlive;
+    [SerializeField] private bool _willUTurn;
+    [SerializeField] private float _height;
+    [SerializeField] private bool _isMoving;
+
+    private float _playTime;
+    private bool _uTurnMax;
+
+    public float PlayTime { get => _playTime; set => _playTime = value; }
+    public bool IsMoving { get => _isMoving; }
+    public bool WillUTurn { get => _willUTurn; }
+    public Vector2Int Position { get => _position; set => _position = value; }
+    public Vector2Int NextPosition { get => _nextPosition; }
+    public bool IsAlive { get => _isAlive; set => _isAlive = value; }
+
+
+    public Vector3 GetCapsulePos() => _capsule.transform.position;
 
     // Start is called before the first frame update
     private void Start()
     {
-        isAlive = true;
-        willUTurn = false;
+        _isAlive = true;
+        _willUTurn = false;
         transform.position = Vector3.down * 2;
     }
 
@@ -27,108 +38,96 @@ public class Player : MonoBehaviour
     {
         Vector3 worldStart = ConvertPositionToWorld(start);
         Vector3 worldFalseEnd = ConvertPositionToWorld(falseEnd);
-        Vector3 colPosition = (start * (uTurnMax?2:1) + falseEnd ) / (uTurnMax?3:2);
+        Vector3 colPosition = (worldStart * (_uTurnMax?2:1) + worldFalseEnd) / (_uTurnMax?3:2);
         
-        yield return StartCoroutine(MoveFromTo(worldStart, colPosition, PlayTime/2));
-        yield return StartCoroutine(MoveFromTo(colPosition, worldStart, PlayTime/2));
+        yield return StartCoroutine(MoveFromTo(worldStart, colPosition, _playTime/2));
+        yield return StartCoroutine(MoveFromTo(colPosition, worldStart, _playTime/2));
     }
 
     private IEnumerator MoveFromTo(Vector3 start, Vector3 dest)
     {
-        yield return MoveFromTo(start, dest, PlayTime);
+        yield return MoveFromTo(start, dest, _playTime);
     }
     
     private IEnumerator MoveFromTo(Vector3 start, Vector3 dest, float totalTime)
     {
-        float Alpha = 0;
+        float alpha = 0;
         
-        while (Alpha<1.0)
+        while (alpha<1.0)
         {
-            Alpha += Time.deltaTime/totalTime;
-            yield return transform.position = Vector3.Lerp(start, dest, Alpha);
+            alpha += Time.deltaTime/totalTime;
+            yield return transform.position = Vector3.Lerp(start, dest, alpha);
         }
 
-        yield return position = ConvertPositionFromWorld(dest);
+        yield return _position = ConvertPositionFromWorld(dest);
     }
 
     private Vector2Int ConvertPositionFromWorld(Vector3 vec)
     {
-        vec -= Vector3.up * height;
+        vec -= Vector3.up * _height;
         vec /= 2.5f;
         return new Vector2Int((int)vec.x, (int)vec.z);
     }
 
     private Vector3 ConvertPositionToWorld(Vector2 vec)
     {
-        return new Vector3(vec.x, 0f, vec.y) * 2.5f + Vector3.up * height;
+        return new Vector3(vec.x, 0f, vec.y) * 2.5f + Vector3.up * _height;
     }
     
     public IEnumerator Setup(Vector2Int pos)
     {
-        height = GameManager.Instance.Cheaters.Contains(name) ? 2f:1.5f;
-        position = pos;
-        yield return (MoveFromTo(ConvertPositionToWorld(position) + Vector3.down * 10, ConvertPositionToWorld(position) + Vector3.up * 2, 1f));
-        yield return (MoveFromTo(ConvertPositionToWorld(position) + Vector3.up * 2   , ConvertPositionToWorld(position)));
-        //transform.position = new Vector3(position.x, 0f, position.y) * 2.5f + Vector3.up * height;
+        _height = GameManager.Instance.Cheaters.Contains(name) ? 2f:1.5f;
+        _position = pos;
+        yield return (MoveFromTo(ConvertPositionToWorld(_position) + Vector3.down * 10, ConvertPositionToWorld(_position) + Vector3.up * 2, 1f));
+        yield return (MoveFromTo(ConvertPositionToWorld(_position) + Vector3.up * 2   , ConvertPositionToWorld(_position)));
     }
-
-    public Vector2Int GetPos() => position;
 
     public void SetNextPos(Vector2Int newPos)
     {
-        nextPosition = newPos;
+        _nextPosition = newPos;
     }
     
-    public Vector2Int GetNextPos() => nextPosition;
-
     public void Fall()
     {
-        isAlive = false;
-        capsule.SetActive(false);
-        //MessageQueue.Instance.SendMessage("@" + gameObject.name + " just fell");
+        _isAlive = false;
+        _capsule.SetActive(false);
     }
-        
-    public bool IsAlive() => isAlive;
 
     public IEnumerator ApplyMovement()
     {
-        IsMoving = true;
+        _isMoving = true;
         Debug.Log("on applique un movement");
-        yield return (MoveFromTo(ConvertPositionToWorld(position), ConvertPositionToWorld(nextPosition)));
-        IsMoving = false;
+        yield return (MoveFromTo(ConvertPositionToWorld(_position), ConvertPositionToWorld(_nextPosition)));
+        _isMoving = false;
     }
-
-    public Vector3 GetCapsulePos() => capsule.transform.position;
 
     public void JumpInVoid(Vector2Int pos)
     {
-        position = pos;
+        _position = pos;
         Fall();
     }
-
-    public bool WillUTurn() => willUTurn;
     
     public IEnumerator UTurn()
     {
-        IsMoving = true;
+        _isMoving = true;
         Debug.Log("on applique un u-turn");
-        yield return (CoUTurn(position, nextPosition));
-        IsMoving = false;
+        yield return (CoUTurn(_position, _nextPosition));
+        _isMoving = false;
     }
 
-    public void SetUTurn(bool _uTurnMax)
+    public void SetUTurn(bool uTurnMax)
     {
-        willUTurn = true;
-        uTurnMax = _uTurnMax;
+        _willUTurn = true;
+        _uTurnMax = uTurnMax;
     }
 
-    public static Player Load(string Name, bool IsAlive, Vector2Int Position)
+    public static Player Load(string name, bool isAlive, Vector2Int position)
     {
         Player p = Instantiate(GameManager.Instance.GetPlayerPrefab(), GameManager.Instance.PlayersGO.transform, true);
 
-        p.name = Name;
-        p.isAlive = IsAlive;
-        p.position = Position;
+        p.name = name;
+        p.IsAlive = isAlive;
+        p.Position = position;
         
         return p;
     }

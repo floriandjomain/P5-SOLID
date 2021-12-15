@@ -44,12 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671db02bea01cfe4dbeb605dd275b001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthyTile: {fileID: 2100000, guid: 1a1c3466e2d17e1428bc19946f19a753, type: 2}
-  midLifeTile: {fileID: 2100000, guid: 8a2293e7389a5444e8303ce44b64d006, type: 2}
-  lastLifeTile: {fileID: 2100000, guid: a95bc934f0cb9104093ce9ab743009dc, type: 2}
-  startLifePoints: 5
-  currentLifePoints: 0
-  cube: {fileID: 3489297430501979172}
+  _healthyTile: {fileID: 2100000, guid: 1a1c3466e2d17e1428bc19946f19a753, type: 2}
+  _midLifeTile: {fileID: 2100000, guid: 8a2293e7389a5444e8303ce44b64d006, type: 2}
+  _lastLifeTile: {fileID: 2100000, guid: a95bc934f0cb9104093ce9ab743009dc, type: 2}
+  _startLifePoints: 0
+  _currentLifePoints: 0
+  _timer: 0
+  _cube: {fileID: 3489297430501979172}
 --- !u!1 &3489297430501979172
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,4 @@ public abstract class GameCommand
     protected string _player;
     public abstract void Execute();
 
-    public string GetPlayer() { return _player; }
-
 }

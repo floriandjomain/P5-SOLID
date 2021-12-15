@@ -21,7 +21,7 @@ public class CircleArena : Arena
         Debug.Log("début d'érosion");
         foreach (Tile tile in Tiles)
         {
-            if (tile.IsBroken() || rnd.Next(3) != 0) continue;
+            if (tile.IsBroken() || _rnd.Next(3) != 0) continue;
             
             tile.TimerShot();
             //Debug.Log("erosion");

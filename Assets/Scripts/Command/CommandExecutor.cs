@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CommandExecutor : MonoBehaviour
 {
-    public CommandQueue CommandQueue;
+    [SerializeField] private CommandQueue _commandQueue;
 
     public void DequeueMessage()
     {
-        CommandQueue.Dequeue().Execute();
+        _commandQueue.Dequeue().Execute();
     }
 }

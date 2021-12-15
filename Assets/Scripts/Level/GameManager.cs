@@ -167,7 +167,7 @@ public class GameManager : MonoBehaviour
         Dictionary<string, Player> players = playerManager.GetPlayers();
         Dictionary<string, Movement> movements = movementManager.GetMovements();
         
-        Arena arena = arenaManager.GetArena();
+        Arena arena = arenaManager.Arena;
         
         List<string> playerNames = new List<string>(players.Keys);
         
@@ -184,9 +184,9 @@ public class GameManager : MonoBehaviour
     
     private void CompileMovement(Player player, Movement movement, Arena arena)
     {
-        if(!player.IsAlive()) return;
+        if(!player.IsAlive) return;
         
-        Vector2Int pos = player.GetPos() + MovementData.GetVector(movement);
+        Vector2Int pos = player.Position + MovementData.GetVector(movement);
 
         if (!arena.IsInArena(pos))
         {
@@ -258,7 +258,7 @@ public class GameManager : MonoBehaviour
         arenaManager.Turn();
     }
 
-    public Arena GetArena() => arenaManager.GetArena();
+    public Arena GetArena() => arenaManager.Arena;
 
     public void StartPlayerCoroutine(IEnumerator enumerator) => StartCoroutine(enumerator);
 

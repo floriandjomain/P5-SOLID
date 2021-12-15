@@ -115,7 +115,7 @@ public class SaveSystem : MonoBehaviour
     {
         Dictionary<string, Player> playersObj = GameManager.Instance.GetPlayers();
         Arena arenaObj = GameManager.Instance.GetArena();
-        Tile[,] tilesObj = arenaObj.GetTiles();
+        Tile[,] tilesObj = arenaObj.Tiles;
         
         List<TileStruct> tiles = new List<TileStruct>();
         for (int i = 0; i < tilesObj.GetLength(0); i++)
@@ -126,10 +126,10 @@ public class SaveSystem : MonoBehaviour
 
                 tiles.Add(new TileStruct()
                 {
-                    StartLifePoints = tileObj.GetStartLife(),
-                    CurrentLifePoints = tileObj.GetCurrentLife(),
+                    StartLifePoints = tileObj.StartLifePoints,
+                    CurrentLifePoints = tileObj.CurrentLifePoints,
                     Name = tileObj.name,
-                    Timer = tileObj.GetTimer(),
+                    Timer = tileObj.Timer,
                     Position = new Vector2Int(i, j)
                 });
             }
@@ -151,8 +151,8 @@ public class SaveSystem : MonoBehaviour
             PlayerStruct player = new PlayerStruct()
             {
                 Name = playerName,
-                IsAlive = playersObj[playerName].IsAlive(),
-                Position = playersObj[playerName].GetPos()
+                IsAlive = playersObj[playerName].IsAlive,
+                Position = playersObj[playerName].Position
             };
             
             players.Add(player);

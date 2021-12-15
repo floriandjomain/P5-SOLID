@@ -5,41 +5,40 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Manager/Tile")]
 public class ArenaManager : ScriptableObject
 {
-    [SerializeField] private Arena Arena;
-    public Action<Tile[,]> onBrokenTile;
+    [SerializeField] private Arena _arena;
+    private Action<Tile[,]> _onBrokenTile;
+
+    public Action<Tile[,]> OnBrokenTile { set => _onBrokenTile = value; }
+    public Arena Arena { get => _arena; set => _arena = value; }
 
     public void SetUp(int playerCount, int maxTileHealth, Action action)
     {
         //Debug.Log("[ArenaManager] start map setup...");
-        Arena.MapInstantiation(playerCount, maxTileHealth, action);
-        Arena.SetTimers();
+        _arena.MapInstantiation(playerCount, maxTileHealth, action);
+        _arena.SetTimers();
         //Debug.Log("[ArenaManager] ...map setup done");
     }
 
-    public List<Vector2Int> GetWalkableTilesPositions() => Arena.GetWalkableTilesPositions();
+    public List<Vector2Int> GetWalkableTilesPositions() => _arena.GetWalkableTilesPositions();
 
-    public Tile[,] GetTiles() => Arena.GetTiles();
+    public Tile[,] GetTiles() => _arena.Tiles;
 
-    public void Turn() => Arena.Turn();
+    public void Turn() => _arena.Turn();
 
     public void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount = 1)
     {
-        Arena.DamageTiles(tilesToDamage, damageAmount);
+        _arena.DamageTiles(tilesToDamage, damageAmount);
     }
 
-    public void BreakTile(Vector2Int tileToBreak) => Arena.BreakTile(tileToBreak);
-
-    public Arena GetArena() => Arena;
-
-    public Arena SetArena(Arena arena) => Arena = arena;
-
+    public void BreakTile(Vector2Int tileToBreak) => _arena.BreakTile(tileToBreak);
+    
     public Tile GetTilePrefab()
     {
-        return Arena.GetTilePrefab();
+        return _arena.TilePrefab;
     }
 
     public void Load(Arena arena)
     {
-        Arena = arena;
+        _arena = arena;
     }
 }

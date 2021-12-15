@@ -6,8 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Audio")]
 public class AudioAsset : ScriptableObject
 {
-    private AudioSource _audioSource;
-
     [SerializeField] private AudioClip _audioClip;
 
     [Tooltip("Is it a soundeffect or a music ?")]
@@ -15,6 +13,8 @@ public class AudioAsset : ScriptableObject
 
     [Range(0.0f, 1.0f)]
     [SerializeField] private float _volume;
+
+    private AudioSource _audioSource;
 
     /// Call by objects of other scene like player, button...
     public void PlayClip()

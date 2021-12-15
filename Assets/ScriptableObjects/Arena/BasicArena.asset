@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36d16a996c068b41813e143cc678faa, type: 3}
   m_Name: BasicArena
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 3082964860437853806, guid: af05633d2cd6a1f4eaf32e0728e2f048, type: 3}
+  _tilePrefab: {fileID: 3082964860437853806, guid: af05633d2cd6a1f4eaf32e0728e2f048, type: 3}
