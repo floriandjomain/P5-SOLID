@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour
     [Space(10)]
     [SerializeField] private LobbyPlayerManagerList _lobbyPlayerManagerList;
 
+    [Space(15)]
+    [SerializeField] private GameEvent _clickButton;
     private void Awake()
     {
         if (_instance != null)
@@ -43,6 +45,14 @@ public class UIManager : MonoBehaviour
 
         /// Observer qui va s'execute à la fin des coroutines de transition
         CoroutineManager.instance.OnEndUICoroutine += SwitchMenu;
+    }
+
+    public void ClickButton()
+    {
+        //Play SFX
+        _clickButton.Raise();
+        //Desactive menu
+        DisableMenu();
     }
 
     public void SwitchMenu(string wichMenu)
@@ -131,6 +141,8 @@ public class UIManager : MonoBehaviour
 
         _gameGUI.SetActive(true);
 
+        ScenesManager.Instance.StartGame();
+        AudioManager.instance.PlayLevelMusic();
         _onGame.SetActive(true);
         _endGame.SetActive(false);
     
@@ -152,7 +164,6 @@ public class UIManager : MonoBehaviour
     {
         _allMenu.SetActive(false);
     }
-
 
     public void QuitGame()
     {
