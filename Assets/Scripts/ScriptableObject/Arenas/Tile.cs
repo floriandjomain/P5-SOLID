@@ -24,7 +24,7 @@ public class Tile : MonoBehaviour
         UpdateColor();
     }
 
-    private void UpdateColor()
+    public void UpdateColor()
     {
         if (currentLifePoints > startLifePoints / 2f)
             cube.GetComponent<Renderer>().material.color = healthyTile.color;
