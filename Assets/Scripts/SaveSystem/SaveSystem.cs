@@ -34,17 +34,22 @@ public class SaveSystem : MonoBehaviour
 
     #region Loading
     
-    public void LoadData()
+    public async void LoadData()
     {
         _stopwatch.Restart();
         Debug.Log($"[SaveSystem] {_stopwatch.ElapsedMilliseconds} LoadData : Start");
-        LoadGame(ReadData());
+        SaveData savedData = await ReadData();
+        LoadGame(savedData);
         Debug.Log($"[SaveSystem] {_stopwatch.ElapsedMilliseconds} LoadData : End");
     }
 
-    private void LoadGame(Task<SaveData> readData)
+    private void LoadGame(SaveData readData)
     {
-        SaveData data = readData.Result;
+        SaveData data = readData;
+        Debug.Log(JsonUtility.ToJson(data));
+
+        // Empty GameObject for Players and Tiles
+        GameManager.Instance.ClearPlayerAndTiles();
 
         Dictionary<string, Player> playersObj = new Dictionary<string, Player>();
         foreach (PlayerStruct player in data.Players)

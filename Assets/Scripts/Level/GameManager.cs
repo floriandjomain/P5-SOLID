@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using Random = System.Random;
 
@@ -65,6 +66,18 @@ public class GameManager : MonoBehaviour
             StartCoroutine(LoadData());
     }
 
+    public void ClearPlayerAndTiles()
+    {
+        foreach (Transform child in ArenaGO.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach(Transform child in PlayersGO.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
     private IEnumerator LoadData()
     {
         preparedToLoad = true;
@@ -72,6 +85,7 @@ public class GameManager : MonoBehaviour
         while (gameState.GetState() != GameState.State.OnPause)
             yield return null;
         
+
         SaveSystem.Instance.LoadData();
         yield return null;
 

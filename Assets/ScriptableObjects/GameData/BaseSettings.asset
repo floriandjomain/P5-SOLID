@@ -15,10 +15,10 @@ MonoBehaviour:
   StreamerControlType: ZQSD
   UseAutoLaunch: 0
   AutoLaunchTime: 0
-  KeepPlayersAfterFinish: 1
+  KeepPlayersAfterFinish: 0
   MaxPlayerNumber: 15
   TileMaxLifePoints: 1
-  CommandInputTime: 15
+  CommandInputTime: 10
   PlayTime: 1
   JumpSound: {fileID: 0}
   BumpSound: {fileID: 0}

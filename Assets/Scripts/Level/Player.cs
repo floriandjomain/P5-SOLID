@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
 
     private Vector3 ConvertPositionToWorld(Vector2 vec)
     {
-        return new Vector3(vec.x, 0f, vec.y) * 2.5f + Vector3.up * height;
+        return ConvertPositionToWorldStatic(vec, height);
     }
     
     public IEnumerator Setup(Vector2Int pos)
@@ -124,12 +124,19 @@ public class Player : MonoBehaviour
 
     public static Player Load(string Name, bool IsAlive, Vector2Int Position)
     {
-        Player p = Instantiate(GameManager.Instance.GetPlayerPrefab(), GameManager.Instance.PlayersGO.transform, true);
+        Debug.Log(Position + " => " + ConvertPositionToWorldStatic(Position, 1.5f));
+        Player p = Instantiate(GameManager.Instance.GetPlayerPrefab(), ConvertPositionToWorldStatic(Position, 1.5f), Quaternion.identity, GameManager.Instance.PlayersGO.transform);
+        Debug.Log(p.gameObject.transform.position);
 
         p.name = Name;
         p.isAlive = IsAlive;
         p.position = Position;
-        
+
         return p;
+    }
+
+    public static Vector3 ConvertPositionToWorldStatic(Vector2 vec, float height)
+    {
+        return new Vector3(vec.x, 0f, vec.y) * 2.5f + Vector3.up * height;
     }
 }
