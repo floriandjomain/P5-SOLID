@@ -128,7 +128,6 @@ public class GameManager : MonoBehaviour
         
         foreach (string player in playerNames)
         {
-            Debug.Log("Create " + player);
             _event.Raise(player);
 
             Vector2Int tile = walkableTiles[rnd.Next(walkableTiles.Count)];

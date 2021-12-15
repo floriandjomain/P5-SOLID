@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private LobbyPlayerManagerList _lobbyPlayerManagerList;
 
     [Space(15)]
-    [SerializeField] private GameEvent _clickButton;
+    [SerializeField] private GameEvent _soundButton;
     private void Awake()
     {
         if (_instance != null)
@@ -50,9 +50,7 @@ public class UIManager : MonoBehaviour
     public void ClickButton()
     {
         //Play SFX
-        _clickButton.Raise();
-        //Desactive menu
-        DisableMenu();
+        _soundButton.Raise();
     }
 
     public void SwitchMenu(string wichMenu)
@@ -143,6 +141,7 @@ public class UIManager : MonoBehaviour
 
         ScenesManager.Instance.StartGame();
         AudioManager.instance.PlayLevelMusic();
+
         _onGame.SetActive(true);
         _endGame.SetActive(false);
     
