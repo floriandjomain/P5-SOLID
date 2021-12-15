@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if(!(gameState.GetState() == GameState.State.GameListening || gameState.GetState() == GameState.State.OnPlay)) return;
+        
         if (UseCheat && Input.GetKeyDown(KeyCode.W))
         {
             List<string> alivePlayersName = playerManager.GetAllAlivePlayersName();
@@ -59,7 +61,7 @@ public class GameManager : MonoBehaviour
                 if (Cheaters.Contains(pName)) players[pName].Fall();
             }
         }
-        
+
         if (Input.GetKeyDown(KeyCode.X))
             SaveSystem.Instance.SaveData();
         else if (Input.GetKeyDown(KeyCode.L))
