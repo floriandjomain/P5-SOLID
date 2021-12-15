@@ -19,31 +19,42 @@ public class Player : MonoBehaviour
     {
         isAlive = true;
         willUTurn = false;
+        transform.position = Vector3.down * 2;
     }
 
     private IEnumerator CoUTurn(Vector2 start, Vector2 falseEnd)
     {
-        Vector2 colPosition = (start * (uTurnMax?2:1) + falseEnd ) / (uTurnMax?3:2);
-        yield return StartCoroutine(MoveFromTo(start, colPosition, PlayTime/2));
-        yield return StartCoroutine(MoveFromTo(colPosition, start, PlayTime/2));
+        Vector3 worldStart = ConvertPositionToWorld(start);
+        Vector3 worldFalseEnd = ConvertPositionToWorld(falseEnd);
+        Vector3 colPosition = (start * (uTurnMax?2:1) + falseEnd ) / (uTurnMax?3:2);
+        
+        yield return StartCoroutine(MoveFromTo(worldStart, colPosition, PlayTime/2));
+        yield return StartCoroutine(MoveFromTo(colPosition, worldStart, PlayTime/2));
     }
 
-    private IEnumerator MoveFromTo(Vector2 start, Vector2 dest)
+    private IEnumerator MoveFromTo(Vector3 start, Vector3 dest)
     {
         yield return MoveFromTo(start, dest, PlayTime);
     }
     
-    private IEnumerator MoveFromTo(Vector2 start, Vector2 dest, float totalTime)
+    private IEnumerator MoveFromTo(Vector3 start, Vector3 dest, float totalTime)
     {
         float Alpha = 0;
         
         while (Alpha<1.0)
         {
             Alpha += Time.deltaTime/totalTime;
-            yield return transform.position = Vector3.Lerp(ConvertPositionToWorld(start), ConvertPositionToWorld(dest), Alpha);
+            yield return transform.position = Vector3.Lerp(start, dest, Alpha);
         }
 
-        yield return position = new Vector2Int((int)dest.x, (int)dest.y);
+        yield return position = ConvertPositionFromWorld(dest);
+    }
+
+    private Vector2Int ConvertPositionFromWorld(Vector3 vec)
+    {
+        vec -= Vector3.up * height;
+        vec /= 2.5f;
+        return new Vector2Int((int)vec.x, (int)vec.z);
     }
 
     private Vector3 ConvertPositionToWorld(Vector2 vec)
@@ -51,11 +62,13 @@ public class Player : MonoBehaviour
         return new Vector3(vec.x, 0f, vec.y) * 2.5f + Vector3.up * height;
     }
     
-    public void Setup(Vector2Int pos)
+    public IEnumerator Setup(Vector2Int pos)
     {
         height = name == "flupiiipi" ? 2f:1.5f;
         position = pos;
-        transform.position = new Vector3(position.x, 0f, position.y) * 2.5f + Vector3.up * height;
+        yield return (MoveFromTo(ConvertPositionToWorld(position) + Vector3.down * 10, ConvertPositionToWorld(position) + Vector3.up * 2, 1f));
+        yield return (MoveFromTo(ConvertPositionToWorld(position) + Vector3.up * 2   , ConvertPositionToWorld(position)));
+        //transform.position = new Vector3(position.x, 0f, position.y) * 2.5f + Vector3.up * height;
     }
 
     public Vector2Int GetPos() => position;
@@ -80,7 +93,7 @@ public class Player : MonoBehaviour
     {
         IsMoving = true;
         Debug.Log("on applique un movement");
-        yield return (MoveFromTo(position, nextPosition));
+        yield return (MoveFromTo(ConvertPositionToWorld(position), ConvertPositionToWorld(nextPosition)));
         IsMoving = false;
     }
 
@@ -106,5 +119,16 @@ public class Player : MonoBehaviour
     {
         willUTurn = true;
         uTurnMax = _uTurnMax;
+    }
+
+    public static Player Load(string Name, bool IsAlive, Vector2Int Position)
+    {
+        Player p = Instantiate(GameManager.Instance.GetPlayerPrefab(), GameManager.Instance.PlayersGO.transform, true);
+
+        p.name = Name;
+        p.isAlive = IsAlive;
+        p.position = Position;
+        
+        return p;
     }
 }

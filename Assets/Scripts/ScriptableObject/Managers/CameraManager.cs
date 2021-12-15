@@ -4,29 +4,40 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Manager/Camera")]
 public class CameraManager : ScriptableObject
 {
-    private PlayerManager _playerManager;
     private Camera _camera;
     public void SetUp(PlayerManager playerManager)
     {
-        _playerManager = playerManager;
-        _playerManager.taarniendo += UpdatePosition;
+        playerManager.taarniendo += UpdatePosition;
         _camera = Camera.main;
         _camera.transform.rotation = Quaternion.LookRotation(Vector3.down);
+        int playerNumber = playerManager.GetCurrentPlayerNumber();
+        _camera.transform.position = new Vector3(playerNumber * 1.25f, playerNumber * 2.5f, playerNumber * 1.25f);
     }
 
     public void UpdatePosition()
     {
         Vector3 newPos = Vector3.zero;
 
-        List<Vector3> alivePlayersCapsulePosition = _playerManager.GetAllAlivePlayersCapsulePosition();
+        List<Vector3> alivePlayersCapsulePosition = GameManager.Instance.GetAllAlivePlayersCapsulePosition();
         int alivePlayersCount = alivePlayersCapsulePosition.Count;
 
         if (alivePlayersCount < 2) return;
-        
-        foreach (Vector3 position in alivePlayersCapsulePosition)
-            newPos += position;
+
+        float maxDist = 0f;
+
+        foreach (Vector3 p1 in alivePlayersCapsulePosition)
+        {
+            newPos += p1;
             
-        newPos = newPos / alivePlayersCount + (Vector3.up * 2.5f) * alivePlayersCount;
+            foreach (Vector3 p2 in alivePlayersCapsulePosition)
+            {
+                float distance = Vector3.Distance(p1, p2);
+
+                if (distance > maxDist) maxDist = distance;
+            }
+        }
+
+        newPos = newPos / alivePlayersCount * 1f + (Vector3.up * maxDist);
         //Debug.Log("camPos=" + _camera.transform.position + ", newPos=" + newPos);
         _camera.transform.position = newPos;
     }

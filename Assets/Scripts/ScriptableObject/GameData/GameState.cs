@@ -10,7 +10,8 @@ public class GameState : ScriptableObject
         LobbyListening,
         GameListening,
         NotListening,
-        OnPlay
+        OnPlay,
+        OnPause
     }
 
     [SerializeField] private State _state;
@@ -20,6 +21,20 @@ public class GameState : ScriptableObject
         return _state;
     }
 
+    public int ToInt()
+    {
+        return _state switch
+        {
+            State.LobbyListening => 0,
+            State.GameListening => 1,
+            State.NotListening => 2,
+            State.OnPlay => 3,
+            _ => 4
+        };
+    }
+
+    public static State GetStateFromInt(int state) => State.LobbyListening+state;
+
     public void SetState(State state)
     {
         _state = state;
@@ -28,9 +43,4 @@ public class GameState : ScriptableObject
     #endregion
 
     public List<string> AlivePlayers;
-
-    public void SaveGame()
-    {
-        
-    }
 }

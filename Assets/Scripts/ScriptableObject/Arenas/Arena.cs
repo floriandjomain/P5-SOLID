@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = System.Random;
 
 [CreateAssetMenu(menuName = "Arena/Basic")]
@@ -35,10 +36,11 @@ public class Arena : ScriptableObject
     private Tile CreateTile(int maxTileHealth, Action action)
     {
         Tile tile = Instantiate(tilePrefab, GameManager.Instance.ArenaGO.transform, true);
+        tile.gameObject.SetActive(true);
         
         tile.SetStartLife(maxTileHealth);
         tile.AddActionToDeath(action);
-        
+
         return tile;
     }
     
@@ -73,7 +75,7 @@ public class Arena : ScriptableObject
     {
         List<Vector2Int> walkableTilesPositions = new List<Vector2Int>();
 
-        for(int i=0; i<Tiles.GetLength(0); i++)
+        for(int i = 0; i < Tiles.GetLength(0); i++)
             for (int j = 0; j < Tiles.GetLength(1); j++)
                 if (!Tiles[i,j].IsBroken()) walkableTilesPositions.Add(new Vector2Int(i,j));
 
@@ -96,5 +98,15 @@ public class Arena : ScriptableObject
                 Tiles[i, j].SetStartTimer(playerNumber - distanceCenter);
             }
         }
+    }
+
+    public Tile GetTilePrefab()
+    {
+        return tilePrefab;
+    }
+
+    public void Load(Tile[,] tileMap)
+    {
+        Tiles = tileMap;
     }
 }

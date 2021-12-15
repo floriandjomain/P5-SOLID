@@ -182,4 +182,21 @@ public class PlayerManager : ScriptableObject
 
         return alivePlayerNames;
     }
+
+    public void AddPlayer(string playerPseudo, Vector2Int playerPosition, bool playerIsAlive)
+    {
+        Players.Add(playerPseudo, playerPrefab);
+        Players[playerPseudo].Setup(playerPosition);
+        if(!playerIsAlive) Players[playerPseudo].Fall();
+    }
+
+    public Player GetPlayerPrefab()
+    {
+        return playerPrefab;
+    }
+
+    public void Load(Dictionary<string, Player> playersObj)
+    {
+        Players = playersObj;
+    }
 }

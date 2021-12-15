@@ -57,6 +57,7 @@ public class ScenesManager : MonoBehaviour
     public IEnumerator StartGame()
     {
         yield return SceneManager.LoadSceneAsync("Level", LoadSceneMode.Additive);
+        yield return SceneManager.LoadSceneAsync("SaveSystem", LoadSceneMode.Additive);
         yield return GameManager.Instance.SetUp();
         yield return GameManager.Instance.StartGame();
     }
