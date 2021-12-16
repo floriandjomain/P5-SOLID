@@ -10,6 +10,20 @@ public class ArenaManager : ScriptableObject
 
     public Action<Tile[,]> OnBrokenTile { set => _onBrokenTile = value; }
     public Arena Arena { get => _arena; set => _arena = value; }
+    
+    public List<Vector2Int> GetWalkableTilesPositions() => _arena.GetWalkableTilesPositions();
+
+    public Tile[,] GetTiles() => _arena.Tiles;
+    
+    public Tile GetTilePrefab()
+    {
+        return _arena.TilePrefab;
+    }
+
+    public int GetMapSize()
+    {
+        return Arena.MapSize;
+    }
 
     public void SetUp(int playerCount, int maxTileHealth, Action action)
     {
@@ -19,31 +33,17 @@ public class ArenaManager : ScriptableObject
         //Debug.Log("[ArenaManager] ...map setup done");
     }
 
-    public List<Vector2Int> GetWalkableTilesPositions() => _arena.GetWalkableTilesPositions();
-
-    public Tile[,] GetTiles() => _arena.Tiles;
-
-    public void Turn() => _arena.Turn();
-
     public void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount = 1)
     {
         _arena.DamageTiles(tilesToDamage, damageAmount);
     }
 
     public void BreakTile(Vector2Int tileToBreak) => _arena.BreakTile(tileToBreak);
-    
-    public Tile GetTilePrefab()
-    {
-        return _arena.TilePrefab;
-    }
+
+    public void Turn() => _arena.Turn();
 
     public void Load(Arena arena)
     {
         _arena = arena;
-    }
-
-    public int GetMapSize()
-    {
-        return Arena.MapSize;
     }
 }
