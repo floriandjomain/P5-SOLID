@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -104,6 +105,16 @@ public class UIManager : MonoBehaviour
 
             _lobbyPlayerManagerList.ClearPlayers();
             _lobbyPlayerManagerList.SetAllNames();
+        }
+
+        try
+        {
+            // Dont work first time
+            TwitchClientSender.SendMessageAsync($"Join or Leave with {TwitchInterpreter.Instance.GetAllLobbyCommands()}");
+        }
+        catch(Exception e)
+        {
+            Debug.Log("Dont work first time");
         }
     }
 

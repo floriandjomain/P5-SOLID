@@ -66,6 +66,7 @@ public class TwitchInterpreter : ListCommandByState<TwitchCommand>
             {
                 build.Append(" !" + c);
             }
+            build.Append(" / ");
         }
         return build.ToString();
     }

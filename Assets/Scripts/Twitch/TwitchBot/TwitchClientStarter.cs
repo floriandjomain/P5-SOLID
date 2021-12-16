@@ -51,6 +51,6 @@ public class TwitchClientStarter : MonoBehaviour
     private async void OnDisable()
     {
         TwitchClientReader.StopReading();
-        await TwitchClientSender.SendMessageAsync("I left (but not really I think, I dont know)");
+        // await TwitchClientSender.SendMessageAsync("I left (but not really I think, I dont know)");
     }
 }

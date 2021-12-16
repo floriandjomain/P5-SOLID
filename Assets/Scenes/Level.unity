@@ -324,8 +324,8 @@ MonoBehaviour:
   preparedToLoad: 0
   _textCoroutine: {fileID: 11400000, guid: b440fa8e261fa8a4397e9988bab19531, type: 2}
   PlayerCheatCode:
-  - Romain
-  - Magalie
+  - romain
+  - magalie
   UseCheat: 1
   _event: {fileID: 11400000, guid: 0a53789817b529f4da2ff3c959e18400, type: 2}
 --- !u!1 &1849176120

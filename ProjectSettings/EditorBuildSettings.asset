@@ -6,20 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Bootstrap.unity
+    guid: 0d8ff6235af6afb4caeb9f3e286df9c2
+  - enabled: 1
     path: Assets/Scenes/Level.unity
     guid: ee4c3199637dee4429346e09a33d216f
   - enabled: 1
-    path: Assets/Scenes/Tests/AlgerGildartz/Command.unity
+    path: Assets/Scenes/Command.unity
     guid: e343b4c3a3afe4e4ebb5eae23fa42261
   - enabled: 1
-    path: Assets/Scenes/Tests/AlgerGildartz/Lobby.unity
+    path: Assets/Scenes/Lobby.unity
     guid: e1e037e20b378fa438a955c9c145ec94
   - enabled: 1
-    path: Assets/Scenes/Tests/AlgerGildartz/Twitch.unity
+    path: Assets/Scenes/Twitch.unity
     guid: d7469a63629625e4a951a7a081f979e2
-  - enabled: 1
-    path: Assets/Scenes/Bootstrap.unity
-    guid: 0d8ff6235af6afb4caeb9f3e286df9c2
   - enabled: 1
     path: Assets/Scenes/SceneManager.unity
     guid: 825660bef5a574c4fb235a499bb87bcc
@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Scenes/UI.unity
     guid: 2d793f995492f9347afe70f21d0b15b2
   - enabled: 1
-    path: Assets/Scenes/Tests/Flupi/Keyboard.unity
+    path: Assets/Scenes/Keyboard.unity
     guid: 8f0b3854516e9774680ff45a0ff5fe23
   - enabled: 1
     path: Assets/Scenes/Tests/Flupi/SaveSystem.unity
