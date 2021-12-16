@@ -13,7 +13,6 @@ public class TwitchInterpreter : ListCommandByState<TwitchCommand>
     {
         if (_twitchQueue.QueueCount() > 0)
         {
-            Debug.Log("Interpret");
             Interpret(_twitchQueue.Dequeue());
         }
     }

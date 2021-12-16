@@ -40,12 +40,8 @@ public class TwitchClientStarter : MonoBehaviour
 
     private void TwitchClientReader_OnMessage(TwitchChatMessage twitchChatMessage)
     {
-        // Passes the message to the queue if listening
-        if (_gameState.GetState() == GameState.State.GameListening || _gameState.GetState() == GameState.State.LobbyListening)
-        {
-            //Debug.Log($"{twitchChatMessage.Sender} said '{twitchChatMessage.Message}'");
-            _twitchChatMessageQueue.Enqueue(twitchChatMessage);
-        }
+        //Debug.Log($"{twitchChatMessage.Sender} said '{twitchChatMessage.Message}'");
+        _twitchChatMessageQueue.Enqueue(twitchChatMessage);
     }
 
     private async void OnDisable()
