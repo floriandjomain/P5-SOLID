@@ -10,7 +10,7 @@ public class CameraManager : ScriptableObject
         //playerManager.taarniendo += UpdatePosition;
         _camera = Camera.main;
         _camera.transform.rotation = Quaternion.LookRotation(Vector3.down);
-        _camera.transform.position = new Vector3(mapSize * 1.25f, (mapSize+2) * 2.5f, mapSize * 1.25f);
+        _camera.transform.position = new Vector3((mapSize-1) * 1.25f, mapSize * 2.5f, (mapSize-1) * 1.25f);
     }
 
     public void UpdatePosition()
