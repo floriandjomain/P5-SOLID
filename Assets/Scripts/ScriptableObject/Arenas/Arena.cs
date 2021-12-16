@@ -1,24 +1,26 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = System.Random;
 
-[CreateAssetMenu(menuName = "Arena/Basic")]
-public class Arena : ScriptableObject
+public abstract class Arena : ScriptableObject
 {
     protected Tile[,] Tiles;
     [SerializeField] protected Tile tilePrefab;
-    protected Random rnd = new Random();
+    [SerializeField] protected int _minimumSizeOfMap;
+    protected int _mapSize;
+    public int MapSize { get => _mapSize; }
 
     public virtual void MapInstantiation(int playerNumber, int maxTileHealth, Action action)
     {
-        //Arene classique
-        Tiles = new Tile[playerNumber, playerNumber];
+        CheckMapSize(playerNumber);
         
-        for (int i = 0; i < playerNumber; i++)
+        //Arene classique
+        Tiles = new Tile[_mapSize, _mapSize];
+        
+        for (int i = 0; i < _mapSize; i++)
         {
-            for (int j = 0; j < playerNumber; j++)
+            for (int j = 0; j < _mapSize; j++)
             {
                 Tile tile = CreateTile(maxTileHealth, action);
                 
@@ -31,6 +33,11 @@ public class Arena : ScriptableObject
                 //Debug.Log("Tile set");
             }
         }
+    }
+
+    private void CheckMapSize(int playerNumber)
+    {
+        _mapSize = playerNumber < _minimumSizeOfMap ? _minimumSizeOfMap : playerNumber;
     }
 
     private Tile CreateTile(int maxTileHealth, Action action)
@@ -54,10 +61,7 @@ public class Arena : ScriptableObject
 
     public Tile[,] GetTiles() => Tiles;
 
-    public virtual void Turn()
-    {
-        
-    }
+    public abstract void Turn();
 
     public void DamageTiles(List<Vector2Int> tilesToDamage, int damageAmount)
     {
@@ -71,6 +75,11 @@ public class Arena : ScriptableObject
     {
         if(IsInArena(tileToBreak))
             Tiles[tileToBreak.x, tileToBreak.y].Break();
+    }
+
+    public void BreakTile(int i, int j)
+    {
+        BreakTile(new Vector2Int(i,j));
     }
 
     public List<Vector2Int> GetWalkableTilesPositions()

@@ -42,4 +42,9 @@ public class ArenaManager : ScriptableObject
     {
         Arena = arena;
     }
+
+    public int GetMapSize()
+    {
+        return Arena.MapSize;
+    }
 }

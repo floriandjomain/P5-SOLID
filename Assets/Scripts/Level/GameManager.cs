@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool preparedToLoad = false;
 
     [SerializeField] private CounterCoroutine _textCoroutine;
-    private Random rnd = new Random();
+    public Random Rnd = new Random();
 
     [SerializeField] private string[] PlayerCheatCode;
     [SerializeField] private bool UseCheat;
@@ -64,8 +64,8 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.X))
             SaveSystem.Instance.SaveData();
-        else if (Input.GetKeyDown(KeyCode.L))
-            StartCoroutine(LoadData());
+        //else if (Input.GetKeyDown(KeyCode.L))
+        //    StartCoroutine(LoadData());
     }
 
     public void ClearPlayerAndTiles()
@@ -120,13 +120,13 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("[GameManager] start game setup...");
         turn = 0;
-        cameraManager.SetUp(playerManager);
         playerManager.SetUp(gameSettings.PlayTime);
         arenaManager.SetUp(playerManager.GetPlayers().Count, gameSettings.TileMaxLifePoints, CheckForFalls);
+        cameraManager.SetUp(playerManager, arenaManager.GetMapSize());
         yield return PlacePlayers();
         movementManager.SetUp(playerManager);
         yield return null;
-        cameraManager.UpdatePosition();
+        //cameraManager.UpdatePosition();
         Debug.Log("[GameManager] ...game setup done");
     }
 
@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
         
         foreach (string player in playerNames)
         {
-            Vector2Int tile = walkableTiles[rnd.Next(walkableTiles.Count)];
+            Vector2Int tile = walkableTiles[Rnd.Next(walkableTiles.Count)];
             yield return players[player].Setup(tile);
             walkableTiles.Remove(tile);
             //Debug.Log($"[GameManager] placing player {player} at position {players[player].GetPos()}");
@@ -302,8 +302,8 @@ public class GameManager : MonoBehaviour
         arenaManager.Load(arena);
         gameState.SetState(state);
         turn = _turn;
-        cameraManager.SetUp(playerManager);
-        cameraManager.UpdatePosition();
+        cameraManager.SetUp(playerManager, arenaManager.GetMapSize());
+        //cameraManager.UpdatePosition();
     }
 
     public List<Vector3> GetAllAlivePlayersCapsulePosition() => playerManager.GetAllAlivePlayersCapsulePosition();

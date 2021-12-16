@@ -23,8 +23,8 @@ public class ApocalypseArena : Arena
         for (int i = 0; i < playerNumber; i++)
         {
             BreakTile(i % 2 == 0
-                ? new Vector2Int(rnd.Next(playerNumber), rnd.Next(2) * (playerNumber-1))
-                : new Vector2Int(rnd.Next(2) * (playerNumber-1), rnd.Next(playerNumber)));
+                ? new Vector2Int(GameManager.Instance.Rnd.Next(playerNumber)        , GameManager.Instance.Rnd.Next(2) * (playerNumber-1))
+                : new Vector2Int(GameManager.Instance.Rnd.Next(2) * (playerNumber-1), GameManager.Instance.Rnd.Next(playerNumber)));
         }
     }
 
@@ -32,7 +32,7 @@ public class ApocalypseArena : Arena
     {
         while (tileMap.Count>playerNumber*playerNumber/2)
         {
-            Vector2Int tileToBreak = tileMap[rnd.Next(tileMap.Count)];
+            Vector2Int tileToBreak = tileMap[GameManager.Instance.Rnd.Next(tileMap.Count)];
             
             if (!IsInArena(tileToBreak)) continue;
 
@@ -53,10 +53,10 @@ public class ApocalypseArena : Arena
             Tiles[tileToBreak.x, tileToBreak.y].Break();
             tileMap.Remove(tileToBreak);
             
-            Tiles[top.x  ,top.y  ].Damage(rnd.Next(maxTileHealth-1)+1);
-            Tiles[down.x ,down.y ].Damage(rnd.Next(maxTileHealth-1)+1);
-            Tiles[left.x ,left.y ].Damage(rnd.Next(maxTileHealth-1)+1);
-            Tiles[right.x,right.y].Damage(rnd.Next(maxTileHealth-1)+1);
+            Tiles[top.x  ,top.y  ].Damage(GameManager.Instance.Rnd.Next(maxTileHealth-1)+1);
+            Tiles[down.x ,down.y ].Damage(GameManager.Instance.Rnd.Next(maxTileHealth-1)+1);
+            Tiles[left.x ,left.y ].Damage(GameManager.Instance.Rnd.Next(maxTileHealth-1)+1);
+            Tiles[right.x,right.y].Damage(GameManager.Instance.Rnd.Next(maxTileHealth-1)+1);
         }
     }
 
@@ -81,11 +81,16 @@ public class ApocalypseArena : Arena
         return tileMap;
     }
 
+    public override void Turn()
+    {
+        BreakTile(new Vector2Int(GameManager.Instance.Rnd.Next(Tiles.GetLength(0)), GameManager.Instance.Rnd.Next(Tiles.GetLength(1))));
+    }
+
     public override void SetTimers()
     {
         foreach (Tile tile in Tiles)
         {
-            tile.SetStartTimer(rnd.Next(5));
+            tile.SetStartTimer(GameManager.Instance.Rnd.Next(5));
         }
     }
 }

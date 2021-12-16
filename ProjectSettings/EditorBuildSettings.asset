@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Tests/Flupi/Level.unity
+    path: Assets/Scenes/Level.unity
     guid: ee4c3199637dee4429346e09a33d216f
   - enabled: 1
     path: Assets/Scenes/Tests/AlgerGildartz/Command.unity

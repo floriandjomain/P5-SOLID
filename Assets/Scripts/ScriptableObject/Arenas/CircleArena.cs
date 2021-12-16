@@ -8,12 +8,18 @@ public class CircleArena : Arena
     {
         base.MapInstantiation(playerNumber, maxTileHealth, action);
 
-        Vector2Int center = new Vector2Int(playerNumber / 2, playerNumber / 2);
+        Vector2Int center = new Vector2Int(_mapSize / 2, _mapSize / 2);
         
-        for (int i = 0; i < playerNumber; i++)
-            for (int j = 0; j < playerNumber; j++)
-                if (Vector2Int.Distance(new Vector2Int(i, j), center) > (int) (playerNumber / 2))
+        for (int i = 0; i < _mapSize; i++)
+            for (int j = 0; j < _mapSize; j++)
+                if (Vector2Int.Distance(new Vector2Int(i, j), center) > (int) (_mapSize / 2))
                     Tiles[i, j].Break();
+
+        if (_mapSize % 2 == 0)
+        {
+            BreakTile(_mapSize/2-1, 0);
+            BreakTile(0, _mapSize/2-1);
+        }
     }
 
     public override void Turn()
@@ -21,7 +27,7 @@ public class CircleArena : Arena
         Debug.Log("début d'érosion");
         foreach (Tile tile in Tiles)
         {
-            if (tile.IsBroken() || rnd.Next(3) != 0) continue;
+            if (tile.IsBroken() || GameManager.Instance.Rnd.Next(3) != 0) continue;
             
             tile.TimerShot();
             //Debug.Log("erosion");

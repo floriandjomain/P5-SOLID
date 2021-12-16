@@ -5,13 +5,12 @@ using UnityEngine;
 public class CameraManager : ScriptableObject
 {
     private Camera _camera;
-    public void SetUp(PlayerManager playerManager)
+    public void SetUp(PlayerManager playerManager, int mapSize)
     {
-        playerManager.taarniendo += UpdatePosition;
+        //playerManager.taarniendo += UpdatePosition;
         _camera = Camera.main;
         _camera.transform.rotation = Quaternion.LookRotation(Vector3.down);
-        int playerNumber = playerManager.GetCurrentPlayerNumber();
-        _camera.transform.position = new Vector3(playerNumber * 1.25f, playerNumber * 2.5f, playerNumber * 1.25f);
+        _camera.transform.position = new Vector3(mapSize * 1.25f, (mapSize+2) * 2.5f, mapSize * 1.25f);
     }
 
     public void UpdatePosition()

@@ -20,14 +20,14 @@ public class Player : MonoBehaviour
     {
         isAlive = true;
         willUTurn = false;
-        transform.position = Vector3.down * 2;
+        gameObject.transform.position = new Vector3(0f, -10000000f, 0f);
     }
 
     private IEnumerator CoUTurn(Vector2 start, Vector2 falseEnd)
     {
-        Vector3 worldStart = ConvertPositionToWorld(start);
-        Vector3 worldFalseEnd = ConvertPositionToWorld(falseEnd);
-        Vector3 colPosition = (start * (uTurnMax?2:1) + falseEnd ) / (uTurnMax?3:2);
+        Vector3 worldStart = Util.ConvertPositionToWorld(start, height);
+        Vector3 worldFalseEnd = Util.ConvertPositionToWorld(falseEnd, height);
+        Vector3 colPosition = (worldStart * (uTurnMax?2:1) + worldFalseEnd ) / (uTurnMax?3:2);
         
         yield return StartCoroutine(MoveFromTo(worldStart, colPosition, PlayTime/2));
         yield return StartCoroutine(MoveFromTo(colPosition, worldStart, PlayTime/2));
@@ -48,27 +48,18 @@ public class Player : MonoBehaviour
             yield return transform.position = Vector3.Lerp(start, dest, Alpha);
         }
 
-        yield return position = ConvertPositionFromWorld(dest);
-    }
-
-    private Vector2Int ConvertPositionFromWorld(Vector3 vec)
-    {
-        vec -= Vector3.up * height;
-        vec /= 2.5f;
-        return new Vector2Int((int)vec.x, (int)vec.z);
-    }
-
-    private Vector3 ConvertPositionToWorld(Vector2 vec)
-    {
-        return ConvertPositionToWorldStatic(vec, height);
+        yield return position = Util.ConvertPositionFromWorld(dest);
     }
     
     public IEnumerator Setup(Vector2Int pos)
     {
-        height = GameManager.Instance.Cheaters.Contains(name) ? 2f:1.5f;
+        height = 1.5f;
         position = pos;
-        yield return (MoveFromTo(ConvertPositionToWorld(position) + Vector3.down * 10, ConvertPositionToWorld(position) + Vector3.up * 2, 1f));
-        yield return (MoveFromTo(ConvertPositionToWorld(position) + Vector3.up * 2   , ConvertPositionToWorld(position)));
+
+        Vector3 worldPosition = Util.ConvertPositionToWorld(position, height);
+        
+        yield return (MoveFromTo(worldPosition + Vector3.down * 10, worldPosition + Vector3.up * 2, 1f));
+        yield return (MoveFromTo(worldPosition + Vector3.up   * 2 , worldPosition));
         //transform.position = new Vector3(position.x, 0f, position.y) * 2.5f + Vector3.up * height;
     }
 
@@ -94,7 +85,7 @@ public class Player : MonoBehaviour
     {
         IsMoving = true;
         Debug.Log("on applique un movement");
-        yield return (MoveFromTo(ConvertPositionToWorld(position), ConvertPositionToWorld(nextPosition)));
+        yield return (MoveFromTo(Util.ConvertPositionToWorld(position, height), Util.ConvertPositionToWorld(nextPosition, height)));
         IsMoving = false;
     }
 
@@ -124,8 +115,9 @@ public class Player : MonoBehaviour
 
     public static Player Load(string Name, bool IsAlive, Vector2Int Position)
     {
-        Debug.Log(Position + " => " + ConvertPositionToWorldStatic(Position, 1.5f));
-        Player p = Instantiate(GameManager.Instance.GetPlayerPrefab(), ConvertPositionToWorldStatic(Position, 1.5f), Quaternion.identity, GameManager.Instance.PlayersGO.transform);
+        Debug.Log(Position + " => " + Util.ConvertPositionToWorld(Position, 1.5f));
+        Player p = Instantiate(GameManager.Instance.GetPlayerPrefab(), GameManager.Instance.PlayersGO.transform, true);
+        p.transform.position = Util.ConvertPositionToWorld(Position, 1.5f);
         Debug.Log(p.gameObject.transform.position);
 
         p.name = Name;
@@ -133,10 +125,5 @@ public class Player : MonoBehaviour
         p.position = Position;
 
         return p;
-    }
-
-    public static Vector3 ConvertPositionToWorldStatic(Vector2 vec, float height)
-    {
-        return new Vector3(vec.x, 0f, vec.y) * 2.5f + Vector3.up * height;
     }
 }
