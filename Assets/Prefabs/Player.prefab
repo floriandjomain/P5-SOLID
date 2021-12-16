@@ -140,7 +140,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aef3c3c8b890c240a8fa285f8ef65ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 0}
-  nextPosition: {x: 0, y: 0}
-  capsule: {fileID: 6799532713193786872}
-  isAlive: 0
+  _position: {x: 0, y: 0}
+  _nextPosition: {x: 0, y: 0}
+  _capsule: {fileID: 6799532713193786872}
+  _isAlive: 0
+  _willUTurn: 0
+  _height: 0
+  _isMoving: 0

@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: CmdJoin
   m_EditorClassIdentifier: 
   _name: Join
-  _command: 0
   _type: 0
   _onCommandFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: d0b63fa0930716b41af897c4b52c9903, type: 2}
-        m_TargetAssemblyTypeName: KeyboardCommandOnFound, Assembly-CSharp
+      - m_Target: {fileID: 11400000, guid: 3009ff4872d97eb49aff2f3a3619250e, type: 2}
+        m_TargetAssemblyTypeName: CommandOnFound, Assembly-CSharp
         m_MethodName: CreateJoinCommand
         m_Mode: 0
         m_Arguments:

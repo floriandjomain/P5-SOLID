@@ -20,10 +20,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _gameGUI;
     [Space(10)]
     [SerializeField] private GameObject _onGame;
+    [SerializeField] private GameObject _displayName;
     [SerializeField] private GameObject _endGame;
     [Space(10)]
     [SerializeField] private LobbyPlayerManagerList _lobbyPlayerManagerList;
 
+    [Space(15)]
+    [SerializeField] private GameEvent _soundButton;
     private void Awake()
     {
         if (_instance != null)
@@ -42,6 +45,12 @@ public class UIManager : MonoBehaviour
 
         /// Observer qui va s'execute à la fin des coroutines de transition
         CoroutineManager.instance.OnEndUICoroutine += SwitchMenu;
+    }
+
+    public void ClickButton()
+    {
+        //Play SFX
+        _soundButton.Raise();
     }
 
     public void SwitchMenu(string wichMenu)
@@ -111,6 +120,14 @@ public class UIManager : MonoBehaviour
         ScenesManager.Instance.StopTwitchBot();
     }
 
+    public void ShowPlayerName()
+    {
+        _displayName.SetActive(true);
+    }
+    public void HidePlayerName()
+    {
+        _displayName.SetActive(false);
+    }
 
     public void GoToGameView()
     {
@@ -121,6 +138,9 @@ public class UIManager : MonoBehaviour
         _lobbyMenu.SetActive(false);
 
         _gameGUI.SetActive(true);
+
+        ScenesManager.Instance.StartGame();
+        AudioManager.Instance.PlayLevelMusic();
 
         _onGame.SetActive(true);
         _endGame.SetActive(false);
@@ -143,7 +163,6 @@ public class UIManager : MonoBehaviour
     {
         _allMenu.SetActive(false);
     }
-
 
     public void QuitGame()
     {

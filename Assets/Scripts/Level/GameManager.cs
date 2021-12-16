@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string[] PlayerCheatCode;
     [SerializeField] private bool UseCheat;
 
+    [SerializeField] private GameEventWithString _event;
+
     private void Awake()
     {
 	    if (_instance != null && _instance != this) Destroy(gameObject);
@@ -123,7 +125,13 @@ public class GameManager : MonoBehaviour
         playerManager.SetUp(gameSettings.PlayTime);
         arenaManager.SetUp(playerManager.GetPlayers().Count, gameSettings.TileMaxLifePoints, CheckForFalls);
         cameraManager.SetUp(playerManager, arenaManager.GetMapSize());
+        
+        _event.Raise("");
+        UIManager.Instance.ShowPlayerName();
         yield return PlacePlayers();
+
+        UIManager.Instance.HidePlayerName();
+
         movementManager.SetUp(playerManager);
         yield return null;
         //cameraManager.UpdatePosition();
@@ -140,6 +148,8 @@ public class GameManager : MonoBehaviour
         foreach (string player in playerNames)
         {
             Vector2Int tile = walkableTiles[Rnd.Next(walkableTiles.Count)];
+            _event.Raise(player);
+
             yield return players[player].Setup(tile);
             walkableTiles.Remove(tile);
             //Debug.Log($"[GameManager] placing player {player} at position {players[player].GetPos()}");
@@ -176,7 +186,7 @@ public class GameManager : MonoBehaviour
         Dictionary<string, Player> players = playerManager.GetPlayers();
         Dictionary<string, Movement> movements = movementManager.GetMovements();
         
-        Arena arena = arenaManager.GetArena();
+        Arena arena = arenaManager.Arena;
         
         List<string> playerNames = new List<string>(players.Keys);
         
@@ -193,9 +203,9 @@ public class GameManager : MonoBehaviour
     
     private void CompileMovement(Player player, Movement movement, Arena arena)
     {
-        if(!player.IsAlive()) return;
+        if(!player.IsAlive) return;
         
-        Vector2Int pos = player.GetPos() + MovementData.GetVector(movement);
+        Vector2Int pos = player.Position + MovementData.GetVector(movement);
 
         if (!arena.IsInArena(pos))
         {
@@ -273,7 +283,7 @@ public class GameManager : MonoBehaviour
         arenaManager.Turn();
     }
 
-    public Arena GetArena() => arenaManager.GetArena();
+    public Arena GetArena() => arenaManager.Arena;
 
     public void StartPlayerCoroutine(IEnumerator enumerator) => StartCoroutine(enumerator);
 

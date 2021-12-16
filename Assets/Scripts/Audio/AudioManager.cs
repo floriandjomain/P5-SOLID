@@ -1,19 +1,44 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
-[CreateAssetMenu(menuName = "Audio")]
-public class AudioManager : ScriptableObject
+public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private AudioSource _audioSource;
+    private static AudioManager _instance;
+    public static AudioManager Instance { get => _instance; }
 
-    [SerializeField] private AudioClip _audioClip;
+    [SerializeField] private AudioSourceSetter _musicAudioSourceSetter;
+    [SerializeField] private AudioMixer _audioMixer;
 
-    [Range(0.0f, 1.0f)]
-    [SerializeField] private float _volume;
+    [Space(15)]
+    [SerializeField] private AudioAsset _musicLobby;
+    [SerializeField] private AudioAsset _musicLevel;
 
-    public event Action OnEventRaise;
+    private void Awake()
+    {
+        if (_instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+        _instance = this;
+    }
 
-    //setaudioSource //
+    void Start()
+    {
+        PlayLobbyMusic();
+    }
+
+    public void PlayLobbyMusic()
+    {
+        _musicAudioSourceSetter.SwitchAudioAsset(_musicLobby);
+        _musicLobby.PlayClip();
+    }
+
+    public void PlayLevelMusic()
+    {
+        _musicAudioSourceSetter.SwitchAudioAsset(_musicLevel);
+        _musicLevel.PlayClip();
+    }
 }

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CounterBackLobby
   m_EditorClassIdentifier: 
   _counterText: {fileID: 11400000, guid: d09c4292f4969304caa35191933ca203, type: 2}
-  _counterDelay: 15
+  _counterDelay: 10
   _usePrecision: 0

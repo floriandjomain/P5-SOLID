@@ -6,7 +6,7 @@ public class RuntimeQueue<T> : ScriptableObject
 {
     private Queue<T> _queue = new Queue<T>();
 
-    public void Enqueue(T value)
+    public virtual void Enqueue(T value)
     {
         _queue.Enqueue(value);
     }

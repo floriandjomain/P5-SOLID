@@ -6,34 +6,32 @@ using System.Threading.Tasks;
 public class TwitchClientStarter : MonoBehaviour
 {
 
-    [SerializeField] private string ip = "irc.chat.twitch.tv";
-    [SerializeField] private int port = 6667;
+    [SerializeField] private string _ip = "irc.chat.twitch.tv";
+    [SerializeField] private int _port = 6667;
     [Space(10)]
-    [SerializeField] private TwitchBotData twitchBotData;
-    [SerializeField] private GameState gameState;
-    [SerializeField] private TwitchChatMessageQueue twitchChatMessageQueue;
+    [SerializeField] private TwitchBotData _twitchBotData;
+    [SerializeField] private GameState _gameState;
+    [SerializeField] private TwitchChatMessageQueue _twitchChatMessageQueue;
     [Space(10)]
-    [SerializeField] private StringVariable channelName;
-
-    // private TcpClient _tcpClient;
-
+    [SerializeField] private StringVariable _channelName;
 
     private void Start()
     {
         Task.Run(TwitchThread);
+        // TwitchThread();
     }
 
     private async void TwitchThread()
     {
         Debug.Log("[TwitchClientStarter] Start");
-        TcpClient _tcpClient = new TcpClient();
-        await _tcpClient.ConnectAsync(ip, port);
+        TcpClient tcpClient = new TcpClient();
+        await tcpClient.ConnectAsync(_ip, _port);
 
-        await TwitchClientSender.InitializeAsync(_tcpClient, channelName.Value.ToLower(), twitchBotData.Username, twitchBotData.Password);
+        await TwitchClientSender.InitializeAsync(tcpClient, _channelName.Value.ToLower(), _twitchBotData.Username, _twitchBotData.Password);
 
         await TwitchClientSender.SendConnectionMessageAsync(); // Connect you
 
-        TwitchClientReader.Initialize(_tcpClient);
+        TwitchClientReader.Initialize(tcpClient);
 
         TwitchClientReader.OnMessage += TwitchClientReader_OnMessage;
 
@@ -43,10 +41,10 @@ public class TwitchClientStarter : MonoBehaviour
     private void TwitchClientReader_OnMessage(TwitchChatMessage twitchChatMessage)
     {
         // Passes the message to the queue if listening
-        if (gameState.GetState() == GameState.State.GameListening || gameState.GetState() == GameState.State.LobbyListening)
+        if (_gameState.GetState() == GameState.State.GameListening || _gameState.GetState() == GameState.State.LobbyListening)
         {
             //Debug.Log($"{twitchChatMessage.Sender} said '{twitchChatMessage.Message}'");
-            twitchChatMessageQueue.Enqueue(twitchChatMessage);
+            _twitchChatMessageQueue.Enqueue(twitchChatMessage);
         }
     }
 

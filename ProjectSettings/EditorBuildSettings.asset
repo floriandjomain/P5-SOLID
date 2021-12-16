@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tests/Flupi/SaveSystem.unity
     guid: 73b14f5eaa0401f4b8f5b53ec3bf9e8c
+  - enabled: 1
+    path: Assets/Scenes/Audio.unity
+    guid: 6e1333bef13c20e4583a6344c43cdfb4
   m_configObjects: {}

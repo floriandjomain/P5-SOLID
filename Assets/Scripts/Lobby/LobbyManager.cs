@@ -8,26 +8,25 @@ public class LobbyManager : MonoBehaviour
 
     private static LobbyManager _instance;
 
-    public static LobbyManager Instance
-    {
-        get => _instance;
-    }
+    public static LobbyManager Instance { get => _instance; }
 
     private void Awake()
     {
-        if (_instance != null && _instance != this) Destroy(gameObject);
+        if (_instance != null)
+        {
+            Destroy(this);
+            return;
+        }
         _instance = this;
     }
 
     public void AddPlayer(string player)
     {
-        //Debug.Log("[LobbyManager] Add Player");
         _playerManager.AddPlayer(player);
     }
 
     public void RemovePlayer(string player)
     {
-        //Debug.Log("[LobbyManager] Remove Player");
         _playerManager.RemovePlayer(player);
     }
 }

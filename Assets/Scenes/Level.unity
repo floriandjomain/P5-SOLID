@@ -327,6 +327,7 @@ MonoBehaviour:
   - Romain
   - Magalie
   UseCheat: 1
+  _event: {fileID: 11400000, guid: 0a53789817b529f4da2ff3c959e18400, type: 2}
 --- !u!1 &1849176120
 GameObject:
   m_ObjectHideFlags: 0

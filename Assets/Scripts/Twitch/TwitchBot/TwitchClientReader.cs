@@ -12,13 +12,14 @@ public static class TwitchClientReader
     public static event TwitchChatEventHandler OnMessage = delegate { };
     public delegate void TwitchChatEventHandler(TwitchChatMessage twitchChatMessage);
 
-    private static bool _IsReading;
+    private static bool _isReading;
     private static CancellationTokenSource _cancellationTokenSource;
+
 
     public static void Initialize(TcpClient tcpClient)
     {
         _streamReader = new StreamReader(tcpClient.GetStream());
-        _IsReading = true;
+        _isReading = true;
         _cancellationTokenSource = new CancellationTokenSource();
     }
 
@@ -37,7 +38,7 @@ public static class TwitchClientReader
     {
         try
         {
-            while (_IsReading)
+            while (_isReading)
             {
                 string line = await _streamReader.ReadLineAsync().WithCancellation(_cancellationTokenSource.Token);
 
@@ -67,18 +68,13 @@ public static class TwitchClientReader
         }
         catch (TaskCanceledException e)
         {
-            Debug.Log("Caugth an TaskCanceledException in Thread [" + Thread.CurrentThread.Name + "]" + e.Message);
-        }
-        finally
-        {
-            _cancellationTokenSource.Dispose();
-        }
-        
+            Debug.Log("Caught an TaskCanceledException in Thread [" + Thread.CurrentThread.Name + "]" + e.Message);
+        } 
     }
 
     public static void StopReading()
     {
-        _IsReading = false;
+        _isReading = false;
         _cancellationTokenSource.Cancel();
     }
 }

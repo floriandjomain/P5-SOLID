@@ -2,13 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyboardListener : MonoBehaviour
+public class KeyboardListener : ListCommandByState<KeyboardCommand>
 {
-    [SerializeField] private GameState _gameState;
     [SerializeField] private GameSettings _gameSettings;
-    // [SerializeField] private GameManager _gameManager;
-    [SerializeField] private List<KeyboardCommand> _lobbyKeyboardCommands;
-    [SerializeField] private List<KeyboardCommand> _gameKeyboardCommands;
 
     [SerializeField] private KeyboardData[] _keyboardDataList;
     [SerializeField] private StringVariable _channelName;
@@ -23,14 +19,14 @@ public class KeyboardListener : MonoBehaviour
                 _keyboardData = keyboardData;
 
         if (!_keyboardData) _keyboardData = _keyboardDataList[0];
-        // Key board name in case joins
+        // Keyboard name in case joins
         _keyboardData.PlayerPseudo = _channelName.Value;
            
-        foreach (KeyboardCommand kc in _lobbyKeyboardCommands)
+        foreach (KeyboardCommand kc in _lobbyCommands)
         {
             kc.Command = _keyboardData.GetKey(kc.CommandName);
         }
-        foreach (KeyboardCommand kc in _gameKeyboardCommands)
+        foreach (KeyboardCommand kc in _gameCommands)
         {
             kc.Command = _keyboardData.GetKey(kc.CommandName);
         }
@@ -40,13 +36,7 @@ public class KeyboardListener : MonoBehaviour
     {
         if (_gameState.GetState() == GameState.State.GameListening)
         {
-            foreach (KeyboardCommand keyboardCommand in _gameKeyboardCommands)
-            {
-                if (!Input.GetKeyDown(keyboardCommand.Command)) continue;
-                                
-                keyboardCommand.OnCommandFound.Invoke(_keyboardData.PlayerPseudo);
-                break;
-            }
+            SearchList(_gameCommands);
             
             if (Input.GetKeyDown(KeyCode.Space)) GameManager.Instance.ForceTurn();
 
@@ -54,13 +44,18 @@ public class KeyboardListener : MonoBehaviour
         }
         else if(_gameState.GetState() == GameState.State.LobbyListening)
         {
-            foreach (KeyboardCommand keyboardCommand in _lobbyKeyboardCommands)
-            {
-                if (!Input.GetKeyDown(keyboardCommand.Command)) continue;
+            SearchList(_lobbyCommands);
+        }
+    }
 
-                keyboardCommand.OnCommandFound.Invoke(_keyboardData.PlayerPseudo);
-                break;
-            }
+    private void SearchList(List<KeyboardCommand> keyboardCommands)
+    {
+        foreach (KeyboardCommand keyboardCommand in keyboardCommands)
+        {
+            if (!Input.GetKeyDown(keyboardCommand.Command)) continue;
+
+            keyboardCommand.OnCommandFound.Invoke(_keyboardData.PlayerPseudo);
+            break;
         }
     }
 }

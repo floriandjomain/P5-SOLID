@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,8 @@ using UnityEngine.Events;
 
 public class GameEventListener : MonoBehaviour, IGameEvent
 {
-    [SerializeField]
-    private GameEvent _event;
-
-    [SerializeField]
-    private UnityEvent _onEventRaised;
+    [SerializeField] private GameEvent _event;
+    [SerializeField] private UnityEvent _onEventRaised;
 
     public void OnEventRaised()
     {

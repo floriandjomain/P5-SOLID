@@ -19,8 +19,8 @@ MonoBehaviour:
   _onCommandFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 0cb014fb8f46c074894dc47bb30ff708, type: 2}
-        m_TargetAssemblyTypeName: TwitchCommandOnFound, Assembly-CSharp
+      - m_Target: {fileID: 11400000, guid: 3009ff4872d97eb49aff2f3a3619250e, type: 2}
+        m_TargetAssemblyTypeName: CommandOnFound, Assembly-CSharp
         m_MethodName: CreateLeaveCommand
         m_Mode: 0
         m_Arguments:
