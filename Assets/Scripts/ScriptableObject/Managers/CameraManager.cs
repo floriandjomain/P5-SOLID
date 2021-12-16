@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraManager : ScriptableObject
 {
     private Camera _camera;
+    
     public void SetUp(PlayerManager playerManager, int mapSize)
     {
         //playerManager.taarniendo += UpdatePosition;

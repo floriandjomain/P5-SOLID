@@ -19,6 +19,7 @@ public class KeyboardListener : ListCommandByState<KeyboardCommand>
                 _keyboardData = keyboardData;
 
         if (!_keyboardData) _keyboardData = _keyboardDataList[0];
+        
         // Keyboard name in case joins
         _keyboardData.PlayerPseudo = _channelName.Value;
            

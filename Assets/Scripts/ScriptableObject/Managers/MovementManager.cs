@@ -8,6 +8,8 @@ public class MovementManager : ScriptableObject
 {
     [SerializeField] private Dictionary<string, Movement> Movements = new Dictionary<string, Movement>();
 
+    public Dictionary<string, Movement> GetMovements() => Movements;
+
     public void SetUp(PlayerManager playerManager)
     {
         foreach (string playerName in playerManager.GetPlayers().Keys)
@@ -31,8 +33,6 @@ public class MovementManager : ScriptableObject
         foreach (string p in moves)
             Movements[p] = Movement.None;
     }
-
-    public Dictionary<string, Movement> GetMovements() => Movements;
     
     public void SetMovement(string player, Movement move)
     {
