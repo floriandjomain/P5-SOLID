@@ -121,6 +121,8 @@ public class GameManager : MonoBehaviour
     public IEnumerator SetUp()
     {
         Debug.Log("[GameManager] start game setup...");
+        TwitchClientSender.SendMessageAsync($"Move with {TwitchInterpreter.Instance.GetAllGameCommands()}");
+
         turn = 0;
         playerManager.SetUp(gameSettings.PlayTime);
         arenaManager.SetUp(playerManager.GetPlayers().Count, gameSettings.TileMaxLifePoints, CheckForFalls);
@@ -228,7 +230,7 @@ public class GameManager : MonoBehaviour
     {
         gameState.AlivePlayers = new List<string>(playerManager.GetPlayers().Keys);
         Debug.Log($"[GameManager] Début de partie {playerManager.GetCurrentAlivePlayerNumber()}");
-        
+
         while (GameIsOn())
         {
             Coroutine c = StartCoroutine(_textCoroutine.ExecuteCoroutine());
@@ -237,7 +239,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(gameSettings.CommandInputTime);
             yield return c;
             
-            TwitchClientSender.SendMessageAsync("Vos gueules vous parlez trop");
+            TwitchClientSender.SendMessageAsync("Stop");
             gameState.SetState(GameState.State.OnPlay);
             
             yield return StartCoroutine(PlayTurn());

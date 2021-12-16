@@ -7,6 +7,8 @@ public class TwitchCommand : InputCommand
 {
     [SerializeField] private List<string> _commands;
 
+    public List<string> Commands { get => _commands; }
+
     public bool Contains(string command)
     {
         foreach (string s in _commands)

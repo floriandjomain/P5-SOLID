@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe3bed90904ce24fa2746b2a362e726, type: 3}
   m_Name: CircleArena
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 3082964860437853806, guid: af05633d2cd6a1f4eaf32e0728e2f048, type: 3}
+  _tilePrefab: {fileID: 3082964860437853806, guid: af05633d2cd6a1f4eaf32e0728e2f048, type: 3}
   _minimumSizeOfMap: 5
