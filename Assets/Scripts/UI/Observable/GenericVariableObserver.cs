@@ -15,4 +15,6 @@ public class GenericVariableObserver<T> : ScriptableObject //GenericEvent<T>
             Raise(oldValue, value);
         }
     }*/
+
+    // OBSOLETE !!!! 
 }
