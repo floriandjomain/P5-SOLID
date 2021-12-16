@@ -12,13 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af257daf839c82b4399fc80516177ff1, type: 3}
   m_Name: CmdMoveDown
   m_EditorClassIdentifier: 
-  _commands:
-  - down
-  - movedown
-  - d
-  - mvd
-  - mvdown
-  _type: 1
   _onCommandFound:
     m_PersistentCalls:
       m_Calls:
@@ -34,3 +27,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _type: 1
+  _commands:
+  - down
+  - movedown
+  - d
+  - mvd
+  - mvdown
+  - md
